@@ -459,7 +459,16 @@
     <div id="toast"></div>
 
     <script>
-      const API='/api';
+      const API_BASE=((() => {
+        const q=new URLSearchParams(window.location.search);
+        const qs=q.get('api');
+        const ls=localStorage.getItem('tv_api_base');
+        const isLocal=window.location.hostname==='localhost'||window.location.hostname==='127.0.0.1';
+        const fallback=isLocal?'http://localhost:3000/api':'https://api.tecnovand.com/api';
+        const base=(qs||ls||fallback).replace(/\/$/, '');
+        if(qs) localStorage.setItem('tv_api_base', base);
+        return base;
+      })());
       let S={token:localStorage.getItem('tv_token')||null,user:JSON.parse(localStorage.getItem('tv_user')||'null')};
       let _tt,_mbtns=[];
 
@@ -467,7 +476,7 @@
         const hdrs={'Content-Type':'application/json'};
         if(S.token) hdrs['Authorization']='Bearer '+S.token;
         if(opts.body&&typeof opts.body==='object') opts.body=JSON.stringify(opts.body);
-        const r=await fetch(API+path,{...opts,headers:{...hdrs,...(opts.headers||{})}});
+        const r=await fetch(API_BASE+path,{...opts,headers:{...hdrs,...(opts.headers||{})}});
         const data=await r.json().catch(()=>({}));
         if(!r.ok) throw new Error(data.error||'Error '+r.status);
         return data;
