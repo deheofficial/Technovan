@@ -254,6 +254,7 @@
           <button class="btn btn-sm btn-primary" onclick="go('register')">Get Started</button>
         </div>
         <button class="hamburger" id="hmb" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+        <button class="hamburger" id="dashHmb" onclick="toggleDashSide()" style="display:none"><span></span><span></span><span></span></button>
       </div>
       <div class="mobile-nav" id="mobileNav">
         <button class="nav-link" onclick="go('home');toggleMenu()">Home</button>
@@ -487,8 +488,11 @@
         document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
         document.getElementById('page-'+page).classList.add('active');
         window.scrollTo(0,0);
+        const mobileNav=document.getElementById('mobileNav');if(mobileNav) mobileNav.classList.remove('open');
         document.getElementById('authBtns').style.display=page==='dashboard'?'none':'';
         const hmb=document.getElementById('hmb');if(hmb) hmb.style.display=page==='dashboard'?'none':'';
+        const dashHmb=document.getElementById('dashHmb');if(dashHmb) dashHmb.style.display=page==='dashboard'?'':'none';
+        const dashSide=document.getElementById('dashSide');if(dashSide&&page!=='dashboard') dashSide.classList.remove('open');
       }
 
       function sscroll(id){
@@ -497,6 +501,11 @@
       }
 
       function toggleMenu(){document.getElementById('mobileNav').classList.toggle('open');}
+
+      function toggleDashSide(){
+        const dashSide=document.getElementById('dashSide');
+        if(dashSide) dashSide.classList.toggle('open');
+      }
 
       async function doLogin(e){
         e.preventDefault();
@@ -536,6 +545,10 @@
         document.querySelectorAll('.snav').forEach(b=>b.classList.remove('active'));
         const fns={overview:renderOverview,'my-projects':renderMyProjects,payments:renderPayments,'admin-overview':renderAdminOverview,'admin-services':renderAdminServices,'admin-pricing':renderAdminPricing,'admin-projects':renderAdminProjects,'admin-inquiries':renderAdminInquiries};
         if(fns[tab]) fns[tab]();
+        if(window.innerWidth<=960){
+          const dashSide=document.getElementById('dashSide');
+          if(dashSide) dashSide.classList.remove('open');
+        }
       }
 
       function setMain(h){document.getElementById('dashMain').innerHTML=h;}
