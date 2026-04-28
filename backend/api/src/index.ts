@@ -25,6 +25,9 @@ import blogRoutes from './routes/blog';
 
 const app: Express = express();
 
+// Trust Railway/Cloudflare proxy (required for express-rate-limit and real IP)
+app.set('trust proxy', 1);
+
 // Security middleware
 app.use(helmet({
   contentSecurityPolicy: false, // disabled so CDN scripts work
