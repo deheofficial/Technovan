@@ -2,13 +2,16 @@ FROM node:22-alpine
 
 WORKDIR /app
 
-# Enable Corepack for Yarn 4
-RUN corepack enable && corepack prepare yarn@4.0.0 --activate
+# Install and enable Corepack
+RUN corepack enable
 
-# Copy package files
-COPY package.json yarn.lock .yarnrc.yml ./
+# Copy only package files first
+COPY package.json yarn.lock ./
 
-# Install dependencies with yarn
+# Create .yarnrc.yml for node-modules linker to fix Prisma
+RUN echo "nodeLinker: node-modules" > .yarnrc.yml
+
+# Install dependencies
 RUN yarn install --frozen-lockfile
 
 # Copy Prisma schema and src
