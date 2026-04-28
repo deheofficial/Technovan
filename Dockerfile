@@ -1,5 +1,8 @@
 FROM node:22-alpine
 
+# Install OpenSSL for Prisma engine compatibility on Alpine
+RUN apk add --no-cache openssl
+
 WORKDIR /app
 
 # Build only the backend API to avoid monorepo Yarn/Corepack issues in deploy environments.
