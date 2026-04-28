@@ -2,17 +2,11 @@ FROM node:22-alpine
 
 WORKDIR /app
 
-# Install and enable Corepack
-RUN corepack enable
-
-# Copy only package files first
+# Copy package files
 COPY package.json yarn.lock ./
 
-# Create .yarnrc.yml for node-modules linker to fix Prisma
-RUN echo "nodeLinker: node-modules" > .yarnrc.yml
-
-# Install dependencies
-RUN yarn install --frozen-lockfile
+# Install dependencies using npm (simpler for Docker)
+RUN npm install --legacy-peer-deps
 
 # Copy Prisma schema and src
 COPY prisma ./prisma
@@ -21,13 +15,13 @@ COPY tsconfig.json ./
 COPY public ./public
 
 # Generate Prisma client
-RUN yarn prisma generate
+RUN npx prisma generate
 
 # Build TypeScript
-RUN yarn build 2>/dev/null || true
+RUN npm run build
 
 # Expose port
 EXPOSE 3000
 
 # Start app
-CMD ["yarn", "start"]
+CMD ["npm", "start"]
