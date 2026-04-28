@@ -2,19 +2,18 @@ FROM node:22-alpine
 
 WORKDIR /app
 
-# Copy root package files
-COPY package.json yarn.lock ./
+# Build only the backend API to avoid monorepo Yarn/Corepack issues in deploy environments.
+COPY backend/api/package.json ./package.json
+RUN npm install --legacy-peer-deps
 
-# Install dependencies
-RUN yarn install --frozen-lockfile
+COPY backend/api/prisma ./prisma
+COPY backend/api/src ./src
+COPY backend/api/public ./public
+COPY backend/api/tsconfig.json ./tsconfig.json
 
-# Copy all source code
-COPY . .
+RUN npx prisma generate
+RUN npm run build
 
-# Build the application
-RUN yarn build
-
-# Expose port
 EXPOSE 3000
 
 CMD ["npm", "start"]
