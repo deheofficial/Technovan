@@ -1,16 +1,18 @@
+import 'dotenv/config';
 import express, { Express, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
-import dotenv from 'dotenv';
 import path from 'path';
 import { prisma } from './lib/prisma';
-
-dotenv.config();
 
 // Fallback secrets for local dev without .env
 process.env.JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-key-change-in-production';
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
+if (!process.env.DATABASE_URL) {
+  console.error('DATABASE_URL is not set. Configure it in Railway Variables.');
+}
 
 import authRoutes from './routes/auth';
 import servicesRoutes from './routes/services';
