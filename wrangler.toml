@@ -1,0 +1,18 @@
+name = "technovan-platform"
+type = "javascript"
+account_id = ""
+workers_dev = true
+
+routes = [
+  { pattern = "api.tecnovand.com/*", zone_name = "tecnovand.com" }
+]
+
+[env.production]
+routes = [
+  { pattern = "api.tecnovand.com/*", zone_name = "tecnovand.com" }
+]
+
+[env.staging]
+routes = [
+  { pattern = "api-staging.tecnovand.com/*", zone_name = "tecnovand.com" }
+]

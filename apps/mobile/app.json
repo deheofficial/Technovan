@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "TECHNOVAN",
+    "slug": "technovan",
+    "version": "1.0.0",
+    "scheme": "technovan",
+    "platforms": ["ios", "android", "web"],
+    "ios": {
+      "supportsTabletMode": true,
+      "bundleIdentifier": "com.technovan.mobile"
+    },
+    "android": {
+      "package": "com.technovan.mobile",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#134E4A"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      ["expo-router", { "origin": false }]
+    ],
+    "extra": {
+      "apiUrl": "https://api.tecnovand.com"
+    }
+  }
+}

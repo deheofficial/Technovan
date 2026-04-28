@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: technovan_postgres
+    environment:
+      POSTGRES_USER: technovan_user
+      POSTGRES_PASSWORD: technovan_password
+      POSTGRES_DB: technovan_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - technovan_network
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: technovan_api
+    environment:
+      DATABASE_URL: postgresql://technovan_user:technovan_password@postgres:5432/technovan_db
+      NODE_ENV: development
+      PORT: 3000
+      JWT_SECRET: your-secret-key-here
+      CORS_ORIGIN: http://localhost:3000,http://localhost:8081,http://localhost:19006
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    networks:
+      - technovan_network
+    volumes:
+      - ./backend/api/src:/app/backend/api/src
+
+volumes:
+  postgres_data:
+
+networks:
+  technovan_network:
+    driver: bridge

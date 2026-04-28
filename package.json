@@ -1,0 +1,34 @@
+{
+  "name": "technovan-platform",
+  "version": "1.0.0",
+  "description": "TECHNOVAN - Software Development & IT Solutions Platform",
+  "private": true,
+  "workspaces": [
+    "apps/web",
+    "apps/mobile",
+    "backend/api",
+    "shared/ui",
+    "shared/types",
+    "shared/utils"
+  ],
+  "scripts": {
+    "dev": "yarn workspace @technovan/web dev & yarn workspace @technovan/mobile dev & yarn workspace @technovan/api dev",
+    "build": "yarn workspace @technovan/web build && yarn workspace @technovan/mobile build && yarn workspace @technovan/api build",
+    "test": "yarn workspace @technovan/web test && yarn workspace @technovan/mobile test && yarn workspace @technovan/api test",
+    "lint": "eslint apps backend shared --ext .ts,.tsx,.js,.jsx",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "type-check": "tsc --noEmit",
+    "db:push": "yarn workspace @technovan/api prisma db push",
+    "db:migrate": "yarn workspace @technovan/api prisma migrate dev",
+    "db:studio": "yarn workspace @technovan/api prisma studio"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.0.0"
+  },
+  "packageManager": "yarn@4.0.0"
+}

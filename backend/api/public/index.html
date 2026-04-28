@@ -1,0 +1,929 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TECHNOVAN - Software Development &amp; IT Solutions</title>
+    <meta name="description" content="Enterprise software development: web apps, mobile apps, cloud systems, admin dashboards." />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --c-bg:#07090f;--c-surf:#0e1320;--c-surf2:#151d2e;--c-border:#1e2d45;--c-border2:#2a3d58;
+        --c-text:#e8edf7;--c-muted:#7a90b0;--c-brand:#00c9b1;--c-brand2:#0099e6;
+        --c-accent:#f7b731;--c-danger:#f05454;--c-success:#2ecb71;
+        --grad:linear-gradient(135deg,var(--c-brand),var(--c-brand2));
+        --shadow:0 8px 32px rgba(0,0,0,.5);--radius:14px;--radius-lg:22px;
+        --font:'Inter',system-ui,sans-serif;--font-h:'Space Grotesk',system-ui,sans-serif;
+        --tr:.22s cubic-bezier(.4,0,.2,1);
+      }
+      *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+      html{scroll-behavior:smooth}
+      body{font-family:var(--font);background:var(--c-bg);color:var(--c-text);min-height:100vh;overflow-x:hidden;line-height:1.6}
+      h1,h2,h3,h4{font-family:var(--font-h);line-height:1.15}
+      a{color:var(--c-brand);text-decoration:none}
+      button{cursor:pointer;font-family:var(--font)}
+      input,textarea,select{font-family:var(--font);font-size:14px;background:var(--c-surf2);color:var(--c-text);border:1px solid var(--c-border);border-radius:10px;padding:11px 14px;width:100%;outline:none;transition:border var(--tr)}
+      input:focus,textarea:focus,select:focus{border-color:var(--c-brand)}
+      label{display:block;font-size:13px;color:var(--c-muted);margin-bottom:6px;font-weight:500}
+      .container{max-width:1200px;margin:0 auto;padding:0 24px}
+      .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+      .muted{color:var(--c-muted);font-size:14px}
+      .tag{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:600;border:1px solid}
+      .tag-green{color:var(--c-success);border-color:var(--c-success);background:rgba(46,203,113,.1)}
+      .tag-blue{color:var(--c-brand2);border-color:var(--c-brand2);background:rgba(0,153,230,.1)}
+      .tag-orange{color:var(--c-accent);border-color:var(--c-accent);background:rgba(247,183,49,.1)}
+      .tag-red{color:var(--c-danger);border-color:var(--c-danger);background:rgba(240,84,84,.1)}
+      .tag-teal{color:var(--c-brand);border-color:var(--c-brand);background:rgba(0,201,177,.1)}
+      .tag-gray{color:var(--c-muted);border-color:var(--c-border2);background:rgba(255,255,255,.04)}
+      .divider{border:none;border-top:1px solid var(--c-border);margin:20px 0}
+      .mt{margin-top:16px}.mb{margin-bottom:16px}.fw{width:100%}
+      .err{color:var(--c-danger);font-size:13px;margin-top:6px}
+      .ok{color:var(--c-success);font-size:13px;margin-top:6px}
+      /* BUTTONS */
+      .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--c-border2);border-radius:999px;background:var(--c-surf2);color:var(--c-text);padding:12px 24px;font-size:14px;font-weight:600;transition:all var(--tr);white-space:nowrap;min-height:44px}
+      .btn:hover{border-color:var(--c-brand);color:var(--c-brand)}
+      .btn-primary{background:var(--grad);border:none;color:#001a18;font-weight:800}
+      .btn-primary:hover{opacity:.88;color:#001a18}
+      .btn-sm{padding:9px 18px;font-size:13px;min-height:40px}
+      .btn-danger{border-color:var(--c-danger);color:var(--c-danger)}
+      .btn-danger:hover{background:rgba(240,84,84,.12)}
+      .btn-success{border-color:var(--c-success);color:var(--c-success)}
+      .btn-success:hover{background:rgba(46,203,113,.12)}
+      .btn:disabled{opacity:.5;cursor:not-allowed}
+      /* CARDS */
+      .card{background:var(--c-surf);border:1px solid var(--c-border);border-radius:var(--radius-lg);padding:24px;transition:border var(--tr)}
+      .card:hover{border-color:var(--c-border2)}
+      .card-accent{border-top:3px solid var(--c-brand)}
+      /* NAVBAR */
+      .navbar{position:sticky;top:0;z-index:100;backdrop-filter:blur(18px) saturate(1.6);background:rgba(7,9,15,.88);border-bottom:1px solid var(--c-border)}
+      .navbar-inner{height:66px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+      .brand{font-family:var(--font-h);font-size:22px;font-weight:800;letter-spacing:.3px;cursor:pointer;display:inline-flex;align-items:center;gap:0}
+      .brand-logo{width:28px;height:28px;object-fit:contain;flex-shrink:0}
+      .brand span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+      .nav-links{display:flex;gap:4px}
+      .nav-link{padding:8px 14px;border-radius:8px;font-size:14px;font-weight:500;color:var(--c-muted);border:none;background:none;transition:all var(--tr);cursor:pointer}
+      .nav-link:hover,.nav-link.active{color:var(--c-text);background:var(--c-surf2)}
+      .hamburger{display:none;flex-direction:column;gap:5px;padding:8px;background:none;border:none}
+      .hamburger span{width:22px;height:2px;background:var(--c-text);border-radius:2px;transition:all var(--tr)}
+      .mobile-nav{display:none;position:absolute;top:66px;left:0;right:0;background:var(--c-surf);border-bottom:1px solid var(--c-border);padding:12px;z-index:99}
+      .mobile-nav.open{display:block}
+      .mobile-nav .nav-link{display:block;width:100%;padding:12px 16px;border-radius:10px;margin-bottom:4px}
+      /* PAGES */
+      .page{display:none;animation:pageIn .32s ease}
+      .page.active{display:block}
+      @keyframes pageIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+      /* HERO */
+      .hero{padding:80px 0 64px;background:radial-gradient(ellipse 55% 45% at 15% 30%,rgba(0,201,177,.16) 0%,transparent 60%),radial-gradient(ellipse 40% 50% at 85% 10%,rgba(0,153,230,.12) 0%,transparent 55%)}
+      .hero-grid{display:grid;grid-template-columns:1fr 400px;gap:48px;align-items:start}
+      .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;margin-bottom:24px;padding:7px 16px;border-radius:999px;border:1px solid rgba(0,201,177,.3);background:rgba(0,201,177,.08);font-size:13px;font-weight:600;color:var(--c-brand)}
+      .hero-eyebrow::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--c-brand);animation:pulse 2s infinite}
+      @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+      .hero-title{font-size:clamp(34px,5.5vw,62px);margin-bottom:20px}
+      .hero-title .grad{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+      .hero-sub{font-size:17px;color:var(--c-muted);max-width:520px;margin-bottom:36px}
+      .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+      .hero-cta .btn{flex:1;min-width:160px}
+      .hero-stats{display:flex;gap:36px;margin-top:52px;flex-wrap:wrap}
+      .hero-stats b{font-size:30px;font-family:var(--font-h);background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block}
+      .hero-stats span{font-size:13px;color:var(--c-muted);margin-top:2px;display:block}
+      .contact-card{background:var(--c-surf);border:1px solid var(--c-border);border-radius:var(--radius-lg);padding:28px}
+      .contact-card h3{margin-bottom:18px;font-size:18px}
+      .fg{margin-bottom:14px}
+      /* SECTIONS */
+      .section{padding:72px 0}
+      .section-alt{background:var(--c-surf);border-top:1px solid var(--c-border);border-bottom:1px solid var(--c-border)}
+      .section-header{text-align:center;margin-bottom:52px}
+      .section-header h2{font-size:clamp(24px,4vw,40px);margin-bottom:12px}
+      .eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--c-brand);margin-bottom:12px}
+      /* GRIDS */
+      .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+      .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+      .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+      /* SERVICE CARDS */
+      .svc-card{background:var(--c-surf);border:1px solid var(--c-border);border-radius:var(--radius-lg);padding:28px;transition:all var(--tr)}
+      .svc-card:hover{border-color:var(--c-brand);transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,201,177,.1)}
+      .svc-icon{font-size:36px;margin-bottom:16px;display:block}
+      .svc-card h3{font-size:17px;margin-bottom:8px}
+      /* PRICING */
+      .price-card{background:var(--c-surf);border:1px solid var(--c-border);border-radius:var(--radius-lg);padding:32px;position:relative;transition:all var(--tr);display:flex;flex-direction:column;gap:16px}
+      .price-card:hover{border-color:var(--c-brand2);transform:translateY(-4px)}
+      .price-card.popular{border-color:var(--c-brand);background:linear-gradient(180deg,rgba(0,201,177,.07) 0%,var(--c-surf) 100%)}
+      .pop-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--grad);color:#001a18;font-size:11px;font-weight:800;padding:4px 18px;border-radius:999px;letter-spacing:1px;text-transform:uppercase;white-space:nowrap}
+      .price-val{font-size:36px;font-family:var(--font-h);font-weight:800}
+      .price-val span{font-size:16px;font-weight:500;color:var(--c-muted)}
+      .price-feats{list-style:none;display:flex;flex-direction:column;gap:9px;flex:1}
+      .price-feats li{font-size:14px;color:var(--c-muted);display:flex;align-items:center;gap:8px}
+      .price-feats li::before{content:'✓';color:var(--c-brand);font-weight:700;flex-shrink:0}
+      /* PORTFOLIO */
+      .port-card{background:var(--c-surf);border:1px solid var(--c-border);border-radius:var(--radius-lg);overflow:hidden;transition:all var(--tr)}
+      .port-card:hover{border-color:var(--c-border2);transform:translateY(-3px);box-shadow:var(--shadow)}
+      .port-img{height:160px;background:linear-gradient(135deg,var(--c-surf2),var(--c-border));display:flex;align-items:center;justify-content:center;font-size:52px}
+      .port-body{padding:20px}
+      .port-body h3{font-size:16px;margin-bottom:6px}
+      /* BLOG */
+      .blog-card{background:var(--c-surf);border:1px solid var(--c-border);border-radius:var(--radius-lg);padding:24px;transition:all var(--tr);display:flex;flex-direction:column;gap:10px}
+      .blog-card:hover{border-color:var(--c-brand2)}
+      .blog-card h3{font-size:16px;line-height:1.4}
+      /* FOOTER */
+      .footer{border-top:1px solid var(--c-border);padding:52px 0 24px}
+      .footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+      .footer-brand p{color:var(--c-muted);font-size:14px;margin-top:12px;max-width:260px}
+      .footer-col h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--c-muted);margin-bottom:16px}
+      .footer-col a{display:block;color:var(--c-muted);font-size:14px;margin-bottom:10px;transition:color var(--tr);cursor:pointer}
+      .footer-col a:hover{color:var(--c-brand)}
+      .footer-bottom{border-top:1px solid var(--c-border);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+      /* AUTH */
+      .auth-wrap{min-height:calc(100vh - 66px);display:grid;place-items:center;padding:40px 20px}
+      .auth-box{width:min(440px,100%)}
+      .auth-box h2{font-size:28px;margin-bottom:6px}
+      .auth-sw{text-align:center;font-size:14px;color:var(--c-muted);margin-top:18px}
+      .auth-sw button{background:none;border:none;color:var(--c-brand);font-weight:600;cursor:pointer}
+      /* DASHBOARD */
+      .dash-layout{display:grid;grid-template-columns:252px 1fr;min-height:calc(100vh - 66px)}
+      .dash-side{border-right:1px solid var(--c-border);background:var(--c-surf);padding:24px 12px;position:sticky;top:66px;height:calc(100vh - 66px);overflow-y:auto}
+      .dash-side-hd{padding:0 10px;margin-bottom:24px}
+      .dash-side-hd h3{font-size:15px}
+      .dash-side-hd p{font-size:13px;color:var(--c-muted);margin-top:2px}
+      .nav-sec{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--c-muted);padding:0 10px;margin:18px 0 6px;display:block}
+      .snav{width:100%;text-align:left;background:none;border:none;color:var(--c-muted);padding:10px 12px;border-radius:10px;font-size:14px;font-weight:500;display:flex;align-items:center;gap:10px;transition:all var(--tr);cursor:pointer;margin-bottom:2px}
+      .snav:hover{color:var(--c-text);background:var(--c-surf2)}
+      .snav.active{color:var(--c-brand);background:rgba(0,201,177,.1);font-weight:600}
+      .dash-main{padding:30px;overflow-y:auto}
+      .dash-hd{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:28px}
+      .dash-hd h2{font-size:22px}
+      /* STATS */
+      .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+      .stat-card{background:var(--c-surf2);border:1px solid var(--c-border);border-radius:var(--radius);padding:20px}
+      .stat-card .lbl{font-size:12px;color:var(--c-muted);font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+      .stat-card .val{font-size:30px;font-family:var(--font-h);font-weight:800}
+      .stat-card .chg{font-size:12px;color:var(--c-success);margin-top:4px}
+      /* TABLE */
+      .tbl-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--c-border)}
+      table{width:100%;border-collapse:collapse}
+      thead tr{background:var(--c-surf2)}
+      th{padding:12px 16px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--c-muted);text-align:left;border-bottom:1px solid var(--c-border);white-space:nowrap}
+      td{padding:13px 16px;font-size:14px;border-bottom:1px solid var(--c-border);vertical-align:middle}
+      tr:last-child td{border-bottom:none}
+      tbody tr{transition:background var(--tr)}
+      tbody tr:hover{background:rgba(255,255,255,.02)}
+      /* MODAL */
+      .modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:200;animation:fadeIn .2s ease}
+      .modal-ov.open{display:flex;align-items:center;justify-content:center;padding:20px}
+      @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+      .modal{background:var(--c-surf);border:1px solid var(--c-border2);border-radius:var(--radius-lg);padding:28px;width:min(520px,100%);max-height:90vh;overflow-y:auto;animation:slideUp .25s ease}
+      @keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+      .modal-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+      .modal-x{background:none;border:none;color:var(--c-muted);font-size:22px;cursor:pointer;line-height:1}
+      .modal-x:hover{color:var(--c-text)}
+      .modal-ft{display:flex;gap:10px;justify-content:flex-end;margin-top:22px}
+      /* TOAST */
+      #toast{position:fixed;bottom:28px;right:28px;z-index:999;background:var(--c-surf2);border:1px solid var(--c-border2);border-radius:12px;padding:14px 20px;min-width:240px;box-shadow:var(--shadow);display:none;animation:slideUp .25s ease;font-size:14px}
+      #toast.success{border-color:var(--c-success);color:var(--c-success)}
+      #toast.error{border-color:var(--c-danger);color:var(--c-danger)}
+      /* MISC */
+      .empty{text-align:center;padding:60px 20px;color:var(--c-muted)}
+      .empty .ico{font-size:48px;margin-bottom:16px}
+      .skeleton{position:relative;overflow:hidden;background:rgba(255,255,255,.08);border-radius:10px}
+      .skeleton::after{content:'';position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent);animation:shimmer 1.2s infinite}
+      @keyframes shimmer{100%{transform:translateX(100%)}}
+      .sk-line{height:12px;margin-bottom:10px}
+      .sk-line:last-child{margin-bottom:0}
+      .sk-title{height:18px;width:62%;margin-bottom:10px}
+      .sk-short{width:48%}
+      .sk-mid{width:72%}
+      .sk-long{width:92%}
+      .sk-icon{width:44px;height:44px;border-radius:12px;margin-bottom:16px}
+      .sk-price{height:36px;width:58%;margin:10px 0 8px}
+      .sk-pill{height:22px;width:95px;border-radius:999px;margin-bottom:10px}
+      .sk-image{height:160px;border-radius:0}
+      .sk-head{height:30px;width:220px;border-radius:12px;margin-bottom:24px}
+      .sk-card{padding:24px;border:1px solid var(--c-border);border-radius:var(--radius-lg);background:var(--c-surf)}
+      .sk-table{padding:18px;border:1px solid var(--c-border);border-radius:var(--radius-lg);background:var(--c-surf)}
+      .sk-row{height:14px;margin-bottom:12px}
+      .sk-row:last-child{margin-bottom:0}
+      .sk-head-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}
+      .sk-btn{height:34px;width:120px;border-radius:999px}
+      .sk-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+      .sk-card-title{height:16px;width:46%;margin-bottom:14px}
+      .sk-row-grid{display:grid;gap:12px;margin-bottom:12px}
+      .sk-row-grid:last-child{margin-bottom:0}
+      @media(max-width:960px){
+        .hero-grid{grid-template-columns:1fr}
+        .grid-3{grid-template-columns:repeat(2,1fr)}
+        .grid-4{grid-template-columns:repeat(2,1fr)}
+        .footer-grid{grid-template-columns:1fr 1fr}
+        .stats-row{grid-template-columns:repeat(2,1fr)}
+        .dash-layout{grid-template-columns:1fr}
+        .dash-side{display:none}
+        .dash-side.open{display:block;position:static;height:auto}
+        .nav-links{display:none}
+        .hamburger{display:flex}
+        #authBtns{display:none}
+      }
+      @media(max-width:560px){
+        .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+        .footer-grid{grid-template-columns:1fr}
+        .stats-row{grid-template-columns:1fr 1fr}
+        .hero{padding:40px 0 32px}
+        .section{padding:48px 0}
+        .contact-card{display:none}
+        .hero-cta{flex-direction:column}
+        .hero-cta .btn{width:100%;flex:unset;min-width:unset}
+        .hero-stats{gap:20px;margin-top:36px}
+        .hero-stats b{font-size:24px}
+        .hero-stats span{font-size:12px}
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar" style="position:relative">
+      <div class="container navbar-inner">
+        <div class="brand" onclick="go('home')"><img src="/assets/technovan-logo.png" alt="Technovan logo" class="brand-logo" /><span>TECHNO</span>VAN</div>
+        <div class="nav-links">
+          <button class="nav-link" onclick="go('home')">Home</button>
+          <button class="nav-link" onclick="sscroll('#services')">Services</button>
+          <button class="nav-link" onclick="sscroll('#pricing')">Pricing</button>
+          <button class="nav-link" onclick="sscroll('#portfolio')">Work</button>
+          <button class="nav-link" onclick="sscroll('#blog')">Blog</button>
+        </div>
+        <div class="row" id="authBtns">
+          <button class="btn btn-sm" onclick="go('login')">Login</button>
+          <button class="btn btn-sm btn-primary" onclick="go('register')">Get Started</button>
+        </div>
+        <button class="hamburger" id="hmb" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+      </div>
+      <div class="mobile-nav" id="mobileNav">
+        <button class="nav-link" onclick="go('home');toggleMenu()">Home</button>
+        <button class="nav-link" onclick="sscroll('#services');toggleMenu()">Services</button>
+        <button class="nav-link" onclick="sscroll('#pricing');toggleMenu()">Pricing</button>
+        <button class="nav-link" onclick="sscroll('#portfolio');toggleMenu()">Work</button>
+        <button class="nav-link" onclick="go('login');toggleMenu()">Login</button>
+        <button class="nav-link btn-primary" style="background:var(--grad);color:#001a18;border:none;margin-top:4px" onclick="go('register');toggleMenu()">Get Started</button>
+      </div>
+    </nav>
+
+    <!-- HOME PAGE -->
+    <div id="page-home" class="page active">
+      <section class="hero">
+        <div class="container">
+          <div class="hero-grid">
+            <div>
+              <div class="hero-eyebrow">Available for new projects</div>
+              <h1 class="hero-title">We Build <span class="grad">Complete Digital</span><br/>Systems That Scale</h1>
+              <p class="hero-sub">Full-stack web apps, mobile apps, cloud platforms, and enterprise dashboards built for performance, security, and growth.</p>
+              <div class="hero-cta">
+                <button class="btn btn-primary" onclick="go('register')">&#128640; Start Your Project</button>
+                <button class="btn" onclick="sscroll('#portfolio')">View Our Work</button>
+              </div>
+              <div class="hero-stats">
+                <div><b>150+</b><span>Projects Delivered</span></div>
+                <div><b>50+</b><span>Happy Clients</span></div>
+                <div><b>5yr</b><span>Industry Experience</span></div>
+              </div>
+            </div>
+            <div class="contact-card">
+              <h3>Quick Inquiry</h3>
+              <div class="fg"><label>Name</label><input id="cName" placeholder="Your full name" /></div>
+              <div class="fg"><label>Email</label><input id="cEmail" type="email" placeholder="you@company.com" /></div>
+              <div class="fg"><label>Phone (optional)</label><input id="cPhone" placeholder="+60167659237" /></div>
+              <div class="fg"><label>Project idea</label><textarea id="cMsg" rows="4" placeholder="Tell us what you want to build..."></textarea></div>
+              <button class="btn btn-primary fw" onclick="submitContact()">Send Message</button>
+              <p id="cRes" class="ok" style="display:none"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="services">
+        <div class="container">
+          <div class="section-header">
+            <span class="eyebrow">What We Do</span>
+            <h2>End-to-End Software Services</h2>
+            <p class="muted">From idea to production — we handle the full stack.</p>
+          </div>
+          <div id="svcGrid" class="grid-3"></div>
+        </div>
+      </section>
+
+      <section class="section section-alt" id="pricing">
+        <div class="container">
+          <div class="section-header">
+            <span class="eyebrow">Transparent Pricing</span>
+            <h2>Simple Plans, No Surprises</h2>
+            <p class="muted">Choose the package that fits your business stage.</p>
+          </div>
+          <div id="priceGrid" class="grid-3"></div>
+        </div>
+      </section>
+
+      <section class="section" id="portfolio">
+        <div class="container">
+          <div class="section-header">
+            <span class="eyebrow">Case Studies</span>
+            <h2>Projects We Are Proud Of</h2>
+            <p class="muted">Real products built for real clients.</p>
+          </div>
+          <div id="portGrid" class="grid-3"></div>
+        </div>
+      </section>
+
+      <section class="section section-alt" id="blog">
+        <div class="container">
+          <div class="section-header">
+            <span class="eyebrow">Insights</span>
+            <h2>From the Team</h2>
+            <p class="muted">Tech insights, project stories, and development best practices.</p>
+          </div>
+          <div id="blogGrid" class="grid-3"></div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="container">
+          <div class="footer-grid">
+            <div class="footer-brand">
+              <div class="brand"><img src="/assets/technovan-logo.png" alt="Technovan logo" class="brand-logo" /><span>TECHNO</span>VAN</div>
+              <p>Enterprise software development company. Building complete digital systems for businesses across Malaysia and beyond.</p>
+            </div>
+            <div class="footer-col">
+              <h4>Services</h4>
+              <a onclick="sscroll('#services')">Web Development</a>
+              <a onclick="sscroll('#services')">Mobile Apps</a>
+              <a onclick="sscroll('#services')">Cloud &amp; DevOps</a>
+              <a onclick="sscroll('#services')">UI/UX Design</a>
+            </div>
+            <div class="footer-col">
+              <h4>Company</h4>
+              <a onclick="sscroll('#portfolio')">Our Work</a>
+              <a onclick="sscroll('#blog')">Blog</a>
+              <a onclick="go('register')">Start Project</a>
+              <a onclick="go('login')">Client Portal</a>
+            </div>
+            <div class="footer-col">
+              <h4>Contact</h4>
+              <a href="mailto:hello@tecnovand.com">hello@tecnovand.com</a>
+              <a href="tel:+60167659237">+60167659237</a>
+              <a href="https://wa.me/60167659237" target="_blank" rel="noopener noreferrer">WhatsApp Us</a>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <span class="muted">&#169; 2026 TECHNOVAN All rights reserved.</span>
+            <span class="muted">Kuala Lumpur, Malaysia</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- LOGIN PAGE -->
+    <div id="page-login" class="page">
+      <div class="auth-wrap">
+        <div class="auth-box card">
+          <div style="text-align:center;margin-bottom:28px">
+            <div class="brand" style="font-size:26px;margin-bottom:8px"><img src="/assets/technovan-logo.png" alt="Technovan logo" class="brand-logo" /><span>TECHNO</span>VAN</div>
+            <h2>Welcome Back</h2>
+            <p class="muted" style="margin-top:6px">Sign in to your client portal</p>
+          </div>
+          <form onsubmit="doLogin(event)">
+            <div class="fg"><label>Email address</label><input id="lEmail" type="email" placeholder="you@company.com" required /></div>
+            <div class="fg" style="margin-bottom:22px"><label>Password</label><input id="lPass" type="password" placeholder="Your password" required /></div>
+            <button class="btn btn-primary fw" type="submit" id="loginBtn">Sign In</button>
+            <p id="lErr" class="err" style="display:none"></p>
+          </form>
+          <div class="auth-sw">Don't have an account? <button onclick="go('register')">Create one</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REGISTER PAGE -->
+    <div id="page-register" class="page">
+      <div class="auth-wrap">
+        <div class="auth-box card">
+          <div style="text-align:center;margin-bottom:28px">
+            <div class="brand" style="font-size:26px;margin-bottom:8px"><img src="/assets/technovan-logo.png" alt="Technovan logo" class="brand-logo" /><span>TECHNO</span>VAN</div>
+            <h2>Create Account</h2>
+            <p class="muted" style="margin-top:6px">Start your project journey</p>
+          </div>
+          <form onsubmit="doRegister(event)">
+            <div class="grid-2" style="gap:12px">
+              <div class="fg"><label>First Name</label><input id="rFirst" placeholder="Ahmad" required /></div>
+              <div class="fg"><label>Last Name</label><input id="rLast" placeholder="Ismail" required /></div>
+            </div>
+            <div class="fg"><label>Email address</label><input id="rEmail" type="email" placeholder="you@company.com" required /></div>
+            <div class="fg" style="margin-bottom:22px"><label>Password</label><input id="rPass" type="password" placeholder="Create a strong password" minlength="6" required /></div>
+            <button class="btn btn-primary fw" type="submit">Create Account</button>
+            <p id="rErr" class="err" style="display:none"></p>
+          </form>
+          <div class="auth-sw">Already have an account? <button onclick="go('login')">Sign in</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DASHBOARD PAGE -->
+    <div id="page-dashboard" class="page">
+      <div class="dash-layout">
+        <aside class="dash-side" id="dashSide">
+          <div class="dash-side-hd">
+            <h3 id="sdName">Loading...</h3>
+            <p id="sdEmail" class="muted"></p>
+          </div>
+          <span class="nav-sec">Main</span>
+          <button class="snav active" onclick="dtab('overview')">&#128202; Overview</button>
+          <button class="snav" onclick="dtab('my-projects')">&#128193; My Projects</button>
+          <button class="snav" onclick="dtab('payments')">&#128179; Payments</button>
+          <span class="nav-sec" id="admSec" style="display:none">Admin</span>
+          <button class="snav" id="admDash" onclick="dtab('admin-overview')" style="display:none">&#128200; Dashboard</button>
+          <button class="snav" id="admSvc"  onclick="dtab('admin-services')" style="display:none">&#9881; Services</button>
+          <button class="snav" id="admPrc"  onclick="dtab('admin-pricing')"  style="display:none">&#128176; Pricing</button>
+          <button class="snav" id="admPrj"  onclick="dtab('admin-projects')" style="display:none">&#128203; All Projects</button>
+          <button class="snav" id="admInq"  onclick="dtab('admin-inquiries')" style="display:none">&#128233; Inquiries</button>
+          <span class="nav-sec">Account</span>
+          <button class="snav" onclick="doLogout()">&#128682; Logout</button>
+        </aside>
+        <main class="dash-main" id="dashMain"></main>
+      </div>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal-ov" id="modal" onclick="mOutside(event)">
+      <div class="modal" id="modalBox">
+        <div class="modal-hd"><h3 id="mTitle">Modal</h3><button class="modal-x" onclick="cm()">&#10005;</button></div>
+        <div id="mBody"></div>
+        <div class="modal-ft" id="mFoot"></div>
+      </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast"></div>
+
+    <script>
+      const API='/api';
+      let S={token:localStorage.getItem('tv_token')||null,user:JSON.parse(localStorage.getItem('tv_user')||'null')};
+      let _tt,_mbtns=[];
+
+      async function api(path,opts={}){
+        const hdrs={'Content-Type':'application/json'};
+        if(S.token) hdrs['Authorization']='Bearer '+S.token;
+        if(opts.body&&typeof opts.body==='object') opts.body=JSON.stringify(opts.body);
+        const r=await fetch(API+path,{...opts,headers:{...hdrs,...(opts.headers||{})}});
+        const data=await r.json().catch(()=>({}));
+        if(!r.ok) throw new Error(data.error||'Error '+r.status);
+        return data;
+      }
+
+      function toast(msg,type='success'){
+        const el=document.getElementById('toast');
+        el.textContent=(type==='success'?'✓  ':'✕  ')+msg;
+        el.className=type;el.style.display='block';
+        clearTimeout(_tt);_tt=setTimeout(()=>el.style.display='none',3500);
+      }
+
+      function go(page){
+        document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+        document.getElementById('page-'+page).classList.add('active');
+        window.scrollTo(0,0);
+        document.getElementById('authBtns').style.display=page==='dashboard'?'none':'';
+        const hmb=document.getElementById('hmb');if(hmb) hmb.style.display=page==='dashboard'?'none':'';
+      }
+
+      function sscroll(id){
+        if(!document.getElementById('page-home').classList.contains('active')) go('home');
+        setTimeout(()=>document.querySelector(id)?.scrollIntoView({behavior:'smooth',block:'start'}),80);
+      }
+
+      function toggleMenu(){document.getElementById('mobileNav').classList.toggle('open');}
+
+      async function doLogin(e){
+        e.preventDefault();
+        const btn=document.getElementById('loginBtn');
+        btn.disabled=true;btn.textContent='Signing in...';
+        document.getElementById('lErr').style.display='none';
+        try{
+          const d=await api('/auth/login',{method:'POST',body:{email:gv('lEmail'),password:gv('lPass')}});
+          saveAuth(d);go('dashboard');initDash();
+        }catch(e){serr('lErr',e.message);}
+        finally{btn.disabled=false;btn.textContent='Sign In';}
+      }
+
+      async function doRegister(e){
+        e.preventDefault();
+        document.getElementById('rErr').style.display='none';
+        try{
+          const d=await api('/auth/register',{method:'POST',body:{firstName:gv('rFirst'),lastName:gv('rLast'),email:gv('rEmail'),password:gv('rPass')}});
+          saveAuth(d);go('dashboard');initDash();
+        }catch(e){serr('rErr',e.message);}
+      }
+
+      function saveAuth(d){S.token=d.token;S.user=d.user;localStorage.setItem('tv_token',d.token);localStorage.setItem('tv_user',JSON.stringify(d.user));}
+      function doLogout(){S={token:null,user:null};localStorage.removeItem('tv_token');localStorage.removeItem('tv_user');go('home');}
+      function fillDemo(){document.getElementById('lEmail').value='admin@technovan.com';document.getElementById('lPass').value='password';}
+
+      function initDash(){
+        if(!S.user) return;
+        document.getElementById('sdName').textContent=S.user.firstName+' '+S.user.lastName;
+        document.getElementById('sdEmail').textContent=S.user.email;
+        const isAdmin=S.user.role==='ADMIN';
+        ['admSec','admDash','admSvc','admPrc','admPrj','admInq'].forEach(id=>document.getElementById(id).style.display=isAdmin?'':'none');
+        dtab(isAdmin?'admin-overview':'overview');
+      }
+
+      function dtab(tab){
+        document.querySelectorAll('.snav').forEach(b=>b.classList.remove('active'));
+        const fns={overview:renderOverview,'my-projects':renderMyProjects,payments:renderPayments,'admin-overview':renderAdminOverview,'admin-services':renderAdminServices,'admin-pricing':renderAdminPricing,'admin-projects':renderAdminProjects,'admin-inquiries':renderAdminInquiries};
+        if(fns[tab]) fns[tab]();
+      }
+
+      function setMain(h){document.getElementById('dashMain').innerHTML=h;}
+      function gv(id){return(document.getElementById(id)?.value||'').trim();}
+      function serr(id,msg){const el=document.getElementById(id);if(el){el.textContent=msg;el.style.display='';}}
+      function stag(s){
+        const m={PENDING:'tag-orange',APPROVED:'tag-blue',IN_PROGRESS:'tag-blue',COMPLETED:'tag-green',CANCELLED:'tag-red',PAID:'tag-green',FAILED:'tag-red',REFUNDED:'tag-gray',ADMIN:'tag-teal',CUSTOMER:'tag-gray',SUPPORT:'tag-blue'};
+        return '<span class="tag '+(m[s]||'tag-gray')+'">'+s.replace(/_/g,' ')+'</span>';
+      }
+      function fdate(d){return d?new Date(d).toLocaleDateString('en-MY',{day:'2-digit',month:'short',year:'numeric'}):'—';}
+      function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+      function homeSkeleton(type,count){
+        if(type==='services'){
+          return Array.from({length:count},()=>`<article class="svc-card"><div class="skeleton sk-icon"></div><div class="skeleton sk-title"></div><div class="skeleton sk-line sk-long"></div><div class="skeleton sk-line sk-mid"></div></article>`).join('');
+        }
+        if(type==='pricing'){
+          return Array.from({length:count},()=>`<article class="price-card"><div class="skeleton sk-title"></div><div class="skeleton sk-line sk-mid"></div><div class="skeleton sk-price"></div><div class="skeleton sk-line sk-long"></div><div class="skeleton sk-line sk-mid"></div><div class="skeleton sk-line sk-short"></div></article>`).join('');
+        }
+        if(type==='portfolio'){
+          return Array.from({length:count},()=>`<article class="port-card"><div class="skeleton sk-image"></div><div class="port-body"><div class="skeleton sk-pill"></div><div class="skeleton sk-title"></div><div class="skeleton sk-line sk-long"></div></div></article>`).join('');
+        }
+        return Array.from({length:count},()=>`<article class="blog-card"><div class="skeleton sk-pill"></div><div class="skeleton sk-title"></div><div class="skeleton sk-line sk-long"></div><div class="skeleton sk-line sk-mid"></div><div class="skeleton sk-line sk-short"></div></article>`).join('');
+      }
+
+      function setHomeLoading(){
+        document.getElementById('svcGrid').innerHTML=homeSkeleton('services',3);
+        document.getElementById('priceGrid').innerHTML=homeSkeleton('pricing',3);
+        document.getElementById('portGrid').innerHTML=homeSkeleton('portfolio',3);
+        document.getElementById('blogGrid').innerHTML=homeSkeleton('blog',3);
+      }
+
+      function rowSkeleton(rows,cols){
+        return Array.from({length:rows},()=>`<div class="sk-row-grid" style="grid-template-columns:repeat(${cols},minmax(0,1fr))">${Array.from({length:cols},()=>'<div class="skeleton sk-row"></div>').join('')}</div>`).join('');
+      }
+
+      function mainSkeleton(type='overview'){
+        if(type==='admin-overview'){
+          return `<div class="dash-hd"><div class="skeleton sk-head"></div><div class="skeleton sk-pill" style="margin-bottom:0"></div></div>
+            <div class="stats-row">
+              <div class="sk-card"><div class="skeleton sk-line sk-short"></div><div class="skeleton sk-price"></div></div>
+              <div class="sk-card"><div class="skeleton sk-line sk-short"></div><div class="skeleton sk-price"></div></div>
+              <div class="sk-card"><div class="skeleton sk-line sk-short"></div><div class="skeleton sk-price"></div></div>
+              <div class="sk-card"><div class="skeleton sk-line sk-short"></div><div class="skeleton sk-price"></div></div>
+            </div>
+            <div class="sk-grid-2">
+              <div class="sk-card"><div class="skeleton sk-card-title"></div>${rowSkeleton(4,3)}</div>
+              <div class="sk-card"><div class="skeleton sk-card-title"></div>${rowSkeleton(4,3)}</div>
+            </div>`;
+        }
+
+        if(type==='overview'){
+          return `<div class="dash-hd"><div class="skeleton sk-head"></div></div>
+            <div class="stats-row">
+              <div class="sk-card"><div class="skeleton sk-line sk-short"></div><div class="skeleton sk-price"></div></div>
+              <div class="sk-card"><div class="skeleton sk-line sk-short"></div><div class="skeleton sk-price"></div></div>
+              <div class="sk-card"><div class="skeleton sk-line sk-short"></div><div class="skeleton sk-price"></div></div>
+              <div class="sk-card"><div class="skeleton sk-line sk-short"></div><div class="skeleton sk-price"></div></div>
+            </div>
+            <div class="sk-card"><div class="sk-head-row" style="margin-bottom:14px"><div class="skeleton sk-card-title"></div><div class="skeleton sk-btn"></div></div>${rowSkeleton(5,4)}</div>`;
+        }
+
+        const map={
+          'my-projects':{cols:5,action:true,width:190},
+          payments:{cols:5,action:false,width:150},
+          'admin-services':{cols:6,action:true,width:130},
+          'admin-pricing':{cols:6,action:true,width:160},
+          'admin-projects':{cols:6,action:false,width:180},
+          'admin-inquiries':{cols:7,action:false,width:150},
+        };
+        const cfg=map[type]||{cols:5,action:false,width:180};
+        return `<div class="sk-head-row"><div class="skeleton sk-head" style="width:${cfg.width}px"></div>${cfg.action?'<div class="skeleton sk-btn"></div>':''}</div><div class="sk-table">${rowSkeleton(6,cfg.cols)}</div>`;
+      }
+
+      /* ---- OVERVIEW ---- */
+      async function renderOverview(){
+        setMain(mainSkeleton('overview'));
+        const [P,Y]=await Promise.all([api('/projects').catch(()=>[]),api('/payments').catch(()=>[])]);
+        setMain(`<div class="dash-hd"><h2>Overview</h2></div>
+          <div class="stats-row">
+            <div class="stat-card card-accent"><div class="lbl">My Projects</div><div class="val">${P.length}</div><div class="chg">All time</div></div>
+            <div class="stat-card"><div class="lbl">In Progress</div><div class="val">${P.filter(p=>p.status==='IN_PROGRESS').length}</div></div>
+            <div class="stat-card"><div class="lbl">Completed</div><div class="val">${P.filter(p=>p.status==='COMPLETED').length}</div></div>
+            <div class="stat-card"><div class="lbl">Total Paid</div><div class="val">RM ${Y.reduce((s,p)=>s+(Number(p.amount)||0),0).toLocaleString()}</div></div>
+          </div>
+          <div class="card"><div class="row" style="justify-content:space-between;margin-bottom:16px"><h3>Recent Projects</h3><button class="btn btn-sm btn-primary" onclick="dtab('my-projects')">View All</button></div>
+          ${P.length===0?'<div class="empty"><div class="ico">📁</div><p>No projects yet</p><button class="btn btn-primary mt" onclick="dtab(\'my-projects\')">Create First</button></div>':
+            '<div class="tbl-wrap"><table><thead><tr><th>Project</th><th>Status</th><th>Budget</th><th>Created</th></tr></thead><tbody>'+
+            P.slice(0,5).map(p=>`<tr><td><b>${esc(p.title)}</b></td><td>${stag(p.status)}</td><td>${p.budget?'RM '+Number(p.budget).toLocaleString():'—'}</td><td>${fdate(p.createdAt)}</td></tr>`).join('')+
+            '</tbody></table></div>'}</div>`);
+      }
+
+      /* ---- MY PROJECTS ---- */
+      async function renderMyProjects(){
+        setMain(mainSkeleton('my-projects'));
+        const [P,PR]=await Promise.all([api('/projects').catch(()=>[]),api('/pricing').catch(()=>[])]);
+        window._pricing=PR;
+        setMain(`<div class="dash-hd"><h2>My Projects</h2><button class="btn btn-primary btn-sm" onclick="openNewProject()">+ New Project</button></div>
+          ${P.length===0?'<div class="empty"><div class="ico">📁</div><p>No projects yet</p><button class="btn btn-primary mt" onclick="openNewProject()">Create Project</button></div>':
+            '<div class="tbl-wrap"><table><thead><tr><th>Title</th><th>Status</th><th>Budget</th><th>Deadline</th><th>Created</th></tr></thead><tbody>'+
+            P.map(p=>`<tr><td><b>${esc(p.title)}</b><div class="muted" style="font-size:12px">${esc((p.description||'').slice(0,50))}</div></td><td>${stag(p.status)}</td><td>${p.budget?'RM '+Number(p.budget).toLocaleString():'—'}</td><td>${fdate(p.deadline)}</td><td>${fdate(p.createdAt)}</td></tr>`).join('')+
+            '</tbody></table></div>'}`);
+      }
+
+      function openNewProject(){
+        const PR=window._pricing||[];
+        om('New Project',
+          `<div class="fg"><label>Project Title</label><input id="mpt" placeholder="e.g. Company Website" required /></div>
+           <div class="fg"><label>Description</label><textarea id="mpd" rows="3" placeholder="Describe your project..."></textarea></div>
+           <div class="fg"><label>Pricing Plan</label><select id="mpp"><option value="">No plan selected</option>${PR.map(p=>`<option value="${p.id}">${esc(p.name)} — RM ${Number(p.price).toLocaleString()}</option>`).join('')}</select></div>
+           <div class="grid-2" style="gap:12px"><div class="fg"><label>Budget (RM)</label><input id="mpb" type="number" placeholder="5000" /></div><div class="fg"><label>Deadline</label><input id="mpk" type="date" /></div></div>
+           <p id="mpe" class="err" style="display:none"></p>`,
+          [{label:'Cancel',fn:cm},{label:'Create Project',cls:'btn-primary',fn:createProject}]);
+      }
+
+      async function createProject(){
+        try{
+          await api('/projects',{method:'POST',body:{title:gv('mpt'),description:gv('mpd'),pricingId:gv('mpp')||undefined,budget:gv('mpb')||undefined,deadline:gv('mpk')||undefined}});
+          cm();toast('Project created!');renderMyProjects();
+        }catch(e){serr('mpe',e.message);}
+      }
+
+      /* ---- PAYMENTS ---- */
+      async function renderPayments(){
+        setMain(mainSkeleton('payments'));
+        const Y=await api('/payments').catch(()=>[]);
+        setMain(`<div class="dash-hd"><h2>Payments</h2></div>
+          ${Y.length===0?'<div class="empty"><div class="ico">💳</div><p>No payments recorded yet</p></div>':
+            '<div class="tbl-wrap"><table><thead><tr><th>ID</th><th>Amount</th><th>Status</th><th>Method</th><th>Date</th></tr></thead><tbody>'+
+            Y.map(p=>`<tr><td class="muted" style="font-size:12px">${p.id.slice(0,12)}…</td><td><b>${p.currency||'RM'} ${Number(p.amount||0).toLocaleString()}</b></td><td>${stag(p.status)}</td><td>${p.method||'—'}</td><td>${fdate(p.createdAt)}</td></tr>`).join('')+
+            '</tbody></table></div>'}`);
+      }
+
+      /* ---- ADMIN OVERVIEW ---- */
+      async function renderAdminOverview(){
+        setMain(mainSkeleton('admin-overview'));
+        const d=await api('/admin').catch(()=>({stats:{},recentProjects:[],recentInquiries:[]}));
+        const s=d.stats||{};
+        setMain(`<div class="dash-hd"><h2>Admin Overview</h2><span class="tag tag-teal">Admin</span></div>
+          <div class="stats-row">
+            <div class="stat-card card-accent"><div class="lbl">Total Users</div><div class="val">${s.totalUsers||0}</div></div>
+            <div class="stat-card"><div class="lbl">Total Projects</div><div class="val">${s.totalProjects||0}</div></div>
+            <div class="stat-card"><div class="lbl">Active</div><div class="val">${s.activeProjects||0}</div></div>
+            <div class="stat-card"><div class="lbl">Revenue</div><div class="val">RM ${Number(s.totalRevenue||0).toLocaleString()}</div></div>
+          </div>
+          <div class="grid-2" style="gap:20px">
+            <div class="card"><div class="row" style="justify-content:space-between;margin-bottom:14px"><h3>Recent Projects</h3><button class="btn btn-sm" onclick="dtab('admin-projects')">All</button></div>
+            ${(d.recentProjects||[]).length===0?'<p class="muted">No projects yet</p>':
+              '<div class="tbl-wrap"><table><thead><tr><th>Title</th><th>Status</th><th>Client</th></tr></thead><tbody>'+
+              (d.recentProjects||[]).map(p=>`<tr><td>${esc(p.title)}</td><td>${stag(p.status)}</td><td>${p.user?esc(p.user.firstName):'—'}</td></tr>`).join('')+
+              '</tbody></table></div>'}</div>
+            <div class="card"><div class="row" style="justify-content:space-between;margin-bottom:14px"><h3>New Inquiries</h3><button class="btn btn-sm" onclick="dtab('admin-inquiries')">All</button></div>
+            ${(d.recentInquiries||[]).length===0?'<p class="muted">No inquiries</p>':
+              '<div class="tbl-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Status</th></tr></thead><tbody>'+
+              (d.recentInquiries||[]).map(i=>`<tr><td>${esc(i.name)}</td><td>${esc(i.email)}</td><td>${i.isRead?'<span class="tag tag-green">Read</span>':'<span class="tag tag-orange">Unread</span>'}</td></tr>`).join('')+
+              '</tbody></table></div>'}</div>
+          </div>`);
+      }
+
+      /* ---- ADMIN SERVICES ---- */
+      async function renderAdminServices(){
+        setMain(mainSkeleton('admin-services'));
+        const S2=await api('/services').catch(()=>[]);
+        setMain(`<div class="dash-hd"><h2>Services</h2><button class="btn btn-primary btn-sm" onclick="openSvcModal()">+ Add Service</button></div>
+          <div class="tbl-wrap"><table><thead><tr><th>Icon</th><th>Title</th><th>Description</th><th>Order</th><th>Status</th><th>Actions</th></tr></thead><tbody>
+          ${S2.length===0?'<tr><td colspan="6"><div class="empty" style="padding:28px"><p>No services yet</p></div></td></tr>':
+            S2.map(s=>`<tr>
+              <td style="font-size:24px">${s.icon||'⚙'}</td>
+              <td><b>${esc(s.title)}</b></td>
+              <td class="muted">${esc((s.description||'').slice(0,55))}…</td>
+              <td>${s.order}</td>
+              <td>${s.isActive?'<span class="tag tag-green">Active</span>':'<span class="tag tag-gray">Inactive</span>'}</td>
+              <td style="display:flex;gap:8px;flex-wrap:wrap">
+                <button class="btn btn-sm" onclick='openSvcModal(${JSON.stringify(s)})'>Edit</button>
+                <button class="btn btn-sm btn-danger" onclick="delSvc('${s.id}')">Delete</button>
+              </td>
+            </tr>`).join('')}
+          </tbody></table></div>`);
+      }
+
+      function openSvcModal(s){
+        om(s?'Edit Service':'New Service',
+          `<div class="fg"><label>Icon (emoji)</label><input id="msi" value="${esc(s?.icon||'')}" placeholder="⚙️" /></div>
+           <div class="fg"><label>Title</label><input id="mst" value="${esc(s?.title||'')}" placeholder="Service name" required /></div>
+           <div class="fg"><label>Description</label><textarea id="msd" rows="3">${esc(s?.description||'')}</textarea></div>
+           <div class="fg"><label>Display Order</label><input id="mso" type="number" value="${s?.order||0}" /></div>
+           <p id="mse" class="err" style="display:none"></p>`,
+          [{label:'Cancel',fn:cm},{label:s?'Update':'Create',cls:'btn-primary',fn:()=>saveSvc(s?.id)}]);
+      }
+
+      async function saveSvc(id){
+        const body={title:gv('mst'),description:gv('msd'),icon:gv('msi'),order:parseInt(gv('mso'))||0};
+        try{
+          if(id) await api('/admin/services/'+id,{method:'PUT',body});
+          else   await api('/admin/services',{method:'POST',body});
+          cm();toast(id?'Service updated':'Service created');renderAdminServices();
+        }catch(e){serr('mse',e.message);}
+      }
+
+      async function delSvc(id){
+        if(!confirm('Delete this service?')) return;
+        await api('/admin/services/'+id,{method:'DELETE'}).catch(()=>{});
+        toast('Service deleted','error');renderAdminServices();
+      }
+
+      /* ---- ADMIN PRICING ---- */
+      async function renderAdminPricing(){
+        setMain(mainSkeleton('admin-pricing'));
+        const plans=await api('/pricing').catch(()=>[]);
+        setMain(`<div class="dash-hd"><h2>Pricing Plans</h2><button class="btn btn-primary btn-sm" onclick="openPrcModal()">+ Add Plan</button></div>
+          <div class="tbl-wrap"><table><thead><tr><th>Name</th><th>Price</th><th>Features</th><th>Order</th><th>Status</th><th>Actions</th></tr></thead><tbody>
+          ${plans.length===0?'<tr><td colspan="6"><div class="empty" style="padding:28px"><p>No pricing plans yet</p></div></td></tr>':
+            plans.map(p=>`<tr>
+              <td><b>${esc(p.name)}</b></td>
+              <td><b>${p.currency||'RM'} ${Number(p.price).toLocaleString()}</b></td>
+              <td class="muted">${(p.features||[]).length} features</td>
+              <td>${p.order}</td>
+              <td>${p.isActive?'<span class="tag tag-green">Active</span>':'<span class="tag tag-gray">Inactive</span>'}</td>
+              <td style="display:flex;gap:8px;flex-wrap:wrap">
+                <button class="btn btn-sm" onclick='openPrcModal(${JSON.stringify(p)})'>Edit</button>
+                <button class="btn btn-sm btn-danger" onclick="delPrc('${p.id}')">Delete</button>
+              </td>
+            </tr>`).join('')}
+          </tbody></table></div>`);
+      }
+
+      function openPrcModal(p){
+        om(p?'Edit Plan':'New Plan',
+          `<div class="fg"><label>Plan Name</label><input id="mpn" value="${esc(p?.name||'')}" placeholder="e.g. Starter" required /></div>
+           <div class="grid-2" style="gap:12px">
+             <div class="fg"><label>Price</label><input id="mpp2" type="number" value="${p?.price||''}" placeholder="1500" required /></div>
+             <div class="fg"><label>Currency</label><input id="mpc" value="${esc(p?.currency||'RM')}" /></div>
+           </div>
+           <div class="fg"><label>Description</label><textarea id="mpd2" rows="2">${esc(p?.description||'')}</textarea></div>
+           <div class="fg"><label>Features (one per line)</label><textarea id="mpf" rows="5">${(p?.features||[]).map(f=>esc(f)).join('\n')}</textarea></div>
+           <div class="fg"><label>Display Order</label><input id="mpo" type="number" value="${p?.order||0}" /></div>
+           <p id="mper" class="err" style="display:none"></p>`,
+          [{label:'Cancel',fn:cm},{label:p?'Update':'Create',cls:'btn-primary',fn:()=>savePrc(p?.id)}]);
+      }
+
+      async function savePrc(id){
+        const body={name:gv('mpn'),price:parseFloat(gv('mpp2')),currency:gv('mpc')||'RM',description:gv('mpd2'),features:gv('mpf').split('\n').filter(Boolean),order:parseInt(gv('mpo'))||0};
+        try{
+          if(id) await api('/admin/pricing/'+id,{method:'PUT',body});
+          else   await api('/admin/pricing',{method:'POST',body});
+          cm();toast(id?'Plan updated':'Plan created');renderAdminPricing();
+        }catch(e){serr('mper',e.message);}
+      }
+
+      async function delPrc(id){
+        if(!confirm('Delete this pricing plan?')) return;
+        await api('/admin/pricing/'+id,{method:'DELETE'}).catch(()=>{});
+        toast('Plan deleted','error');renderAdminPricing();
+      }
+
+      /* ---- ADMIN PROJECTS ---- */
+      async function renderAdminProjects(){
+        setMain(mainSkeleton('admin-projects'));
+        const P=await api('/admin/projects').catch(()=>[]);
+        setMain(`<div class="dash-hd"><h2>All Projects</h2><span class="muted">${P.length} total</span></div>
+          <div class="tbl-wrap"><table><thead><tr><th>Title</th><th>Client</th><th>Status</th><th>Budget</th><th>Deadline</th><th>Update Status</th></tr></thead><tbody>
+          ${P.length===0?'<tr><td colspan="6"><div class="empty" style="padding:28px"><p>No projects yet</p></div></td></tr>':
+            P.map(p=>`<tr>
+              <td><b>${esc(p.title)}</b><div class="muted" style="font-size:12px">${esc((p.description||'').slice(0,40))}…</div></td>
+              <td>${p.user?esc(p.user.firstName+' '+p.user.lastName):'—'}</td>
+              <td>${stag(p.status)}</td>
+              <td>${p.budget?'RM '+Number(p.budget).toLocaleString():'—'}</td>
+              <td>${fdate(p.deadline)}</td>
+              <td><select class="btn btn-sm" style="padding:6px 10px;border-radius:8px;cursor:pointer;border-color:var(--c-border2)" onchange="updPrjStatus('${p.id}',this.value)">
+                ${['PENDING','APPROVED','IN_PROGRESS','COMPLETED','CANCELLED'].map(st=>`<option ${p.status===st?'selected':''} value="${st}">${st.replace(/_/g,' ')}</option>`).join('')}
+              </select></td>
+            </tr>`).join('')}
+          </tbody></table></div>`);
+      }
+
+      async function updPrjStatus(id,status){
+        await api('/admin/projects/'+id,{method:'PUT',body:{status}}).catch(()=>{});
+        toast('Status updated to '+status.replace(/_/g,' '));
+      }
+
+      /* ---- ADMIN INQUIRIES ---- */
+      async function renderAdminInquiries(){
+        setMain(mainSkeleton('admin-inquiries'));
+        const items=await api('/admin/inquiries').catch(()=>[]);
+        const unread=items.filter(i=>!i.isRead).length;
+        window._inqs=items;
+        setMain(`<div class="dash-hd"><h2>Inquiries</h2>${unread>0?`<span class="tag tag-orange">${unread} Unread</span>`:''}</div>
+          <div class="tbl-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Message</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead><tbody>
+          ${items.length===0?'<tr><td colspan="7"><div class="empty" style="padding:28px"><p>No inquiries yet</p></div></td></tr>':
+            items.map((i,idx)=>`<tr>
+              <td><b>${esc(i.name)}</b></td>
+              <td><a href="mailto:${esc(i.email)}">${esc(i.email)}</a></td>
+              <td>${i.phone?esc(i.phone):'—'}</td>
+              <td class="muted" style="max-width:200px">${esc((i.message||'').slice(0,70))}…</td>
+              <td>${fdate(i.createdAt)}</td>
+              <td>${i.isRead?'<span class="tag tag-green">Read</span>':'<span class="tag tag-orange">Unread</span>'}</td>
+              <td style="display:flex;gap:8px">
+                <button class="btn btn-sm" onclick="viewInq(${idx})">View</button>
+                ${!i.isRead?`<button class="btn btn-sm btn-success" onclick="markRead('${i.id}')">Mark Read</button>`:''}
+              </td>
+            </tr>`).join('')}
+          </tbody></table></div>`);
+      }
+
+      function viewInq(idx){
+        const i=window._inqs[idx];
+        om('Inquiry from '+esc(i.name),
+          `<div style="line-height:1.9">
+            <p><b>Name:</b> ${esc(i.name)}</p>
+            <p><b>Email:</b> <a href="mailto:${esc(i.email)}">${esc(i.email)}</a></p>
+            ${i.phone?`<p><b>Phone:</b> ${esc(i.phone)}</p>`:''}
+            <p><b>Date:</b> ${fdate(i.createdAt)}</p>
+            <hr class="divider" />
+            <p style="white-space:pre-wrap">${esc(i.message)}</p>
+          </div>`,
+          [{label:'Close',fn:cm},...(!i.isRead?[{label:'Mark as Read',cls:'btn-success',fn:()=>{markRead(i.id);cm();}}]:[]),{label:'Reply',cls:'btn-primary',fn:()=>{window.location.href='mailto:'+i.email;}}]);
+      }
+
+      async function markRead(id){
+        await api('/admin/inquiries/'+id,{method:'PUT'}).catch(()=>{});
+        toast('Marked as read');renderAdminInquiries();
+      }
+
+      /* ---- MODAL ---- */
+      function om(title,bodyHtml,buttons=[]){
+        document.getElementById('mTitle').textContent=title;
+        document.getElementById('mBody').innerHTML=bodyHtml;
+        _mbtns=buttons.map(b=>b.fn);
+        document.getElementById('mFoot').innerHTML=buttons.map((b,i)=>`<button class="btn ${b.cls||''}" onclick="_mbtns[${i}]()">${b.label}</button>`).join('');
+        document.getElementById('modal').classList.add('open');
+      }
+      function cm(){document.getElementById('modal').classList.remove('open');}
+      function mOutside(e){if(e.target.id==='modal') cm();}
+
+      /* ---- HOME DATA ---- */
+      async function loadHome(){
+        setHomeLoading();
+        const [svcs,pricing,portfolio,blog]=await Promise.all([
+          api('/services').catch(()=>[]),api('/pricing').catch(()=>[]),
+          api('/portfolio').catch(()=>[]),api('/blog').catch(()=>[])
+        ]);
+
+        document.getElementById('svcGrid').innerHTML=svcs.length===0?'<div class="empty"><p>No services found</p></div>':
+          svcs.map((s,i)=>`<article class="svc-card"><span class="svc-icon">${s.icon||'⚙️'}</span><h3>${esc(s.title)}</h3><p class="muted">${esc(s.description)}</p></article>`).join('');
+
+        const pi=Math.floor(pricing.length/2);
+        document.getElementById('priceGrid').innerHTML=pricing.length===0?'<div class="empty"><p>No pricing plans found</p></div>':
+          pricing.map((p,i)=>`<article class="price-card ${i===pi?'popular':''}">
+            ${i===pi?'<div class="pop-badge">Most Popular</div>':''}
+            <div><h3>${esc(p.name)}</h3><p class="muted" style="font-size:13px;margin-top:4px">${esc(p.description||'')}</p></div>
+            <div class="price-val">${esc(p.currency||'RM')} ${Number(p.price).toLocaleString()}<span> / project</span></div>
+            <ul class="price-feats">${(p.features||[]).map(f=>`<li>${esc(f)}</li>`).join('')}</ul>
+            <button class="btn ${i===pi?'btn-primary':''}" onclick="go('register')" style="width:100%">Get Started</button>
+          </article>`).join('');
+
+        const ICONS=['🛒','📱','📊','🌐','🤖','🔒'];
+        document.getElementById('portGrid').innerHTML=portfolio.length===0?'<div class="empty"><p>No portfolio items yet</p></div>':
+          portfolio.map((x,i)=>`<article class="port-card">
+            <div class="port-img">${ICONS[i%ICONS.length]}</div>
+            <div class="port-body">
+              <span class="tag tag-blue" style="margin-bottom:10px">${esc(x.category||'Web')}</span>
+              <h3>${esc(x.title)}</h3>
+              <p class="muted" style="margin-top:6px;font-size:13px">${esc(x.description)}</p>
+            </div>
+          </article>`).join('');
+
+        document.getElementById('blogGrid').innerHTML=blog.length===0?'<div class="empty"><p>No blog posts yet</p></div>':
+          blog.map(x=>`<article class="blog-card">
+            <span class="tag tag-teal">Article</span>
+            <h3>${esc(x.title)}</h3>
+            <p class="muted" style="font-size:13px">${esc(x.excerpt||x.content?.slice(0,100)||'')}</p>
+            <div class="muted" style="font-size:12px;margin-top:auto">${fdate(x.createdAt)}</div>
+          </article>`).join('');
+      }
+
+      /* ---- CONTACT ---- */
+      async function submitContact(){
+        const name=gv('cName'),email=gv('cEmail'),message=gv('cMsg');
+        if(!name||!email||!message){toast('Please fill name, email and message','error');return;}
+        try{
+          await api('/contact',{method:'POST',body:{name,email,phone:gv('cPhone'),message}});
+          const r=document.getElementById('cRes');r.textContent='✓ Message sent! We will reply within 24 hours.';r.style.display='';
+          ['cName','cEmail','cPhone','cMsg'].forEach(id=>document.getElementById(id).value='');
+          toast('Inquiry submitted!');
+        }catch(e){toast(e.message,'error');}
+      }
+
+      /* ---- INIT ---- */
+      setMain(mainSkeleton());
+      loadHome();
+      if(S.user&&S.token){go('dashboard');initDash();}
+    </script>
+  </body>
+</html>
