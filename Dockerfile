@@ -6,6 +6,9 @@ WORKDIR /app
 COPY backend/api/package.json ./package.json
 RUN npm install --legacy-peer-deps
 
+# backend/api/tsconfig extends ../../tsconfig.json, which resolves to /tsconfig.json in this container layout.
+COPY tsconfig.json /tsconfig.json
+
 COPY backend/api/prisma ./prisma
 COPY backend/api/src ./src
 COPY backend/api/public ./public
