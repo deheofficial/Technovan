@@ -489,6 +489,7 @@
         document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
         document.getElementById('page-'+page).classList.add('active');
         window.scrollTo(0,0);
+        const navbar=document.querySelector('.navbar');if(navbar) navbar.style.display=page==='dashboard'?'none':'';
         const mobileNav=document.getElementById('mobileNav');if(mobileNav) mobileNav.classList.remove('open');
         document.getElementById('authBtns').style.display=page==='dashboard'?'none':'';
         const hmb=document.getElementById('hmb');if(hmb) hmb.style.display=page==='dashboard'?'none':'';
