@@ -438,6 +438,7 @@
           <button class="snav" id="admDash" onclick="dtab('admin-overview')" style="display:none">&#128200; Dashboard</button>
           <button class="snav" id="admSvc"  onclick="dtab('admin-services')" style="display:none">&#9881; Services</button>
           <button class="snav" id="admPrc"  onclick="dtab('admin-pricing')"  style="display:none">&#128176; Pricing</button>
+          <button class="snav" id="admBlog" onclick="dtab('admin-blog')" style="display:none">&#128221; Blog</button>
           <button class="snav" id="admPrj"  onclick="dtab('admin-projects')" style="display:none">&#128203; All Projects</button>
           <button class="snav" id="admInq"  onclick="dtab('admin-inquiries')" style="display:none">&#128233; Inquiries</button>
           <span class="nav-sec">Account</span>
@@ -537,13 +538,13 @@
         document.getElementById('sdName').textContent=S.user.firstName+' '+S.user.lastName;
         document.getElementById('sdEmail').textContent=S.user.email;
         const isAdmin=S.user.role==='ADMIN';
-        ['admSec','admDash','admSvc','admPrc','admPrj','admInq'].forEach(id=>document.getElementById(id).style.display=isAdmin?'':'none');
+        ['admSec','admDash','admSvc','admPrc','admBlog','admPrj','admInq'].forEach(id=>document.getElementById(id).style.display=isAdmin?'':'none');
         dtab(isAdmin?'admin-overview':'overview');
       }
 
       function dtab(tab){
         document.querySelectorAll('.snav').forEach(b=>b.classList.remove('active'));
-        const fns={overview:renderOverview,'my-projects':renderMyProjects,payments:renderPayments,'admin-overview':renderAdminOverview,'admin-services':renderAdminServices,'admin-pricing':renderAdminPricing,'admin-projects':renderAdminProjects,'admin-inquiries':renderAdminInquiries};
+        const fns={overview:renderOverview,'my-projects':renderMyProjects,payments:renderPayments,'admin-overview':renderAdminOverview,'admin-services':renderAdminServices,'admin-pricing':renderAdminPricing,'admin-blog':renderAdminBlog,'admin-projects':renderAdminProjects,'admin-inquiries':renderAdminInquiries};
         if(fns[tab]) fns[tab]();
         if(window.innerWidth<=960){
           const dashSide=document.getElementById('dashSide');
@@ -616,6 +617,7 @@
           payments:{cols:5,action:false,width:150},
           'admin-services':{cols:6,action:true,width:130},
           'admin-pricing':{cols:6,action:true,width:160},
+          'admin-blog':{cols:6,action:true,width:130},
           'admin-projects':{cols:6,action:false,width:180},
           'admin-inquiries':{cols:7,action:false,width:150},
         };
@@ -802,6 +804,62 @@
         if(!confirm('Delete this pricing plan?')) return;
         await api('/admin/pricing/'+id,{method:'DELETE'}).catch(()=>{});
         toast('Plan deleted','error');renderAdminPricing();
+      }
+
+      /* ---- ADMIN BLOG ---- */
+      async function renderAdminBlog(){
+        setMain(mainSkeleton('admin-blog'));
+        const posts=await api('/admin/blog').catch(()=>[]);
+        setMain(`<div class="dash-hd"><h2>Blog Articles</h2><button class="btn btn-primary btn-sm" onclick="openBlogModal()">+ New Article</button></div>
+          <div class="tbl-wrap"><table><thead><tr><th>Title</th><th>Slug</th><th>Excerpt</th><th>Published</th><th>Updated</th><th>Actions</th></tr></thead><tbody>
+          ${posts.length===0?'<tr><td colspan="6"><div class="empty" style="padding:28px"><p>No blog posts yet</p></div></td></tr>':
+            posts.map(p=>`<tr>
+              <td><b>${esc(p.title)}</b></td>
+              <td class="muted">/${esc(p.slug)}</td>
+              <td class="muted">${esc((p.excerpt||p.content||'').slice(0,70))}${(p.excerpt||p.content||'').length>70?'…':''}</td>
+              <td>${p.published?'<span class="tag tag-green">Published</span>':'<span class="tag tag-gray">Draft</span>'}</td>
+              <td>${fdate(p.updatedAt)}</td>
+              <td style="display:flex;gap:8px;flex-wrap:wrap">
+                <button class="btn btn-sm" onclick='openBlogModal(${JSON.stringify(p)})'>Edit</button>
+                <button class="btn btn-sm btn-danger" onclick="delBlog('${p.id}')">Delete</button>
+              </td>
+            </tr>`).join('')}
+          </tbody></table></div>`);
+      }
+
+      function openBlogModal(p){
+        om(p?'Edit Article':'New Article',
+          `<div class="fg"><label>Title</label><input id="mbt" value="${esc(p?.title||'')}" placeholder="Article title" required /></div>
+           <div class="fg"><label>Slug (optional)</label><input id="mbs" value="${esc(p?.slug||'')}" placeholder="auto-generated-from-title" /></div>
+           <div class="fg"><label>Excerpt</label><textarea id="mbe" rows="2" placeholder="Short summary for home section">${esc(p?.excerpt||'')}</textarea></div>
+           <div class="fg"><label>Content</label><textarea id="mbc" rows="8" placeholder="Full article content" required>${esc(p?.content||'')}</textarea></div>
+           <div class="fg"><label>Image URL (optional)</label><input id="mbi" value="${esc(p?.image||'')}" placeholder="https://..." /></div>
+           <div class="fg"><label style="display:flex;align-items:center;gap:10px"><input id="mbpub" type="checkbox" style="width:auto" ${p?.published!==false?'checked':''} /> Publish now</label></div>
+           <p id="mber" class="err" style="display:none"></p>`,
+          [{label:'Cancel',fn:cm},{label:p?'Update':'Create',cls:'btn-primary',fn:()=>saveBlog(p?.id)}]);
+      }
+
+      async function saveBlog(id){
+        const body={
+          title:gv('mbt'),
+          slug:gv('mbs')||undefined,
+          excerpt:gv('mbe')||undefined,
+          content:gv('mbc'),
+          image:gv('mbi')||undefined,
+          published:document.getElementById('mbpub')?.checked===true,
+        };
+        if(!body.title||!body.content){serr('mber','Title and content are required');return;}
+        try{
+          if(id) await api('/admin/blog/'+id,{method:'PUT',body});
+          else   await api('/admin/blog',{method:'POST',body});
+          cm();toast(id?'Article updated':'Article created');renderAdminBlog();
+        }catch(e){serr('mber',e.message);}
+      }
+
+      async function delBlog(id){
+        if(!confirm('Delete this article?')) return;
+        await api('/admin/blog/'+id,{method:'DELETE'}).catch(()=>{});
+        toast('Article deleted','error');renderAdminBlog();
       }
 
       /* ---- ADMIN PROJECTS ---- */

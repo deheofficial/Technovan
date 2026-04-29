@@ -6,6 +6,33 @@ import { asyncHandler } from '../utils/async-handler';
 
 const router = Router();
 
+function makeSlug(input: string): string {
+  return input
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+}
+
+async function uniqueSlug(base: string, idToExclude?: string): Promise<string> {
+  const normalized = makeSlug(base) || 'post';
+  let candidate = normalized;
+  let suffix = 1;
+
+  while (true) {
+    const existing = await prisma.blogPost.findFirst({
+      where: {
+        slug: candidate,
+        ...(idToExclude ? { NOT: { id: idToExclude } } : {}),
+      },
+      select: { id: true },
+    });
+    if (!existing) return candidate;
+    candidate = `${normalized}-${suffix++}`;
+  }
+}
+
 /* ---- OVERVIEW STATS ---- */
 router.get('/', verifyToken, verifyAdmin, asyncHandler(async (req: AuthRequest, res: Response) => {
   const [
@@ -218,6 +245,89 @@ router.put('/inquiries/:id', verifyToken, verifyAdmin, asyncHandler(async (req: 
   } catch {
     res.status(404).json({ error: 'Inquiry not found' });
   }
+}));
+
+/* ---- BLOG CRUD ---- */
+router.get('/blog', verifyToken, verifyAdmin, asyncHandler(async (req: AuthRequest, res: Response) => {
+  const posts = await prisma.blogPost.findMany({
+    orderBy: { createdAt: 'desc' },
+  });
+  res.json(posts);
+}));
+
+router.post('/blog', verifyToken, verifyAdmin, asyncHandler(async (req: AuthRequest, res: Response) => {
+  const title = typeof req.body.title === 'string' ? req.body.title.trim() : '';
+  const content = typeof req.body.content === 'string' ? req.body.content.trim() : '';
+  const excerpt = typeof req.body.excerpt === 'string' ? req.body.excerpt.trim() : '';
+  const image = typeof req.body.image === 'string' ? req.body.image.trim() : '';
+  const requestedSlug = typeof req.body.slug === 'string' ? req.body.slug.trim() : '';
+  const published = typeof req.body.published === 'boolean' ? req.body.published : true;
+
+  if (!title || !content) {
+    return res.status(400).json({ error: 'Title and content are required' });
+  }
+
+  const slug = await uniqueSlug(requestedSlug || title);
+
+  const post = await prisma.blogPost.create({
+    data: {
+      title,
+      content,
+      excerpt: excerpt || null,
+      image: image || null,
+      slug,
+      published,
+    },
+  });
+
+  res.status(201).json(post);
+}));
+
+router.put('/blog/:id', verifyToken, verifyAdmin, asyncHandler(async (req: AuthRequest, res: Response) => {
+  const title = typeof req.body.title === 'string' ? req.body.title.trim() : undefined;
+  const content = typeof req.body.content === 'string' ? req.body.content.trim() : undefined;
+  const excerpt = typeof req.body.excerpt === 'string' ? req.body.excerpt.trim() : undefined;
+  const image = typeof req.body.image === 'string' ? req.body.image.trim() : undefined;
+  const requestedSlug = typeof req.body.slug === 'string' ? req.body.slug.trim() : undefined;
+  const published = typeof req.body.published === 'boolean' ? req.body.published : undefined;
+
+  const existing = await prisma.blogPost.findUnique({
+    where: { id: req.params.id },
+    select: { id: true, title: true },
+  });
+
+  if (!existing) {
+    return res.status(404).json({ error: 'Blog post not found' });
+  }
+
+  const shouldUpdateSlug = requestedSlug !== undefined || title !== undefined;
+  const slug = shouldUpdateSlug
+    ? await uniqueSlug(requestedSlug || title || existing.title, existing.id)
+    : undefined;
+
+  const post = await prisma.blogPost.update({
+    where: { id: req.params.id },
+    data: {
+      title,
+      content,
+      excerpt,
+      image,
+      slug,
+      published,
+    },
+  });
+
+  res.json(post);
+}));
+
+router.delete('/blog/:id', verifyToken, verifyAdmin, asyncHandler(async (req: AuthRequest, res: Response) => {
+  try {
+    await prisma.blogPost.delete({ where: { id: req.params.id } });
+  } catch {
+    return res.status(404).json({ error: 'Blog post not found' });
+  }
+
+  res.json({ message: 'Blog post deleted' });
 }));
 
 export default router;
