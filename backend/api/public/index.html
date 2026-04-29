@@ -811,7 +811,7 @@
       async function renderAdminBlog(){
         setMain(mainSkeleton('admin-blog'));
         const posts=await api('/admin/blog').catch(()=>[]);
-        setMain(`<div class="dash-hd"><h2>Blog Articles</h2><button class="btn btn-primary btn-sm" onclick="openBlogModal()">+ New Article</button></div>
+        setMain(`<div class="dash-hd"><h2>Blog Articles</h2><div class="row"><button class="btn btn-sm" onclick="openBlogEditor()">Open Full Editor</button><button class="btn btn-primary btn-sm" onclick="openBlogModal()">+ New Article</button></div></div>
           <div class="tbl-wrap"><table><thead><tr><th>Title</th><th>Slug</th><th>Excerpt</th><th>Published</th><th>Updated</th><th>Actions</th></tr></thead><tbody>
           ${posts.length===0?'<tr><td colspan="6"><div class="empty" style="padding:28px"><p>No blog posts yet</p></div></td></tr>':
             posts.map(p=>`<tr>
@@ -821,11 +821,72 @@
               <td>${p.published?'<span class="tag tag-green">Published</span>':'<span class="tag tag-gray">Draft</span>'}</td>
               <td>${fdate(p.updatedAt)}</td>
               <td style="display:flex;gap:8px;flex-wrap:wrap">
+                <button class="btn btn-sm btn-success" onclick="openBlogEditor('${p.id}')">Open</button>
                 <button class="btn btn-sm" onclick='openBlogModal(${JSON.stringify(p)})'>Edit</button>
                 <button class="btn btn-sm btn-danger" onclick="delBlog('${p.id}')">Delete</button>
               </td>
             </tr>`).join('')}
           </tbody></table></div>`);
+      }
+
+      function openBlogEditor(id){
+        const u=new URL(window.location.href);
+        u.searchParams.set('editor','blog');
+        if(id) u.searchParams.set('id',id);
+        else u.searchParams.delete('id');
+        window.open(u.toString(),'_blank','noopener');
+      }
+
+      async function renderAdminBlogEditor(postId){
+        setMain(`<div class="dash-hd"><h2>${postId?'Edit Article':'New Article'}</h2><div class="row"><button class="btn btn-sm" onclick="dtab('admin-blog')">Back to Blog List</button></div></div>
+          <div class="card" style="max-width:980px">
+            <div class="fg"><label>Title</label><input id="ebt" placeholder="Article title" /></div>
+            <div class="fg"><label>Slug (optional)</label><input id="ebs" placeholder="auto-generated-from-title" /></div>
+            <div class="fg"><label>Excerpt</label><textarea id="ebe" rows="3" placeholder="Short summary for home section"></textarea></div>
+            <div class="fg"><label>Content</label><textarea id="ebc" rows="22" placeholder="Write full article content here..."></textarea></div>
+            <div class="fg"><label>Image URL (optional)</label><input id="ebi" placeholder="https://..." /></div>
+            <div class="fg"><label style="display:flex;align-items:center;gap:10px"><input id="ebpub" type="checkbox" style="width:auto" checked /> Publish now</label></div>
+            <p id="eberr" class="err" style="display:none"></p>
+            <div class="row" style="justify-content:flex-end">
+              <button class="btn" onclick="dtab('admin-blog')">Cancel</button>
+              <button class="btn btn-primary" onclick="saveBlogFromEditor('${postId||''}')">${postId?'Update Article':'Create Article'}</button>
+            </div>
+          </div>`);
+
+        if(!postId) return;
+        const posts=await api('/admin/blog').catch(()=>[]);
+        const p=posts.find(x=>x.id===postId);
+        if(!p){toast('Article not found','error');return;}
+        document.getElementById('ebt').value=p.title||'';
+        document.getElementById('ebs').value=p.slug||'';
+        document.getElementById('ebe').value=p.excerpt||'';
+        document.getElementById('ebc').value=p.content||'';
+        document.getElementById('ebi').value=p.image||'';
+        document.getElementById('ebpub').checked=p.published!==false;
+      }
+
+      async function saveBlogFromEditor(id){
+        const body={
+          title:gv('ebt'),
+          slug:gv('ebs')||undefined,
+          excerpt:gv('ebe')||undefined,
+          content:gv('ebc'),
+          image:gv('ebi')||undefined,
+          published:document.getElementById('ebpub')?.checked===true,
+        };
+        if(!body.title||!body.content){serr('eberr','Title and content are required');return;}
+        try{
+          let saved;
+          if(id) saved=await api('/admin/blog/'+id,{method:'PUT',body});
+          else   saved=await api('/admin/blog',{method:'POST',body});
+
+          const articleId=saved?.id||id;
+          const u=new URL(window.location.href);
+          u.searchParams.set('editor','blog');
+          if(articleId) u.searchParams.set('id',articleId);
+          window.history.replaceState({},'',u.toString());
+          toast(id?'Article updated':'Article created');
+        }catch(e){serr('eberr',e.message);}
       }
 
       function openBlogModal(p){
@@ -997,8 +1058,16 @@
 
       /* ---- INIT ---- */
       setMain(mainSkeleton());
-      loadHome();
-      if(S.user&&S.token){go('dashboard');initDash();}
+      const q=new URLSearchParams(window.location.search);
+      const editorMode=q.get('editor')==='blog';
+      if(editorMode&&S.user&&S.token&&S.user.role==='ADMIN'){
+        go('dashboard');
+        initDash();
+        renderAdminBlogEditor(q.get('id')||'');
+      }else{
+        loadHome();
+        if(S.user&&S.token){go('dashboard');initDash();}
+      }
     </script>
   <script defer src='https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516' integrity='sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4a6MsgSRQ==' data-cf-beacon='{"token": "v8c78df7c7c0f484497ecbca7046644da1771523124516"}' crossorigin='anonymous'></script>
   </body>
