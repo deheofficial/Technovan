@@ -127,6 +127,12 @@
       .blog-card{background:var(--c-surf);border:1px solid var(--c-border);border-radius:var(--radius-lg);padding:24px;transition:all var(--tr);display:flex;flex-direction:column;gap:10px}
       .blog-card:hover{border-color:var(--c-brand2)}
       .blog-card h3{font-size:16px;line-height:1.4}
+      .blog-card.clickable{cursor:pointer}
+      .article-wrap{max-width:860px;margin:0 auto;padding:72px 24px}
+      .article-wrap h1{font-size:clamp(30px,5vw,48px);margin:14px 0 12px}
+      .article-meta{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:20px}
+      .article-content{font-size:16px;line-height:1.9;white-space:pre-wrap;color:var(--c-text)}
+      .article-image{width:100%;max-height:460px;object-fit:cover;border-radius:16px;border:1px solid var(--c-border);margin:18px 0 24px;display:block}
       /* FOOTER */
       .footer{border-top:1px solid var(--c-border);padding:52px 0 24px}
       .footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
@@ -154,6 +160,12 @@
       .dash-main{padding:30px;overflow-y:auto}
       .dash-hd{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:28px}
       .dash-hd h2{font-size:22px}
+      body.editor-mode .dash-side-hd{display:none}
+      body.editor-mode .dash-side{top:0;height:100vh;padding-top:0}
+      body.editor-mode .dash-side .nav-sec:first-of-type{margin-top:0}
+      body.editor-mode .dash-layout{min-height:100vh}
+      body.editor-mode .dash-main{padding-top:16px}
+      body.editor-mode .dash-hd{margin-bottom:16px}
       /* STATS */
       .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
       .stat-card{background:var(--c-surf2);border:1px solid var(--c-border);border-radius:var(--radius);padding:20px}
@@ -378,6 +390,11 @@
       </footer>
     </div>
 
+    <!-- ARTICLE PAGE -->
+    <div id="page-article" class="page">
+      <div class="article-wrap" id="articleWrap"></div>
+    </div>
+
     <!-- LOGIN PAGE -->
     <div id="page-login" class="page">
       <div class="auth-wrap">
@@ -488,6 +505,14 @@
       function go(page){
         document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
         document.getElementById('page-'+page).classList.add('active');
+        if(page!=='dashboard') document.body.classList.remove('editor-mode');
+        if(page==='home' && (window.location.pathname!=='/' || window.location.search)){
+          window.history.pushState({},'', '/');
+        }
+        if(page==='home'){
+          const svcGrid=document.getElementById('svcGrid');
+          if(svcGrid && svcGrid.children.length===0) loadHome();
+        }
         window.scrollTo(0,0);
         const navbar=document.querySelector('.navbar');if(navbar) navbar.style.display=page==='dashboard'?'none':'';
         const mobileNav=document.getElementById('mobileNav');if(mobileNav) mobileNav.classList.remove('open');
@@ -534,16 +559,17 @@
       function doLogout(){S={token:null,user:null};localStorage.removeItem('tv_token');localStorage.removeItem('tv_user');go('home');}
       function fillDemo(){document.getElementById('lEmail').value='admin@technovan.com';document.getElementById('lPass').value='password';}
 
-      function initDash(){
+      function initDash(skipDefaultTab=false){
         if(!S.user) return;
         document.getElementById('sdName').textContent=S.user.firstName+' '+S.user.lastName;
         document.getElementById('sdEmail').textContent=S.user.email;
         const isAdmin=S.user.role==='ADMIN';
         ['admSec','admDash','admSvc','admPrc','admBlog','admPrj','admInq'].forEach(id=>document.getElementById(id).style.display=isAdmin?'':'none');
-        dtab(isAdmin?'admin-overview':'overview');
+        if(!skipDefaultTab) dtab(isAdmin?'admin-overview':'overview');
       }
 
       function dtab(tab){
+        document.body.classList.remove('editor-mode');
         document.querySelectorAll('.snav').forEach(b=>b.classList.remove('active'));
         const fns={overview:renderOverview,'my-projects':renderMyProjects,payments:renderPayments,'admin-overview':renderAdminOverview,'admin-services':renderAdminServices,'admin-pricing':renderAdminPricing,'admin-blog':renderAdminBlog,'admin-projects':renderAdminProjects,'admin-inquiries':renderAdminInquiries};
         if(fns[tab]) fns[tab]();
@@ -811,10 +837,11 @@
       async function renderAdminBlog(){
         setMain(mainSkeleton('admin-blog'));
         const posts=await api('/admin/blog').catch(()=>[]);
+        window._blogPosts=posts;
         setMain(`<div class="dash-hd"><h2>Blog Articles</h2><div class="row"><button class="btn btn-sm" onclick="openBlogEditor()">Open Full Editor</button><button class="btn btn-primary btn-sm" onclick="openBlogModal()">+ New Article</button></div></div>
           <div class="tbl-wrap"><table><thead><tr><th>Title</th><th>Slug</th><th>Excerpt</th><th>Published</th><th>Updated</th><th>Actions</th></tr></thead><tbody>
           ${posts.length===0?'<tr><td colspan="6"><div class="empty" style="padding:28px"><p>No blog posts yet</p></div></td></tr>':
-            posts.map(p=>`<tr>
+            posts.map((p,idx)=>`<tr>
               <td><b>${esc(p.title)}</b></td>
               <td class="muted">/${esc(p.slug)}</td>
               <td class="muted">${esc((p.excerpt||p.content||'').slice(0,70))}${(p.excerpt||p.content||'').length>70?'…':''}</td>
@@ -822,15 +849,20 @@
               <td>${fdate(p.updatedAt)}</td>
               <td style="display:flex;gap:8px;flex-wrap:wrap">
                 <button class="btn btn-sm btn-success" onclick="openBlogEditor('${p.id}')">Open</button>
-                <button class="btn btn-sm" onclick='openBlogModal(${JSON.stringify(p)})'>Edit</button>
+                <button class="btn btn-sm" onclick="openBlogModalByIndex(${idx})">Edit</button>
                 <button class="btn btn-sm btn-danger" onclick="delBlog('${p.id}')">Delete</button>
               </td>
             </tr>`).join('')}
           </tbody></table></div>`);
       }
 
+      function openBlogModalByIndex(idx){
+        const p=(window._blogPosts||[])[idx];
+        openBlogModal(p);
+      }
+
       function openBlogEditor(id){
-        const u=new URL(window.location.href);
+        const u=new URL(window.location.origin+'/');
         u.searchParams.set('editor','blog');
         if(id) u.searchParams.set('id',id);
         else u.searchParams.delete('id');
@@ -838,6 +870,7 @@
       }
 
       async function renderAdminBlogEditor(postId){
+        document.body.classList.add('editor-mode');
         setMain(`<div class="dash-hd"><h2>${postId?'Edit Article':'New Article'}</h2><div class="row"><button class="btn btn-sm" onclick="dtab('admin-blog')">Back to Blog List</button></div></div>
           <div class="card" style="max-width:980px">
             <div class="fg"><label>Title</label><input id="ebt" placeholder="Article title" /></div>
@@ -922,6 +955,46 @@
         if(!confirm('Delete this article?')) return;
         await api('/admin/blog/'+id,{method:'DELETE'}).catch(()=>{});
         toast('Article deleted','error');renderAdminBlog();
+      }
+
+      /* ---- ARTICLE PAGE ---- */
+      function escapeHtmlToText(text){
+        return String(text||'').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
+      }
+
+      function openArticle(slug){
+        if(!slug) return;
+        window.location.href='/' + encodeURIComponent(slug);
+      }
+
+      async function renderArticlePage(slug){
+        go('article');
+        const wrap=document.getElementById('articleWrap');
+        wrap.innerHTML=`<div class="skeleton sk-head" style="width:70%;margin-bottom:18px"></div><div class="skeleton sk-line sk-mid"></div><div class="skeleton sk-line sk-long"></div><div class="skeleton sk-line sk-long"></div>`;
+        try{
+          const post=await api('/blog/'+encodeURIComponent(slug));
+          document.title=(post.title||'Article')+' - TECHNOVAN';
+          wrap.innerHTML=`
+            <button class="btn btn-sm" onclick="go('home')">← Back to Home</button>
+            <div class="article-meta" style="margin-top:18px">
+              <span class="tag tag-teal">Article</span>
+              <span class="muted">${fdate(post.createdAt)}</span>
+            </div>
+            ${post.image?`<img class="article-image" src="${esc(post.image)}" alt="${esc(post.title)}" loading="lazy" onerror="this.style.display='none'" />`:''}
+            <h1>${esc(post.title)}</h1>
+            ${post.excerpt?`<p class="muted" style="font-size:16px;margin-bottom:20px">${esc(post.excerpt)}</p>`:''}
+            <div class="article-content">${esc(escapeHtmlToText(post.content||''))}</div>
+          `;
+        }catch(e){
+          wrap.innerHTML=`
+            <div class="empty" style="padding:20px 0">
+              <div class="ico">📝</div>
+              <h2>Article not found</h2>
+              <p class="muted" style="margin-top:8px">The article you are looking for does not exist or is not published.</p>
+              <button class="btn btn-primary mt" onclick="go('home')">Back Home</button>
+            </div>
+          `;
+        }
       }
 
       /* ---- ADMIN PROJECTS ---- */
@@ -1036,7 +1109,7 @@
           </article>`).join('');
 
         document.getElementById('blogGrid').innerHTML=blog.length===0?'<div class="empty"><p>No blog posts yet</p></div>':
-          blog.map(x=>`<article class="blog-card">
+          blog.map(x=>`<article class="blog-card clickable" onclick="openArticle('${esc(x.slug||'')}')">
             <span class="tag tag-teal">Article</span>
             <h3>${esc(x.title)}</h3>
             <p class="muted" style="font-size:13px">${esc(x.excerpt||x.content?.slice(0,100)||'')}</p>
@@ -1060,10 +1133,15 @@
       setMain(mainSkeleton());
       const q=new URLSearchParams(window.location.search);
       const editorMode=q.get('editor')==='blog';
-      if(editorMode&&S.user&&S.token&&S.user.role==='ADMIN'){
+      const pathSlug=decodeURIComponent(window.location.pathname.replace(/^\/+|\/+$/g,''));
+      const hasSlugPath=pathSlug!==''&&pathSlug!=='index.html';
+      const isEditorRootRoute=!hasSlugPath&&editorMode;
+      if(isEditorRootRoute&&S.user&&S.token&&S.user.role==='ADMIN'){
         go('dashboard');
-        initDash();
+        initDash(true);
         renderAdminBlogEditor(q.get('id')||'');
+      }else if(hasSlugPath){
+        renderArticlePage(pathSlug);
       }else{
         loadHome();
         if(S.user&&S.token){go('dashboard');initDash();}
