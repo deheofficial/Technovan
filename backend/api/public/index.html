@@ -269,12 +269,12 @@
         <button class="hamburger" id="dashHmb" onclick="toggleDashSide()" style="display:none"><span></span><span></span><span></span></button>
       </div>
       <div class="mobile-nav" id="mobileNav">
-        <button class="nav-link" onclick="go('home');toggleMenu()">Home</button>
-        <button class="nav-link" onclick="sscroll('#services');toggleMenu()">Services</button>
-        <button class="nav-link" onclick="sscroll('#pricing');toggleMenu()">Pricing</button>
-        <button class="nav-link" onclick="sscroll('#portfolio');toggleMenu()">Work</button>
-        <button class="nav-link" onclick="go('login');toggleMenu()">Login</button>
-        <button class="nav-link btn-primary" style="background:var(--grad);color:#001a18;border:none;margin-top:4px" onclick="go('register');toggleMenu()">Get Started</button>
+        <button class="nav-link" onclick="go('home');closeMenu()">Home</button>
+        <button class="nav-link" onclick="sscroll('#services');closeMenu()">Services</button>
+        <button class="nav-link" onclick="sscroll('#pricing');closeMenu()">Pricing</button>
+        <button class="nav-link" onclick="sscroll('#portfolio');closeMenu()">Work</button>
+        <button class="nav-link" onclick="go('login');closeMenu()">Login</button>
+        <button class="nav-link btn-primary" style="background:var(--grad);color:#001a18;border:none;margin-top:4px" onclick="go('register');closeMenu()">Get Started</button>
       </div>
     </nav>
 
@@ -528,6 +528,7 @@
       }
 
       function toggleMenu(){document.getElementById('mobileNav').classList.toggle('open');}
+      function closeMenu(){document.getElementById('mobileNav').classList.remove('open');}
 
       function toggleDashSide(){
         const dashSide=document.getElementById('dashSide');
