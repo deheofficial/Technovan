@@ -230,7 +230,9 @@
         .stats-row{grid-template-columns:repeat(2,1fr)}
         .dash-layout{grid-template-columns:1fr}
         .dash-side{display:none}
-        .dash-side.open{display:block;position:static;height:auto}
+        .dash-side.open{display:block;position:fixed;top:66px;left:0;width:80%;max-width:280px;height:calc(100vh - 66px);z-index:90;overflow-y:auto;box-shadow:4px 0 32px rgba(0,0,0,.5)}
+        .dash-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:89}
+        .dash-backdrop.show{display:block}
         .nav-links{display:none}
         .hamburger{display:flex}
         #authBtns{display:none}
@@ -441,6 +443,7 @@
 
     <!-- DASHBOARD PAGE -->
     <div id="page-dashboard" class="page">
+      <div class="dash-backdrop" id="dashBackdrop" onclick="closeDashSide()"></div>
       <div class="dash-layout">
         <aside class="dash-side" id="dashSide">
           <div class="dash-side-hd">
@@ -514,12 +517,12 @@
           if(svcGrid && svcGrid.children.length===0) loadHome();
         }
         window.scrollTo(0,0);
-        const navbar=document.querySelector('.navbar');if(navbar) navbar.style.display=page==='dashboard'?'none':'';
         const mobileNav=document.getElementById('mobileNav');if(mobileNav) mobileNav.classList.remove('open');
         document.getElementById('authBtns').style.display=page==='dashboard'?'none':'';
+        const navLinks=document.querySelector('.nav-links');if(navLinks) navLinks.style.display=page==='dashboard'?'none':'';
         const hmb=document.getElementById('hmb');if(hmb) hmb.style.display=page==='dashboard'?'none':'';
         const dashHmb=document.getElementById('dashHmb');if(dashHmb) dashHmb.style.display=page==='dashboard'?'':'none';
-        const dashSide=document.getElementById('dashSide');if(dashSide&&page!=='dashboard') dashSide.classList.remove('open');
+        if(page!=='dashboard') closeDashSide();
       }
 
       function sscroll(id){
@@ -532,7 +535,15 @@
 
       function toggleDashSide(){
         const dashSide=document.getElementById('dashSide');
+        const backdrop=document.getElementById('dashBackdrop');
         if(dashSide) dashSide.classList.toggle('open');
+        if(backdrop) backdrop.classList.toggle('show',dashSide.classList.contains('open'));
+      }
+      function closeDashSide(){
+        const dashSide=document.getElementById('dashSide');
+        const backdrop=document.getElementById('dashBackdrop');
+        if(dashSide) dashSide.classList.remove('open');
+        if(backdrop) backdrop.classList.remove('show');
       }
 
       async function doLogin(e){
@@ -574,10 +585,7 @@
         document.querySelectorAll('.snav').forEach(b=>b.classList.remove('active'));
         const fns={overview:renderOverview,'my-projects':renderMyProjects,payments:renderPayments,'admin-overview':renderAdminOverview,'admin-services':renderAdminServices,'admin-pricing':renderAdminPricing,'admin-blog':renderAdminBlog,'admin-projects':renderAdminProjects,'admin-inquiries':renderAdminInquiries};
         if(fns[tab]) fns[tab]();
-        if(window.innerWidth<=960){
-          const dashSide=document.getElementById('dashSide');
-          if(dashSide) dashSide.classList.remove('open');
-        }
+        if(window.innerWidth<=960) closeDashSide();
       }
 
       function setMain(h){document.getElementById('dashMain').innerHTML=h;}
