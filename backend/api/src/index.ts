@@ -80,8 +80,12 @@ app.get('/health', (req: Request, res: Response) => {
   res.json({ status: 'OK', timestamp: new Date(), env: process.env.NODE_ENV });
 });
 
-// Personal portfolio page (separate route from main landing page)
-app.get(['/portfolio', '/portfolio/'], (req: Request, res: Response) => {
+// Personal portfolio page (must be BEFORE catch-all)
+app.get('/portfolio', (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, '../public/portfolio/index.html'));
+});
+
+app.get('/portfolio/', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, '../public/portfolio/index.html'));
 });
 
