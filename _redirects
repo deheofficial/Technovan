@@ -1,2 +1,5 @@
-# SPA fallback - all routes serve index.html
+# Portfolio route - serve static portfolio files
+/portfolio/* /portfolio/index.html 200
+
+# SPA fallback - all other routes serve main index.html
 /*    /index.html   200

@@ -1,0 +1,1071 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wan Nur Idham bin Wan Muhamad | Software Developer Portfolio</title>
+    <meta
+      name="description"
+      content="Software Developer specializing in enterprise web systems, government platforms, and intelligent system solutions."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #071226;
+        --bg-soft: #0d1b34;
+        --surface: #f4f7fc;
+        --card: #ffffff;
+        --line: #d8e3f3;
+        --text: #0f1c34;
+        --muted: #5d6b84;
+        --brand: #2f7bff;
+        --brand-deep: #1d5fd0;
+        --brand-soft: #e7f0ff;
+        --shadow: 0 12px 34px rgba(17, 28, 52, 0.12);
+        --radius: 16px;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: Manrope, sans-serif;
+        background: var(--surface);
+        color: var(--text);
+        line-height: 1.6;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        letter-spacing: -0.02em;
+      }
+
+      .container {
+        width: min(1120px, calc(100% - 40px));
+        margin: 0 auto;
+      }
+
+      .nav-wrap {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(7, 18, 38, 0.94);
+        border-bottom: 1px solid rgba(159, 186, 232, 0.2);
+        backdrop-filter: blur(10px);
+      }
+
+      .nav {
+        height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+
+      .logo {
+        color: #ffffff;
+        font-weight: 800;
+        font-size: 22px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .logo img {
+        width: 28px;
+        height: 28px;
+        object-fit: contain;
+      }
+
+      .logo span {
+        color: #79b6ff;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+
+      .nav-links a {
+        color: #d9e8ff;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      .nav-links a:hover {
+        color: #ffffff;
+      }
+
+      .nav-toggle {
+        display: none;
+        width: 42px;
+        height: 42px;
+        border: 1px solid rgba(154, 192, 248, 0.45);
+        border-radius: 10px;
+        background: rgba(11, 30, 63, 0.45);
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .nav-toggle span {
+        display: block;
+        width: 18px;
+        height: 2px;
+        background: #e9f2ff;
+        border-radius: 2px;
+        position: relative;
+      }
+
+      .nav-toggle span::before,
+      .nav-toggle span::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        width: 18px;
+        height: 2px;
+        background: #e9f2ff;
+        border-radius: 2px;
+      }
+
+      .nav-toggle span::before {
+        top: -6px;
+      }
+
+      .nav-toggle span::after {
+        top: 6px;
+      }
+
+      .mobile-nav {
+        display: none;
+        border-top: 1px solid rgba(159, 186, 232, 0.2);
+        background: rgba(7, 18, 38, 0.98);
+      }
+
+      .mobile-nav.open {
+        display: block;
+      }
+
+      .mobile-nav .container {
+        display: grid;
+        gap: 6px;
+        padding-top: 10px;
+        padding-bottom: 12px;
+      }
+
+      .mobile-nav a {
+        color: #d9e8ff;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 16px;
+        padding: 10px 8px;
+        border-radius: 8px;
+      }
+
+      .mobile-nav a:hover {
+        background: rgba(56, 121, 232, 0.16);
+        color: #ffffff;
+      }
+
+      .hero {
+        position: relative;
+        color: #ffffff;
+        background:
+          linear-gradient(110deg, rgba(7, 18, 38, 0.94) 0%, rgba(7, 18, 38, 0.86) 42%, rgba(7, 18, 38, 0.62) 100%),
+          radial-gradient(circle at 14% 16%, rgba(47, 123, 255, 0.36), transparent 46%),
+          radial-gradient(circle at 74% 14%, rgba(35, 102, 223, 0.24), transparent 40%),
+          url("https://images.unsplash.com/photo-1518773553398-650c184e0bb3?auto=format&fit=crop&w=1700&q=80") center / cover;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, rgba(7, 18, 38, 0) 70%, rgba(7, 18, 38, 0.55));
+      }
+
+      .hero-inner {
+        position: relative;
+        z-index: 1;
+        padding: 84px 0 94px;
+        max-width: 720px;
+      }
+
+      .eyebrow {
+        color: #8fc1ff;
+        font-size: 23px;
+        margin-bottom: 8px;
+        font-weight: 700;
+      }
+
+      .hero h1 {
+        font-size: clamp(46px, 7vw, 66px);
+        line-height: 1.06;
+        margin-bottom: 8px;
+      }
+
+      .hero h1 strong {
+        color: #4a97ff;
+      }
+
+      .tagline {
+        max-width: 620px;
+        color: #d8e8ff;
+        font-size: 20px;
+        margin: 24px 0 34px;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        border: none;
+        text-decoration: none;
+        border-radius: 12px;
+        padding: 12px 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 15px;
+        transition: transform 0.2s ease, filter 0.2s ease;
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+        filter: brightness(1.04);
+      }
+
+      .btn-primary {
+        background: var(--brand);
+        color: #ffffff;
+      }
+
+      .btn-outline {
+        border: 1px solid rgba(154, 192, 248, 0.6);
+        background: rgba(11, 30, 63, 0.35);
+        color: #e8f2ff;
+      }
+
+      section {
+        padding: 66px 0;
+      }
+
+      .title-row {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .title-row h2 {
+        font-size: clamp(30px, 5vw, 38px);
+      }
+
+      .title-row p {
+        color: var(--muted);
+        margin-top: 8px;
+      }
+
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 28px;
+        align-items: center;
+      }
+
+      .about-card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 28px;
+        box-shadow: var(--shadow);
+      }
+
+      .about-card p {
+        color: var(--muted);
+        font-size: 18px;
+      }
+
+      .about-visual {
+        min-height: 260px;
+        border-radius: var(--radius);
+        border: 1px solid var(--line);
+        background:
+          linear-gradient(140deg, rgba(47, 123, 255, 0.15), rgba(47, 123, 255, 0.03)),
+          repeating-linear-gradient(
+            45deg,
+            rgba(29, 95, 208, 0.08),
+            rgba(29, 95, 208, 0.08) 18px,
+            rgba(29, 95, 208, 0.02) 18px,
+            rgba(29, 95, 208, 0.02) 36px
+          );
+        display: grid;
+        place-items: center;
+        color: #1e4d9e;
+        font-size: 80px;
+      }
+
+      .stack {
+        background: #eef3fb;
+        border-top: 1px solid #e0e8f5;
+        border-bottom: 1px solid #e0e8f5;
+      }
+
+      .stack-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+      }
+
+      .stack-card {
+        background: #ffffff;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 22px;
+      }
+
+      .stack-card h3 {
+        font-size: 20px;
+        margin-bottom: 12px;
+      }
+
+      .pill-list {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .pill-list li {
+        background: var(--brand-soft);
+        color: #1a4b9e;
+        border: 1px solid #c9dcfb;
+        border-radius: 999px;
+        padding: 6px 11px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .timeline {
+        display: grid;
+        gap: 16px;
+      }
+
+      .timeline-item {
+        background: #ffffff;
+        border: 1px solid var(--line);
+        border-left: 4px solid var(--brand);
+        border-radius: var(--radius);
+        padding: 22px;
+      }
+
+      .timeline-top {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-bottom: 8px;
+      }
+
+      .timeline-top h3 {
+        font-size: 22px;
+      }
+
+      .timeline-top span {
+        color: #2f5ea6;
+        font-weight: 800;
+      }
+
+      .company {
+        font-weight: 700;
+        color: #2353a5;
+        margin-bottom: 10px;
+      }
+
+      .timeline ul {
+        padding-left: 18px;
+        color: var(--muted);
+      }
+
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+      }
+
+      .project-card {
+        background: #ffffff;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        cursor: pointer;
+        transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+      }
+
+      .project-card:hover {
+        transform: translateY(-4px);
+        border-color: #9fc1f5;
+        box-shadow: 0 18px 38px rgba(22, 45, 89, 0.18);
+      }
+
+      .project-banner {
+        height: 220px;
+        background: linear-gradient(130deg, #133b82, #1b5ec6 42%, #3d8cff);
+        color: #ffffff;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .project-banner img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+        background: #0b1a34;
+        border-radius: 10px;
+      }
+
+      .project-content {
+        padding: 20px;
+      }
+
+      .project-content h3 {
+        margin-bottom: 8px;
+        font-size: 22px;
+      }
+
+      .project-content p {
+        color: var(--muted);
+        margin-bottom: 12px;
+      }
+
+      .project-hint {
+        display: inline-block;
+        margin-top: 12px;
+        color: #1c58b6;
+        font-weight: 700;
+        font-size: 13px;
+      }
+
+      .project-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 300;
+        display: none;
+      }
+
+      .project-modal.open {
+        display: block;
+      }
+
+      .project-modal.hover-preview {
+        pointer-events: none;
+      }
+
+      .project-modal.hover-preview .project-modal-backdrop {
+        display: none;
+      }
+
+      .project-modal.hover-preview .project-modal-panel {
+        width: min(620px, calc(100% - 24px));
+        margin: auto;
+        position: fixed;
+        right: 14px;
+        bottom: 14px;
+        top: auto;
+      }
+
+      .project-modal-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(8, 18, 37, 0.62);
+        backdrop-filter: blur(7px);
+      }
+
+      .project-modal-panel {
+        position: relative;
+        z-index: 1;
+        width: min(900px, calc(100% - 24px));
+        margin: 5vh auto;
+        background: #ffffff;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 28px 60px rgba(9, 18, 38, 0.35);
+        animation: modalIn 0.22s ease;
+      }
+
+      @keyframes modalIn {
+        from {
+          opacity: 0;
+          transform: translateY(16px) scale(0.98);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      .project-modal-media {
+        width: 100%;
+        max-height: 420px;
+        object-fit: contain;
+        background: #0a162b;
+      }
+
+      .project-modal-body {
+        padding: 22px;
+      }
+
+      .project-modal-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 10px;
+      }
+
+      .project-modal-top h3 {
+        font-size: clamp(22px, 3vw, 30px);
+      }
+
+      .project-modal-close {
+        border: none;
+        background: #e9f0ff;
+        color: #1f55aa;
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        font-size: 21px;
+        font-weight: 700;
+        line-height: 1;
+        cursor: pointer;
+      }
+
+      .project-modal-close:hover {
+        background: #dbe8ff;
+      }
+
+      .project-modal-desc {
+        color: var(--muted);
+      }
+
+      .contact-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+      }
+
+      .contact-item {
+        background: #ffffff;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 16px;
+        min-height: 102px;
+      }
+
+      .contact-item h4 {
+        font-size: 14px;
+        margin-bottom: 4px;
+        color: #1f4f9f;
+      }
+
+      .contact-item a,
+      .contact-item p {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+        word-break: break-word;
+      }
+
+      .footer {
+        background: #0a152b;
+        color: #b8cbee;
+        text-align: center;
+        padding: 20px;
+        border-top: 1px solid rgba(165, 193, 235, 0.2);
+      }
+
+      @media (max-width: 980px) {
+        .about-grid,
+        .stack-grid,
+        .projects-grid,
+        .contact-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .nav-links {
+          display: none;
+        }
+
+        .nav-toggle {
+          display: inline-flex;
+        }
+
+        .hero-inner {
+          padding: 66px 0 72px;
+        }
+
+        .tagline {
+          font-size: 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="nav-wrap">
+      <div class="container nav">
+        <div class="logo">
+          <span>&lt;/&gt;</span> Wan Idham
+        </div>
+        <nav class="nav-links">
+          <a href="#home">Home</a>
+          <a href="#about">About</a>
+          <a href="#stack">Skills</a>
+          <a href="#experience">Experience</a>
+          <a href="#projects">Projects</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
+          <span></span>
+        </button>
+      </div>
+      <nav class="mobile-nav" id="mobileNav">
+        <div class="container">
+          <a href="#home">Home</a>
+          <a href="#about">About</a>
+          <a href="#stack">Skills</a>
+          <a href="#experience">Experience</a>
+          <a href="#projects">Projects</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </nav>
+    </header>
+
+    <section class="hero" id="home">
+      <div class="container hero-inner">
+        <p class="eyebrow">Hello, I'm</p>
+        <h1>Wan Nur Idham bin Wan Muhamad<br /><strong>Software Developer</strong></h1>
+        <p class="tagline">
+          Software Developer specializing in enterprise web systems, government platforms,
+          and intelligent system solutions.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#projects">View My Work</a>
+          <a class="btn btn-outline" href="/assets/Resume Wan Idham.pdf" download="Resume Wan Idham.pdf">Download CV</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container about-grid">
+        <article class="about-card">
+          <div class="title-row" style="text-align: left; margin-bottom: 14px">
+            <h2>About Me</h2>
+          </div>
+          <p>
+            I am a Software Developer with experience in enterprise system development,
+            maintenance, and technical support. I currently work on Malaysia
+            Immigration-related systems, including MyVisa Portal and E-Visa support projects.
+            I focus on secure, scalable, and user-friendly business applications while
+            continuously improving technical and problem-solving skills.
+          </p>
+        </article>
+        <aside class="about-visual" aria-hidden="true">&lt;/&gt;</aside>
+      </div>
+    </section>
+
+    <section class="stack" id="stack">
+      <div class="container">
+        <div class="title-row">
+          <h2>Tech Stack</h2>
+          <p>Business-focused technologies used in production and client projects.</p>
+        </div>
+        <div class="stack-grid">
+          <article class="stack-card">
+            <h3>Languages</h3>
+            <ul class="pill-list">
+              <li>Java</li>
+              <li>PHP</li>
+              <li>Python</li>
+              <li>SQL</li>
+            </ul>
+          </article>
+          <article class="stack-card">
+            <h3>Frameworks &amp; Tools</h3>
+            <ul class="pill-list">
+              <li>Angular</li>
+              <li>MySQL</li>
+              <li>Oracle</li>
+              <li>MongoDB</li>
+              <li>Git</li>
+              <li>Adobe Suite</li>
+            </ul>
+          </article>
+          <article class="stack-card">
+            <h3>Areas of Expertise</h3>
+            <ul class="pill-list">
+              <li>Web Development</li>
+              <li>Enterprise Systems</li>
+              <li>System Maintenance</li>
+              <li>API Integration</li>
+              <li>Technical Support</li>
+              <li>AI / Computer Vision</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="container">
+        <div class="title-row">
+          <h2>Experience</h2>
+        </div>
+        <div class="timeline">
+          <article class="timeline-item">
+            <div class="timeline-top">
+              <h3>Software Developer</h3>
+              <span>2024 - Present</span>
+            </div>
+            <p class="company">Tridimas Sdn. Bhd.</p>
+            <ul>
+              <li>Revamping MyVisa Portal immigration system</li>
+              <li>Providing Level 2 support for E-Visa platform</li>
+              <li>Maintaining production stability through bug fixing and root cause analysis</li>
+              <li>Implementing enhancements for MyVisa EVAL and MyVisa Financial Hub workflows</li>
+              <li>Supporting Visa Luar Negara Decision Board operational improvements</li>
+              <li>Handling system testing, UAT support, and feature validation before release</li>
+              <li>Collaborating with technical teams and business stakeholders for delivery planning</li>
+            </ul>
+          </article>
+
+          <article class="timeline-item">
+            <div class="timeline-top">
+              <h3>Software Developer Intern</h3>
+              <span>2024</span>
+            </div>
+            <p class="company">Kumpulan Semesta Sdn. Bhd.</p>
+            <ul>
+              <li>Built cash management system</li>
+              <li>Digitized manual finance workflows</li>
+              <li>Implemented transaction security measures</li>
+              <li>Conducted system testing and deployment support</li>
+            </ul>
+          </article>
+
+          <article class="timeline-item">
+            <div class="timeline-top">
+              <h3>Freelance Software Developer</h3>
+              <span>2023 - Present</span>
+            </div>
+            <p class="company">Independent Projects</p>
+            <ul>
+              <li>Delivered custom web solutions for small and medium business clients</li>
+              <li>Built Travel Website and Wedding Management System with responsive UI flows</li>
+              <li>Developed HR Offboarding System focused on process automation and compliance tracking</li>
+              <li>Built UiTM Sport Equipment Management System using YOLOv8 for detection workflows</li>
+              <li>Managed full project cycle: requirement gathering, development, testing, and handover</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="container">
+        <div class="title-row">
+          <h2>Featured Projects</h2>
+        </div>
+        <div class="projects-grid">
+          <article class="project-card">
+            <div class="project-banner"><img src="/assets/HR Offboarding.png" alt="HR Offboarding landing page screenshot" /></div>
+            <div class="project-content">
+              <h3>HR Offboarding System</h3>
+              <p>
+                Workflow solution to manage staff offboarding, checklist completion,
+                and cross-department handover compliance.
+              </p>
+              <ul class="pill-list">
+                <li>HR Workflow</li>
+                <li>Process Automation</li>
+                <li>Enterprise System</li>
+              </ul>
+              <span class="project-hint">Click or hover to preview</span>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-banner"><img src="/assets/travel website.png" alt="Travel website landing page screenshot" /></div>
+            <div class="project-content">
+              <h3>Travel Website</h3>
+              <p>
+                Business travel portal focused on package showcase, itinerary visibility,
+                and customer-friendly online booking interactions.
+              </p>
+              <ul class="pill-list">
+                <li>Responsive Web</li>
+                <li>Booking UX</li>
+                <li>Content Management</li>
+              </ul>
+              <span class="project-hint">Click or hover to preview</span>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-banner"><img src="/assets/MyVisa Portal.png" alt="MyVisa Portal landing page screenshot" /></div>
+            <div class="project-content">
+              <h3>MyVisa Portal</h3>
+              <p>
+                Enterprise immigration platform revamp with improved reliability,
+                maintainability, and service support operations.
+              </p>
+              <ul class="pill-list">
+                <li>Government System</li>
+                <li>Portal Revamp</li>
+                <li>L2 Support</li>
+              </ul>
+              <span class="project-hint">Click or hover to preview</span>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-banner"><img src="/assets/VLN-Decision Board.png" alt="Visa Luar Negara Decision Board landing page screenshot" /></div>
+            <div class="project-content">
+              <h3>Visa Luar Negara Decision Board</h3>
+              <p>
+                Decision support dashboard to help teams review, track, and manage
+                international visa processing outcomes.
+              </p>
+              <ul class="pill-list">
+                <li>Dashboard</li>
+                <li>Decision Support</li>
+                <li>Data Monitoring</li>
+              </ul>
+              <span class="project-hint">Click or hover to preview</span>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-banner"><img src="/assets/Financial Hub.png" alt="MyVisa Financial Hub landing page screenshot" /></div>
+            <div class="project-content">
+              <h3>MyVisa EVAL and MyVisa Financial Hub</h3>
+              <p>
+                Integrated modules for evaluation workflows and financial operations
+                supporting visa-related enterprise processing.
+              </p>
+              <ul class="pill-list">
+                <li>Evaluation Module</li>
+                <li>Finance Hub</li>
+                <li>Enterprise Integration</li>
+              </ul>
+              <span class="project-hint">Click or hover to preview</span>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-banner"><img src="/assets/MyVisa Mobile.png" alt="MyVisa Mobile Application landing page screenshot" /></div>
+            <div class="project-content">
+              <h3>MyVisa Mobile Application</h3>
+              <p>
+                Mobile application initiative to improve accessibility for visa services
+                and support operational efficiency on the go.
+              </p>
+              <ul class="pill-list">
+                <li>Mobile App</li>
+                <li>Government Services</li>
+                <li>User Accessibility</li>
+              </ul>
+              <span class="project-hint">Click or hover to preview</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="title-row">
+          <h2>Contact</h2>
+          <p>Open to business and enterprise software opportunities.</p>
+        </div>
+        <div class="contact-grid">
+          <article class="contact-item">
+            <h4>Email</h4>
+            <a href="mailto:deheofficial@gmail.com">deheofficial@gmail.com</a>
+          </article>
+          <article class="contact-item">
+            <h4>Location</h4>
+            <p>Shah Alam, Selangor</p>
+          </article>
+          <article class="contact-item">
+            <h4>GitHub</h4>
+            <a href="https://github.com/deheofficial" target="_blank" rel="noopener noreferrer">github.com/deheofficial</a>
+          </article>
+          <article class="contact-item">
+            <h4>Phone</h4>
+            <a href="tel:+60167659237">016-7659237</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>&copy; 2026 Wan Nur Idham bin Wan Muhamad. All rights reserved.</p>
+    </footer>
+
+    <div class="project-modal" id="projectModal" aria-hidden="true">
+      <div class="project-modal-backdrop" id="projectModalBackdrop"></div>
+      <div class="project-modal-panel" role="dialog" aria-modal="true" aria-labelledby="projectModalTitle">
+        <img id="projectModalImage" class="project-modal-media" src="" alt="Project preview" />
+        <div class="project-modal-body">
+          <div class="project-modal-top">
+            <h3 id="projectModalTitle"></h3>
+            <button id="projectModalClose" class="project-modal-close" aria-label="Close modal">×</button>
+          </div>
+          <p id="projectModalDesc" class="project-modal-desc"></p>
+          <ul id="projectModalTags" class="pill-list" style="margin-top: 14px"></ul>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const navToggle = document.getElementById('navToggle');
+        const mobileNav = document.getElementById('mobileNav');
+        const cards = Array.from(document.querySelectorAll('.project-card'));
+        const modal = document.getElementById('projectModal');
+        const modalBackdrop = document.getElementById('projectModalBackdrop');
+        const modalClose = document.getElementById('projectModalClose');
+        const modalImage = document.getElementById('projectModalImage');
+        const modalTitle = document.getElementById('projectModalTitle');
+        const modalDesc = document.getElementById('projectModalDesc');
+        const modalTags = document.getElementById('projectModalTags');
+
+        let hoverTimer = null;
+        let closeTimer = null;
+        let isPinned = false;
+
+        function closeMobileNav() {
+          if (!mobileNav || !navToggle) return;
+          mobileNav.classList.remove('open');
+          navToggle.setAttribute('aria-expanded', 'false');
+        }
+
+        if (navToggle && mobileNav) {
+          navToggle.addEventListener('click', () => {
+            const isOpen = mobileNav.classList.toggle('open');
+            navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+          });
+
+          mobileNav.querySelectorAll('a').forEach((link) => {
+            link.addEventListener('click', closeMobileNav);
+          });
+
+          window.addEventListener('resize', () => {
+            if (window.innerWidth > 980) closeMobileNav();
+          });
+        }
+
+        function extractCardData(card) {
+          const imageEl = card.querySelector('.project-banner img');
+          const titleEl = card.querySelector('.project-content h3');
+          const descEl = card.querySelector('.project-content p');
+          const tagEls = Array.from(card.querySelectorAll('.project-content .pill-list li'));
+
+          return {
+            image: imageEl ? imageEl.getAttribute('src') : '',
+            imageAlt: imageEl ? imageEl.getAttribute('alt') : 'Project preview',
+            title: titleEl ? titleEl.textContent.trim() : 'Project',
+            desc: descEl ? descEl.textContent.trim() : '',
+            tags: tagEls.map((el) => el.textContent.trim()).filter(Boolean),
+          };
+        }
+
+        function renderTags(tags) {
+          modalTags.innerHTML = '';
+          tags.forEach((tag) => {
+            const li = document.createElement('li');
+            li.textContent = tag;
+            modalTags.appendChild(li);
+          });
+        }
+
+        function openModal(data, pinned) {
+          isPinned = pinned;
+          modal.classList.toggle('hover-preview', !pinned);
+          modalImage.src = data.image;
+          modalImage.alt = data.imageAlt || data.title;
+          modalTitle.textContent = data.title;
+          modalDesc.textContent = data.desc;
+          renderTags(data.tags);
+          modal.classList.add('open');
+          modal.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(force) {
+          if (!force && isPinned) return;
+          modal.classList.remove('open');
+          modal.classList.remove('hover-preview');
+          modal.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+          isPinned = false;
+        }
+
+        cards.forEach((card) => {
+          card.addEventListener('mouseenter', () => {
+            if (window.innerWidth <= 980) return;
+            clearTimeout(hoverTimer);
+            clearTimeout(closeTimer);
+            hoverTimer = setTimeout(() => {
+              openModal(extractCardData(card), false);
+            }, 220);
+          });
+
+          card.addEventListener('mouseleave', () => {
+            clearTimeout(hoverTimer);
+            if (!isPinned) {
+              closeTimer = setTimeout(() => closeModal(true), 120);
+            }
+          });
+
+          card.addEventListener('click', () => {
+            clearTimeout(hoverTimer);
+            clearTimeout(closeTimer);
+            openModal(extractCardData(card), true);
+          });
+        });
+
+        modalBackdrop.addEventListener('click', () => closeModal(true));
+        modalClose.addEventListener('click', () => closeModal(true));
+
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') closeModal(true);
+        });
+      })();
+    </script>
+  </body>
+</html>
