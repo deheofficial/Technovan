@@ -80,6 +80,11 @@ app.get('/health', (req: Request, res: Response) => {
   res.json({ status: 'OK', timestamp: new Date(), env: process.env.NODE_ENV });
 });
 
+// Personal portfolio page (separate route from main landing page)
+app.get(['/portfolio', '/portfolio/'], (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, '../public/portfolio/index.html'));
+});
+
 // API 404 handler
 app.use('/api', (req: Request, res: Response) => {
   res.status(404).json({ error: 'API route not found', path: req.path });

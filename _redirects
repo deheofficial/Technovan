@@ -1,2 +1,7 @@
+# API proxy routes to Railway backend
+/api/* https://technovan-production.up.railway.app/api/:splat 200
+/portfolio https://technovan-production.up.railway.app/portfolio 200
+/portfolio/* https://technovan-production.up.railway.app/portfolio/:splat 200
+
 # SPA fallback - all routes serve index.html
 /*    /index.html   200
