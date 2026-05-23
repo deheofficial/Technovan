@@ -7,7 +7,7 @@ Welcome to TECHNOVAN Platform! This quick start guide will help you get up and r
 Before you start, ensure you have:
 - **Node.js** 18+ ([Download](https://nodejs.org/))
 - **Yarn** 4.0+ (`npm install -g yarn`)
-- **MySQL** 8+ ([Download](https://dev.mysql.com/downloads/))
+- **PostgreSQL** 13+ ([Download](https://www.postgresql.org/))
 - **Git** ([Download](https://git-scm.com/))
 
 ## ⚡ Quick Setup (3 Steps)
@@ -48,7 +48,6 @@ cd ../../
 
 # Setup database
 yarn workspace @technovan/api prisma:push
-yarn workspace @technovan/api prisma:seed
 
 # Start development servers
 yarn dev
@@ -56,7 +55,7 @@ yarn dev
 
 ## 📱 Access Your App
 
-- **Web App**: http://localhost:4173
+- **Web App**: http://localhost:8081
 - **Mobile App**: http://localhost:19006
 - **Backend API**: http://localhost:3000
 - **API Health**: http://localhost:3000/health
@@ -64,12 +63,18 @@ yarn dev
 
 ## 🔐 Default Test Account
 
-After initialization, default seeded accounts are:
+After initialization, create a test account:
 
 ```bash
-admin@technovan.com    / Admin@123
-manager@technovan.com  / Manager@123
-sales@technovan.com    / Sales@123
+# Via API
+curl -X POST http://localhost:3000/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "test@example.com",
+    "password": "SecurePass123",
+    "firstName": "Test",
+    "lastName": "User"
+  }'
 ```
 
 ## 📚 Project Structure
@@ -122,11 +127,11 @@ lsof -i :3000 | grep LISTEN | awk '{print $2}' | xargs kill -9
 ### Database Connection Error
 
 ```bash
-# Check MySQL is running
-mysql --version
+# Check PostgreSQL is running
+psql --version
 
 # Test connection
-mysql -u root -p -h 127.0.0.1 -P 3306 technovan_db
+psql postgresql://user:password@localhost:5432/technovan_db
 ```
 
 ### Module Not Found
@@ -150,7 +155,7 @@ yarn install
 ✅ Full-stack React Native application
 ✅ Cross-platform (Web, iOS, Android)
 ✅ Node.js REST API
-✅ MySQL database
+✅ PostgreSQL database
 ✅ JWT authentication
 ✅ Admin dashboard
 ✅ Payment integration ready

@@ -7,223 +7,198 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 enum UserRole {
   ADMIN
-  SALES
-  MANAGER
+  CUSTOMER
+  SUPPORT
 }
 
-enum QuotationStatus {
-  DRAFT
-  PENDING_APPROVAL
+enum ProjectStatus {
+  PENDING
   APPROVED
-  SENT
-  ACCEPTED
-  REJECTED
-  EXPIRED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
 }
 
-enum AuditAction {
-  CREATED
-  UPDATED
-  STATUS_CHANGED
-  SUBMITTED_FOR_APPROVAL
-  APPROVED
-  SENT
-  CLIENT_ACCEPTED
-  CLIENT_REJECTED
-  CONVERTED_TO_PROJECT
-  TEMPLATE_APPLIED
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
 }
 
 model User {
   id            String     @id @default(cuid())
   email         String     @unique
   password      String
-  fullName      String
+  firstName     String
+  lastName      String
   phone         String?
-  role          UserRole   @default(SALES)
+  company       String?
+  role          UserRole   @default(CUSTOMER)
+  avatar        String?
   isActive      Boolean    @default(true)
+  emailVerified Boolean    @default(false)
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 
-  quotations        Quotation[]         @relation("QuotationOwner")
-  approvals         QuotationVersion[]  @relation("ApprovedBy")
-  createdTemplates  QuotationTemplate[]
-  auditLogs         QuotationAuditLog[]
-  projects          Project[]           @relation("ProjectOwner")
+  projects      Project[]
+  inquiries     Inquiry[]
+  payments      Payment[]
+  messages      Message[]
 
   @@index([email])
   @@index([role])
 }
 
-model Client {
-  id             String      @id @default(cuid())
-  companyName    String
-  contactPerson  String
-  email          String
-  phone          String
-  addressLine1   String?
-  addressLine2   String?
-  city           String?
-  state          String?
-  country        String?
-  postalCode     String?
-  notes          String?     @db.Text
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  icon        String?
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  quotations     Quotation[]
-  projects       Project[]
-
-  @@index([companyName])
-  @@index([email])
+  @@index([isActive])
 }
 
-model Quotation {
-  id                String               @id @default(cuid())
-  quotationNumber   String               @unique
-  title             String
-  clientId          String
-  ownerId           String
-  status            QuotationStatus      @default(DRAFT)
-  currency          String               @default("MYR")
-  expiryDate        DateTime
-  discountAmount    Decimal              @default(0) @db.Decimal(12, 2)
-  sstRate           Decimal              @default(0.06) @db.Decimal(5, 4)
-  internalNotes     String?              @db.Text
-  termsAndConditions String?             @db.Text
-  versionNumber     Int                  @default(1)
-  revisionOfId      String?
-  currentVersionId  String?              @unique
-  publicToken       String               @unique
-  acceptedAt        DateTime?
-  rejectedAt        DateTime?
-  sentAt            DateTime?
-  createdAt         DateTime             @default(now())
-  updatedAt         DateTime             @updatedAt
+model Pricing {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  price       Float
+  currency    String   @default("RM")
+  description String?
+  features    String[]
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  client            Client               @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  owner             User                 @relation("QuotationOwner", fields: [ownerId], references: [id])
-  revisionOf        Quotation?           @relation("QuotationRevision", fields: [revisionOfId], references: [id], onDelete: SetNull)
-  revisions         Quotation[]          @relation("QuotationRevision")
-  currentVersion    QuotationVersion?    @relation("CurrentQuotationVersion", fields: [currentVersionId], references: [id], onDelete: SetNull)
-  versions          QuotationVersion[]   @relation("QuotationVersions")
-  templates         QuotationTemplate[]
-  auditLogs         QuotationAuditLog[]
-  project           Project?
+  projects Project[]
 
-  @@index([clientId])
-  @@index([ownerId])
-  @@index([status])
-  @@index([expiryDate])
-  @@index([revisionOfId])
-}
-
-model QuotationVersion {
-  id                 String               @id @default(cuid())
-  quotationId        String
-  versionLabel       String
-  scopeSummary       String?              @db.Text
-  subtotal           Decimal              @default(0) @db.Decimal(12, 2)
-  discountAmount     Decimal              @default(0) @db.Decimal(12, 2)
-  taxAmount          Decimal              @default(0) @db.Decimal(12, 2)
-  grandTotal         Decimal              @default(0) @db.Decimal(12, 2)
-  approvalRequestedAt DateTime?
-  approvedAt         DateTime?
-  approvedById       String?
-  rejectionReason    String?              @db.Text
-  createdAt          DateTime             @default(now())
-
-  quotation          Quotation            @relation("QuotationVersions", fields: [quotationId], references: [id], onDelete: Cascade)
-  approvedBy         User?                @relation("ApprovedBy", fields: [approvedById], references: [id], onDelete: SetNull)
-  items              QuotationItem[]
-  auditLogs          QuotationAuditLog[]
-  currentForQuotation Quotation?          @relation("CurrentQuotationVersion")
-
-  @@unique([quotationId, versionLabel])
-  @@index([quotationId])
-  @@index([approvedById])
-}
-
-model QuotationItem {
-  id                String            @id @default(cuid())
-  quotationVersionId String
-  lineOrder         Int               @default(0)
-  serviceName       String
-  description       String            @db.Text
-  quantity          Decimal           @default(1) @db.Decimal(12, 2)
-  unitPrice         Decimal           @default(0) @db.Decimal(12, 2)
-  lineTotal         Decimal           @default(0) @db.Decimal(12, 2)
-  createdAt         DateTime          @default(now())
-
-  quotationVersion  QuotationVersion  @relation(fields: [quotationVersionId], references: [id], onDelete: Cascade)
-
-  @@index([quotationVersionId])
-}
-
-model QuotationTemplate {
-  id                 String   @id @default(cuid())
-  quotationId        String?
-  name               String
-  description        String?  @db.Text
-  defaultDiscount    Decimal  @default(0) @db.Decimal(12, 2)
-  defaultSstRate     Decimal  @default(0.06) @db.Decimal(5, 4)
-  termsAndConditions String?  @db.Text
-  lineItems          Json
-  createdById        String
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-
-  quotation          Quotation? @relation(fields: [quotationId], references: [id], onDelete: SetNull)
-  createdBy          User       @relation(fields: [createdById], references: [id], onDelete: Cascade)
-
-  @@index([createdById])
-  @@index([quotationId])
-}
-
-model QuotationAuditLog {
-  id             String       @id @default(cuid())
-  quotationId    String
-  quotationVersionId String?
-  userId         String?
-  action         AuditAction
-  message        String
-  metadata       Json?
-  createdAt      DateTime     @default(now())
-
-  quotation      Quotation    @relation(fields: [quotationId], references: [id], onDelete: Cascade)
-  quotationVersion QuotationVersion? @relation(fields: [quotationVersionId], references: [id], onDelete: SetNull)
-  user           User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
-
-  @@index([quotationId])
-  @@index([quotationVersionId])
-  @@index([userId])
+  @@index([isActive])
 }
 
 model Project {
-  id                 String   @id @default(cuid())
-  projectCode        String   @unique
-  name               String
-  clientId           String
-  quotationId        String   @unique
-  ownerId            String
-  scopeSummary       String?  @db.Text
-  pricingStructure   Json
-  status             String   @default("PLANNING")
-  startDate          DateTime?
-  endDate            DateTime?
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  id          String        @id @default(cuid())
+  title       String
+  description String
+  status      ProjectStatus @default(PENDING)
+  pricingId   String
+  pricing     Pricing       @relation(fields: [pricingId], references: [id])
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  budget      Float?
+  deadline    DateTime?
+  files       String[]
+  notes       String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 
-  client             Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  quotation          Quotation @relation(fields: [quotationId], references: [id], onDelete: Cascade)
-  owner              User      @relation("ProjectOwner", fields: [ownerId], references: [id])
+  messages Message[]
+  payments Payment[]
 
-  @@index([clientId])
-  @@index([ownerId])
+  @@index([userId])
+  @@index([status])
+  @@index([pricingId])
+}
+
+model Inquiry {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  message   String
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  isRead    Boolean  @default(false)
+  responded Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@index([isRead])
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  content   String
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([projectId])
+  @@index([userId])
+}
+
+model Payment {
+  id              String        @id @default(cuid())
+  amount          Float
+  currency        String        @default("RM")
+  status          PaymentStatus @default(PENDING)
+  method          String        // stripe, paypal, bank_transfer
+  transactionId   String?       @unique
+  projectId       String
+  project         Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId          String
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  invoiceUrl      String?
+  description     String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([userId])
+  @@index([projectId])
+  @@index([status])
+}
+
+model Portfolio {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  image       String?
+  link        String?
+  category    String
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([category])
+}
+
+model BlogPost {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  excerpt   String?
+  image     String?
+  slug      String   @unique
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([published])
+  @@index([slug])
+}
+
+model Analytics {
+  id           String   @id @default(cuid())
+  pageView     Int      @default(0)
+  uniqueUsers  Int      @default(0)
+  totalRevenue Float    @default(0)
+  date         DateTime @default(now())
+  createdAt    DateTime @default(now())
+
+  @@index([date])
 }

@@ -3,18 +3,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        ink: '#111827',
-        mist: '#f5f7f4',
-        clay: '#d97706',
-        moss: '#2f5d50',
-        sand: '#ede5d8',
-      },
-      boxShadow: {
-        panel: '0 24px 80px rgba(17, 24, 39, 0.12)',
-      },
-      fontFamily: {
-        display: ['"Space Grotesk"', 'sans-serif'],
-        body: ['"DM Sans"', 'sans-serif'],
+        teal: {
+          400: '#14B8A6',
+          500: '#0D9488',
+          900: '#134E4A',
+        },
+        purple: {
+          500: '#A855F7',
+          600: '#9333EA',
+        },
       },
     },
   },

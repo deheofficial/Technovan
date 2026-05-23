@@ -15,14 +15,15 @@ if (!process.env.DATABASE_URL) {
 }
 
 import authRoutes from './routes/auth';
-import clientRoutes from './routes/clients';
-import quotationRoutes from './routes/quotations';
+import servicesRoutes from './routes/services';
+import pricingRoutes from './routes/pricing';
 import projectRoutes from './routes/projects';
-import dashboardRoutes from './routes/dashboard';
-import servicesCompatRoutes from './routes/services-compat';
-import pricingCompatRoutes from './routes/pricing-compat';
-import blogCompatRoutes from './routes/blog-compat';
-import portfolioCompatRoutes from './routes/portfolio-compat';
+import paymentRoutes from './routes/payments';
+import inquiryRoutes from './routes/inquiries';
+import contactRoutes from './routes/contact';
+import adminRoutes from './routes/admin';
+import portfolioRoutes from './routes/portfolio';
+import blogRoutes from './routes/blog';
 
 const app: Express = express();
 
@@ -64,14 +65,15 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 // Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/clients', clientRoutes);
-app.use('/api/quotations', quotationRoutes);
+app.use('/api/services', servicesRoutes);
+app.use('/api/pricing', pricingRoutes);
 app.use('/api/projects', projectRoutes);
-app.use('/api/dashboard', dashboardRoutes);
-app.use('/api/services', servicesCompatRoutes);
-app.use('/api/pricing', pricingCompatRoutes);
-app.use('/api/blog', blogCompatRoutes);
-app.use('/api/portfolio', portfolioCompatRoutes);
+app.use('/api/payments', paymentRoutes);
+app.use('/api/inquiries', inquiryRoutes);
+app.use('/api/contact', contactRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/portfolio', portfolioRoutes);
+app.use('/api/blog', blogRoutes);
 
 // Health check
 app.get('/health', (req: Request, res: Response) => {
