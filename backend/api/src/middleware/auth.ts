@@ -1,11 +1,13 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
+import { UserRole } from '@prisma/client';
 
 export interface AuthRequest extends Request {
   user?: {
     id: string;
     email: string;
-    role: string;
+    fullName: string;
+    role: UserRole;
   };
 }
 
@@ -25,11 +27,22 @@ export const verifyToken = (req: AuthRequest, res: Response, next: NextFunction)
   }
 };
 
-export const verifyAdmin = (req: AuthRequest, res: Response, next: NextFunction) => {
-  if (!req.user || req.user.role !== 'ADMIN') {
-    return res.status(403).json({ error: 'Unauthorized - Admin access required' });
+export const requireRoles = (...roles: UserRole[]) => (
+  req: AuthRequest,
+  res: Response,
+  next: NextFunction,
+) => {
+  if (!req.user) {
+    return res.status(401).json({ error: 'Unauthorized' });
   }
+
+  if (!roles.includes(req.user.role)) {
+    return res.status(403).json({ error: 'Forbidden' });
+  }
+
   next();
 };
+
+export const verifyAdmin = requireRoles('ADMIN');
 
 export const requireAuth = verifyToken;

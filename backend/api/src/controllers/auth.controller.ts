@@ -5,13 +5,19 @@ import { AppError } from '../utils/auth';
 
 export const register = async (req: AuthRequest, res: Response) => {
   try {
-    const { email, password, firstName, lastName } = req.body;
+    const { email, password, fullName, role, phone } = req.body;
 
-    if (!email || !password || !firstName || !lastName) {
+    if (!email || !password || !fullName) {
       throw new AppError(400, 'Missing required fields');
     }
 
-    const result = await authService.register(email, password, firstName, lastName);
+    const result = await authService.register({
+      email,
+      password,
+      fullName,
+      role,
+      phone,
+    });
     res.status(201).json(result);
   } catch (error: any) {
     const statusCode = error.statusCode || 500;

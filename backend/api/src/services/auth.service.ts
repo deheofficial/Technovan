@@ -1,8 +1,16 @@
-import { Prisma, User } from '@prisma/client';
+import { Prisma, User, UserRole } from '@prisma/client';
 import { hashPassword, comparePassword, generateToken, AppError } from '../utils/auth';
 import { prisma } from '../lib/prisma';
 
 type PublicUser = Omit<User, 'password'>;
+
+interface RegisterUserInput {
+  email: string;
+  password: string;
+  fullName: string;
+  role?: UserRole;
+  phone?: string;
+}
 
 const toPublicUser = (user: User): PublicUser => {
   const { password: _password, ...safeUser } = user;
@@ -10,20 +18,20 @@ const toPublicUser = (user: User): PublicUser => {
 };
 
 export class AuthService {
-  async register(email: string, password: string, firstName: string, lastName: string) {
-    const existingUser = await prisma.user.findUnique({ where: { email } });
+  async register(input: RegisterUserInput) {
+    const existingUser = await prisma.user.findUnique({ where: { email: input.email } });
     if (existingUser) {
       throw new AppError(400, 'Email already registered');
     }
 
-    const hashedPassword = await hashPassword(password);
+    const hashedPassword = await hashPassword(input.password);
     const newUser = await prisma.user.create({
       data: {
-        email,
+        email: input.email,
         password: hashedPassword,
-        firstName,
-        lastName,
-        role: 'CUSTOMER',
+        fullName: input.fullName,
+        phone: input.phone,
+        role: input.role ?? 'SALES',
         isActive: true,
       },
     });
@@ -36,6 +44,10 @@ export class AuthService {
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
       throw new AppError(401, 'Invalid email or password');
+    }
+
+    if (!user.isActive) {
+      throw new AppError(403, 'Account is inactive');
     }
 
     const isPasswordValid = await comparePassword(password, user.password);
@@ -58,11 +70,9 @@ export class AuthService {
   async updateProfile(userId: string, data: Partial<User>) {
     const updateData: Prisma.UserUpdateInput = {};
 
-    if (typeof data.firstName === 'string') updateData.firstName = data.firstName;
-    if (typeof data.lastName === 'string') updateData.lastName = data.lastName;
+    if (typeof data.fullName === 'string') updateData.fullName = data.fullName;
     if (typeof data.phone === 'string' || data.phone === null) updateData.phone = data.phone;
-    if (typeof data.company === 'string' || data.company === null) updateData.company = data.company;
-    if (typeof data.avatar === 'string' || data.avatar === null) updateData.avatar = data.avatar;
+    if (typeof data.isActive === 'boolean') updateData.isActive = data.isActive;
 
     try {
       const user = await prisma.user.update({
