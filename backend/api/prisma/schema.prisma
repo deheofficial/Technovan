@@ -127,6 +127,40 @@ model Inquiry {
   @@index([isRead])
 }
 
+model Quotation {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  phone       String?
+  company     String?
+  service     String?
+  budget      String?
+  timeline    String?
+  projectIdea String
+  source      String   @default("public-site")
+  isRead      Boolean  @default(false)
+  responded   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([email])
+  @@index([isRead])
+  @@index([createdAt])
+}
+
+model QuotationTemplate {
+  id        String   @id @default(cuid())
+  ownerKey  String
+  name      String
+  data      Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([ownerKey])
+  @@index([createdAt])
+  @@unique([ownerKey, name])
+}
+
 model Message {
   id        String   @id @default(cuid())
   content   String

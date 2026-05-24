@@ -262,6 +262,7 @@
           <button class="nav-link" onclick="sscroll('#pricing')">Pricing</button>
           <button class="nav-link" onclick="sscroll('#portfolio')">Work</button>
           <button class="nav-link" onclick="sscroll('#blog')">Blog</button>
+          <button class="nav-link" onclick="go('quotation')">Quotation</button>
         </div>
         <div class="row" id="authBtns">
           <button class="btn btn-sm" onclick="go('login')">Login</button>
@@ -275,6 +276,7 @@
         <button class="nav-link" onclick="sscroll('#services');closeMenu()">Services</button>
         <button class="nav-link" onclick="sscroll('#pricing');closeMenu()">Pricing</button>
         <button class="nav-link" onclick="sscroll('#portfolio');closeMenu()">Work</button>
+        <button class="nav-link" onclick="go('quotation');closeMenu()">Quotation</button>
         <button class="nav-link" onclick="go('login');closeMenu()">Login</button>
         <button class="nav-link btn-primary" style="background:var(--grad);color:#001a18;border:none;margin-top:4px" onclick="go('register');closeMenu()">Get Started</button>
       </div>
@@ -390,6 +392,87 @@
           </div>
         </div>
       </footer>
+    </div>
+
+    <!-- QUOTATION GENERATOR PAGE -->
+    <div id="page-quotation" class="page">
+      <section class="section">
+        <div class="container" style="max-width:1100px">
+          <div class="section-header" style="margin-bottom:28px">
+            <span class="eyebrow">Internal Tool</span>
+            <h2>Company Quotation Generator</h2>
+            <p class="muted">Generate fully customized quotations, save templates, and reuse instantly.</p>
+          </div>
+
+          <div class="card" style="margin-bottom:20px">
+            <div class="grid-4" style="gap:12px;align-items:end">
+              <div class="fg" style="grid-column:span 2">
+                <label>Template Name</label>
+                <input id="qTemplateName" placeholder="e.g. Web Starter Quotation" />
+              </div>
+              <div class="fg">
+                <label>Saved Templates</label>
+                <select id="qTemplateSelect">
+                  <option value="">No template selected</option>
+                </select>
+              </div>
+              <div class="row" style="justify-content:flex-end">
+                <button class="btn btn-sm" onclick="saveQuotationTemplate()">Save Template</button>
+                <button class="btn btn-sm" onclick="loadQuotationTemplate()">Load</button>
+                <button class="btn btn-sm btn-danger" onclick="deleteQuotationTemplate()">Delete</button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="card">
+              <h3 style="margin-bottom:16px">Quotation Details</h3>
+              <div class="grid-4" style="gap:12px">
+                <div class="fg"><label>Header Name</label><input id="qHeaderName" value="TECHNOVAN" /></div>
+                <div class="fg"><label>Header Subtitle</label><input id="qHeaderSubtitle" value="SOFTWARE &amp; IT SOLUTIONS" /></div>
+                <div class="fg"><label>Quotation Title</label><input id="qDocTitle" value="QUOTATIONS" /></div>
+                <div class="fg"><label>Document Code</label><input id="qNumber" placeholder="Auto if empty" /></div>
+              </div>
+              <div class="fg"><label>Sender Address Block</label><textarea id="qSenderAddress" rows="4" placeholder="Your company address block">TECHNOVAN
+KUALA LUMPUR, MALAYSIA</textarea></div>
+
+              <div>
+                <div class="fg"><label>Date</label><input id="qDate" type="date" /></div>
+              </div>
+
+              <hr class="divider" />
+              <div class="fg"><label>Recipient Address Block</label><textarea id="qClientAddress" rows="4" placeholder="Client address block"></textarea></div>
+              <div class="grid-2" style="gap:12px">
+                <div class="fg"><label>Salutation</label><input id="qSalutation" value="TUAN," /></div>
+                <div class="fg"><label>Subject</label><input id="qProject" placeholder="KERJA-KERJA ..." /></div>
+              </div>
+
+              <hr class="divider" />
+              <h4 style="margin-bottom:10px">Items</h4>
+              <div id="qItemsBody"></div>
+              <div class="row" style="justify-content:flex-end;margin-top:8px">
+                <button class="btn btn-sm" onclick="addQuotationItemRow()">+ Add Item</button>
+              </div>
+
+              <div class="fg"><label>Terms &amp; Conditions</label><textarea id="qTerms" rows="6" placeholder="One paragraph per line"></textarea></div>
+              <div class="fg"><label>Contact Line</label><input id="qContactLine" placeholder="NO H/P ... | EMAIL ..." /></div>
+              <div class="grid-2" style="gap:12px">
+                <div class="fg"><label>Closing</label><input id="qClosing" value="SEKIAN, TERIMA KASIH." /></div>
+                <div class="fg"><label>Sign-off</label><input id="qSignoff" value="YANG BENAR," /></div>
+              </div>
+              <div class="grid-2" style="gap:12px">
+                <div class="fg"><label>Signatory Name</label><input id="qSignName" placeholder="(MOHD FIRDAUS BIN BAHARUDDIN)" /></div>
+                <div class="fg"><label>Signatory Title</label><input id="qSignTitle" placeholder="PENGARAH URUSAN" /></div>
+              </div>
+
+              <div class="row" style="justify-content:flex-end">
+                <button class="btn" onclick="clearCompanyQuotationForm()">Clear</button>
+                <button class="btn btn-primary" onclick="generateCompanyQuotation()">Generate Quotation</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
 
     <!-- ARTICLE PAGE -->
@@ -1137,6 +1220,460 @@
           toast('Inquiry submitted!');
         }catch(e){toast(e.message,'error');}
       }
+
+      /* ---- COMPANY QUOTATION GENERATOR ---- */
+      const Q_TEMPLATE_KEY='tv_company_quotation_templates_v1';
+      const Q_TEMPLATE_OWNER_KEY='tv_quote_owner_key_v1';
+      let _lastQuotationHtml='';
+      let _quotationTemplates=[];
+
+      function rm(v,currency){
+        return (currency||'RM')+' '+Number(v||0).toLocaleString('en-MY',{minimumFractionDigits:2,maximumFractionDigits:2});
+      }
+
+      function defaultQuoteNo(){
+        const now=new Date();
+        return 'TVQ-'+now.getFullYear()+String(now.getMonth()+1).padStart(2,'0')+String(now.getDate()).padStart(2,'0')+'-'+Math.floor(1000+Math.random()*9000);
+      }
+
+      function readLegacyQuotationTemplates(){
+        try{return JSON.parse(localStorage.getItem(Q_TEMPLATE_KEY)||'[]');}
+        catch(e){return [];}
+      }
+
+      function getQuotationTemplateOwnerKey(){
+        if(S.user?.id) return 'user:'+S.user.id;
+        let key=localStorage.getItem(Q_TEMPLATE_OWNER_KEY);
+        if(key) return key;
+        key='guest:'+((window.crypto&&window.crypto.randomUUID)?window.crypto.randomUUID():(Date.now()+'-'+Math.random().toString(16).slice(2)));
+        localStorage.setItem(Q_TEMPLATE_OWNER_KEY,key);
+        return key;
+      }
+
+      async function fetchQuotationTemplates(){
+        const ownerKey=getQuotationTemplateOwnerKey();
+        const items=await api('/quotation/templates?ownerKey='+encodeURIComponent(ownerKey));
+        _quotationTemplates=Array.isArray(items)?items:[];
+        return _quotationTemplates;
+      }
+
+      async function migrateLegacyTemplatesIfNeeded(){
+        const legacy=readLegacyQuotationTemplates();
+        if(!legacy.length) return;
+        if(_quotationTemplates.length>0){
+          localStorage.removeItem(Q_TEMPLATE_KEY);
+          return;
+        }
+        const ownerKey=getQuotationTemplateOwnerKey();
+        for(const t of legacy){
+          if(!t?.name||!t?.data) continue;
+          await api('/quotation/templates',{method:'POST',body:{ownerKey,name:String(t.name),data:t.data}});
+        }
+        localStorage.removeItem(Q_TEMPLATE_KEY);
+        await fetchQuotationTemplates();
+      }
+
+      async function refreshTemplateOptions(selectedId=''){
+        const sel=document.getElementById('qTemplateSelect');
+        if(!sel) return;
+        if(_quotationTemplates.length===0){
+          await fetchQuotationTemplates();
+          await migrateLegacyTemplatesIfNeeded();
+        }
+        sel.innerHTML='<option value="">No template selected</option>'+_quotationTemplates
+          .map(t=>`<option value="${esc(t.id)}">${esc(t.name)}</option>`)
+          .join('');
+        sel.value=selectedId||'';
+      }
+
+      function addQuotationItemRow(item){
+        const wrap=document.getElementById('qItemsBody');
+        const row=document.createElement('div');
+        row.className='grid-4 q-item-row';
+        row.style.gap='10px';
+        row.style.marginBottom='10px';
+        row.innerHTML=`
+          <div class="fg"><label>Item No</label><input class="q-item-no" placeholder="1." value="${esc(item?.no||'')}" /></div>
+          <div class="fg" style="grid-column:span 2"><label>Perkara / Description</label><input class="q-item-desc" placeholder="KERJA-KERJA ..." value="${esc(item?.desc||'')}" /></div>
+          <div class="fg"><label>Kuantiti</label><input class="q-item-qty-label" placeholder="6 NOS / LUM SUM" value="${esc(item?.qtyLabel||'')}" /></div>
+          <div class="fg"><label>Kadar</label><input class="q-item-rate" type="number" min="0" step="0.01" value="${item?.rate ?? 0}" /></div>
+          <div class="fg"><label>Amount</label><div class="row" style="gap:8px;flex-wrap:nowrap"><input class="q-item-amount" type="number" min="0" step="0.01" value="${item?.amount ?? ''}" placeholder="Auto if empty" /><button class="btn btn-sm btn-danger" type="button">x</button></div><p class="muted q-item-amount-note" style="display:none;margin-top:6px;font-size:12px">The amount value is slightly different with the rate suggested.</p></div>
+        `;
+
+        const qtyInput=row.querySelector('.q-item-qty-label');
+        const rateInput=row.querySelector('.q-item-rate');
+        const amountInput=row.querySelector('.q-item-amount');
+        const note=row.querySelector('.q-item-amount-note');
+
+        const getSuggestedAmount=()=>{
+          const qtyText=(qtyInput?.value||'').trim();
+          const parsedQty=parseFloat(qtyText);
+          const qty=Number.isFinite(parsedQty)&&parsedQty>0?parsedQty:1;
+          const rate=Number(rateInput?.value||0);
+          return qty*rate;
+        };
+
+        const updateAmountNote=()=>{
+          const suggested=getSuggestedAmount();
+          const amount=Number(amountInput?.value||0);
+          const differs=Math.abs(amount-suggested)>0.009;
+          note.style.display=differs?'':'none';
+        };
+
+        const syncAmountFromRate=()=>{
+          const manual=amountInput.dataset.manual==='1';
+          if(!manual||amountInput.value===''){
+            amountInput.value=getSuggestedAmount().toFixed(2);
+          }
+          updateAmountNote();
+        };
+
+        rateInput.addEventListener('input',syncAmountFromRate);
+        qtyInput.addEventListener('input',syncAmountFromRate);
+        amountInput.addEventListener('input',()=>{
+          amountInput.dataset.manual='1';
+          updateAmountNote();
+        });
+
+        if(item?.amount!==''&&item?.amount!=null){
+          amountInput.dataset.manual='1';
+          updateAmountNote();
+        }else{
+          syncAmountFromRate();
+        }
+
+        row.querySelector('button').onclick=()=>{
+          row.remove();
+        };
+        wrap.appendChild(row);
+      }
+
+      function extractQuotationItems(){
+        const rows=[...document.querySelectorAll('#qItemsBody .q-item-row')];
+        return rows.map(row=>({
+          no:row.querySelector('.q-item-no')?.value?.trim()||'',
+          desc:row.querySelector('.q-item-desc')?.value?.trim()||'',
+          qtyLabel:row.querySelector('.q-item-qty-label')?.value?.trim()||'',
+          rate:Number(row.querySelector('.q-item-rate')?.value||0),
+          amount:Number(row.querySelector('.q-item-amount')?.value||0),
+        })).filter(x=>x.desc);
+      }
+
+      function collectQuotationFormData(){
+        return {
+          headerName:gv('qHeaderName'),
+          headerSubtitle:gv('qHeaderSubtitle'),
+          docTitle:gv('qDocTitle'),
+          senderAddress:gv('qSenderAddress'),
+          currency:'RM',
+          quoteNo:gv('qNumber'),
+          issueDate:gv('qDate'),
+          clientAddress:gv('qClientAddress'),
+          project:gv('qProject'),
+          salutation:gv('qSalutation'),
+          terms:gv('qTerms'),
+          contactLine:gv('qContactLine'),
+          closing:gv('qClosing'),
+          signoff:gv('qSignoff'),
+          signName:gv('qSignName'),
+          signTitle:gv('qSignTitle'),
+          items:extractQuotationItems(),
+        };
+      }
+
+      function applyQuotationFormData(data){
+        const set=(id,val)=>{const el=document.getElementById(id);if(el) el.value=val ?? '';};
+        set('qHeaderName',data.headerName);
+        set('qHeaderSubtitle',data.headerSubtitle);
+        set('qDocTitle',data.docTitle);
+        set('qSenderAddress',data.senderAddress);
+        set('qNumber',data.quoteNo||'');
+        set('qDate',data.issueDate||'');
+        set('qClientAddress',data.clientAddress);
+        set('qProject',data.project);
+        set('qSalutation',data.salutation);
+        set('qTerms',data.terms);
+        set('qContactLine',data.contactLine);
+        set('qClosing',data.closing);
+        set('qSignoff',data.signoff);
+        set('qSignName',data.signName);
+        set('qSignTitle',data.signTitle);
+
+        const wrap=document.getElementById('qItemsBody');
+        wrap.innerHTML='';
+        (data.items||[]).forEach(item=>addQuotationItemRow({
+          no:item.no,
+          desc:item.desc,
+          qtyLabel:item.qtyLabel || (item.qty!=null ? String(item.qty) : ''),
+          rate:item.rate,
+          amount:item.amount,
+        }));
+        if((data.items||[]).length===0){
+          addQuotationItemRow({no:'1.',desc:'KERJA-KERJA ITEM 1',qtyLabel:'1 NOS',rate:0,amount:''});
+          addQuotationItemRow({no:'2.',desc:'KERJA-KERJA ITEM 2',qtyLabel:'1 NOS',rate:0,amount:''});
+          addQuotationItemRow({no:'3.',desc:'KERJA-KERJA ITEM 3',qtyLabel:'LUM SUM',rate:0,amount:''});
+        }
+      }
+
+      async function saveQuotationTemplate(){
+        const name=gv('qTemplateName');
+        if(!name){toast('Template name is required','error');return;}
+        const payload=collectQuotationFormData();
+        try{
+          const ownerKey=getQuotationTemplateOwnerKey();
+          const saved=await api('/quotation/templates',{method:'POST',body:{ownerKey,name,data:payload}});
+          await fetchQuotationTemplates();
+          await refreshTemplateOptions(saved.id);
+          toast('Template saved');
+        }catch(e){
+          toast(e.message||'Failed to save template','error');
+        }
+      }
+
+      async function loadQuotationTemplate(){
+        const id=gv('qTemplateSelect');
+        if(!id){toast('Select a template first','error');return;}
+        if(_quotationTemplates.length===0){
+          await fetchQuotationTemplates();
+        }
+        const tpl=_quotationTemplates.find(x=>x.id===id);
+        if(!tpl){toast('Template not found','error');return;}
+        document.getElementById('qTemplateName').value=tpl.name;
+        applyQuotationFormData(tpl.data||{});
+        toast('Template loaded');
+      }
+
+      async function deleteQuotationTemplate(){
+        const id=gv('qTemplateSelect');
+        if(!id){toast('Select a template first','error');return;}
+        if(_quotationTemplates.length===0){
+          await fetchQuotationTemplates();
+        }
+        const target=_quotationTemplates.find(x=>x.id===id);
+        if(!target){toast('Template not found','error');return;}
+        if(!confirm('Delete template "'+target.name+'"?')) return;
+        try{
+          const ownerKey=getQuotationTemplateOwnerKey();
+          await api('/quotation/templates/'+encodeURIComponent(id)+'?ownerKey='+encodeURIComponent(ownerKey),{method:'DELETE'});
+          await fetchQuotationTemplates();
+          await refreshTemplateOptions();
+          toast('Template deleted');
+        }catch(e){
+          toast(e.message||'Failed to delete template','error');
+        }
+      }
+
+      function initCompanyQuotation(){
+        if(document.querySelectorAll('#qItemsBody .q-item-row').length===0){
+          addQuotationItemRow({no:'1.',desc:'KERJA-KERJA ITEM 1',qtyLabel:'1 NOS',rate:0,amount:''});
+          addQuotationItemRow({no:'2.',desc:'KERJA-KERJA ITEM 2',qtyLabel:'1 NOS',rate:0,amount:''});
+          addQuotationItemRow({no:'3.',desc:'KERJA-KERJA ITEM 3',qtyLabel:'LUM SUM',rate:0,amount:''});
+        }
+        if(!document.getElementById('qDate').value){
+          document.getElementById('qDate').value=new Date().toISOString().slice(0,10);
+        }
+        if(!document.getElementById('qNumber').value){
+          document.getElementById('qNumber').value=defaultQuoteNo();
+        }
+        if(!document.getElementById('qTerms').value){
+          document.getElementById('qTerms').value='HARGA TAWARAN INI HANYA SAH SEHINGGA 30 HARI DARI TARIKH SEBUT HARGA INI.\n\nDEPOSIT 50% DARI HARGA KERJA JIKA PIHAK TUAN BERSETUJU UNTUK MEMULAKAN KERJA\n\nKERJA DI JANGKA SIAP DALAM MASA 2 HARI.';
+        }
+        if(!document.getElementById('qContactLine').value){
+          document.getElementById('qContactLine').value='PIHAK TUAN BOLEH MENGHUBUNGI KAMI SEKIRANYA TERDAPAT SEBARANG PERTANYAAN ATAU MAKLUMAN DI NO H/P ATAU EMAIL.';
+        }
+        fetchQuotationTemplates()
+          .then(()=>migrateLegacyTemplatesIfNeeded())
+          .then(()=>refreshTemplateOptions())
+          .catch(()=>{
+            _quotationTemplates=[];
+            const sel=document.getElementById('qTemplateSelect');
+            if(sel) sel.innerHTML='<option value="">No template selected</option>';
+          });
+      }
+
+      function buildCompanyQuotationHtml(){
+        const data=collectQuotationFormData();
+        const project=data.project;
+        if(!data.clientAddress||!project) return {error:'Recipient address and subject are required.'};
+
+        const items=data.items;
+
+        if(items.length===0) return {error:'Add at least one item.'};
+
+        const lineItems=items.map((x,i)=>{
+          const qtyText=x.qtyLabel || (x.qty!=null ? String(x.qty) : '');
+          const parsedQty=parseFloat(qtyText);
+          const autoAmount=Number.isFinite(parsedQty)?parsedQty*Number(x.rate||0):0;
+          const amount=Number(x.amount||0)>0?Number(x.amount):autoAmount;
+          return {
+            no:x.no||`${i+1}.`,
+            desc:x.desc||'',
+            qtyLabel:qtyText||'-',
+            rate:Number(x.rate||0),
+            amount,
+          };
+        });
+        const total=lineItems.reduce((s,x)=>s+x.amount,0);
+
+        const issueDate=data.issueDate?new Date(data.issueDate):new Date();
+        const qNo=data.quoteNo||defaultQuoteNo();
+        const currency=data.currency||'RM';
+        const senderAddressLines=(data.senderAddress||'').split(/\\n|\n/).map(x=>x.trim()).filter(Boolean);
+        const clientAddressLines=(data.clientAddress||'').split(/\\n|\n/).map(x=>x.trim()).filter(Boolean);
+        const termsLines=(data.terms||'').split(/\\n|\n/).map(x=>x.trim()).filter(Boolean);
+        const today=fdate(issueDate).toUpperCase();
+
+        const html=`
+          <div id="quotationDocument" style="background:#fff;color:#111;padding:40px 36px 48px 36px;font-family:Arial,sans-serif;max-width:940px;margin:0 auto">
+            <div style="text-align:center;margin-bottom:34px">
+              <div style="font-size:46px;font-weight:800;line-height:1">${esc(data.headerName||'TECHNOVAN')}</div>
+              <div style="font-size:18px;font-weight:700;margin-top:6px">${esc(data.headerSubtitle||'SOFTWARE & IT SOLUTIONS')}</div>
+              <div style="font-size:22px;font-weight:700;margin-top:14px">${esc(data.docTitle||'QUOTATIONS')}</div>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:34px">
+              <div style="font-size:16px;line-height:1.6;font-weight:600;text-transform:uppercase;max-width:62%">
+                ${senderAddressLines.map(line=>`<div>${esc(line)}</div>`).join('')}
+              </div>
+              <div style="font-size:16px;line-height:1.6;font-weight:600;text-transform:uppercase;text-align:right;white-space:nowrap">
+                <div>No: ${esc(qNo)}</div>
+                <div>${esc(today)}</div>
+              </div>
+            </div>
+
+            <div style="font-size:16px;line-height:1.6;margin-bottom:26px;font-weight:600;text-transform:uppercase;max-width:70%">
+              ${clientAddressLines.map(line=>`<div>${esc(line)}</div>`).join('')}
+            </div>
+
+            <div style="font-size:16px;font-weight:600;margin-bottom:14px;text-transform:uppercase">${esc(data.salutation||'TUAN,')}</div>
+            <div style="font-size:18px;font-weight:700;font-style:italic;text-decoration:underline;text-transform:uppercase;margin-bottom:22px;text-align:center">${esc(project)}</div>
+
+            <div style="margin:10px 0;overflow-x:auto">
+              <table style="border-collapse:collapse;width:100%;table-layout:fixed;border:1px solid #777">
+                <colgroup>
+                  <col style="width:10%" />
+                  <col style="width:33%" />
+                  <col style="width:16%" />
+                  <col style="width:14%" />
+                  <col style="width:27%" />
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th style="border:1px solid #777;padding:9px 8px;text-align:center;background:#fff;color:#111;font-size:13px;font-weight:700">ITEM</th>
+                    <th style="border:1px solid #777;padding:9px 8px;text-align:center;background:#fff;color:#111;font-size:13px;font-weight:700">PERKARA</th>
+                    <th style="border:1px solid #777;padding:9px 8px;text-align:center;background:#fff;color:#111;font-size:13px;font-weight:700">KUANTITI</th>
+                    <th style="border:1px solid #777;padding:9px 8px;text-align:center;background:#fff;color:#111;font-size:13px;font-weight:700">KADAR</th>
+                    <th style="border:1px solid #777;padding:9px 8px;text-align:center;background:#fff;color:#111;font-size:13px;font-weight:700">AMOUNT (${esc(currency)})</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${lineItems.map(x=>`<tr>
+                    <td style="border:1px solid #777;padding:7px 8px;text-align:center;vertical-align:top;font-size:12px">${esc(x.no)}</td>
+                    <td style="border:1px solid #777;padding:7px 8px;vertical-align:top;font-size:12px;font-weight:600;text-transform:uppercase;line-height:1.35">${esc(x.desc)}</td>
+                    <td style="border:1px solid #777;padding:7px 8px;text-align:center;vertical-align:top;font-size:12px">${esc(x.qtyLabel)}</td>
+                    <td style="border:1px solid #777;padding:7px 8px;text-align:right;vertical-align:top;font-size:12px">${rm(x.rate,currency)}</td>
+                    <td style="border:1px solid #777;padding:7px 8px;text-align:right;vertical-align:top;font-size:12px">${rm(x.amount,currency)}</td>
+                  </tr>`).join('')}
+                  <tr>
+                    <td style="border:1px solid #777;padding:8px 8px"></td>
+                    <td style="border:1px solid #777;padding:8px 8px" colspan="2"></td>
+                    <td style="border:1px solid #777;padding:8px 8px;text-align:right;font-size:13px;font-weight:700">TOTAL</td>
+                    <td style="border:1px solid #777;padding:8px 8px;text-align:right;font-size:13px;font-weight:700">${rm(total,currency)}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div style="font-size:15px;line-height:1.9;margin-top:28px;font-weight:500;text-transform:uppercase">
+              <div style="margin-bottom:6px;font-weight:700">TERMA DAN SYARAT SEBUT HARGA:-</div>
+              ${termsLines.map(line=>`<div>${esc(line)}</div>`).join('')}
+              ${data.contactLine?`<div>${esc(data.contactLine)}</div>`:''}
+              ${data.closing?`<div style="margin-top:8px">${esc(data.closing)}</div>`:''}
+            </div>
+
+            <div style="margin-top:34px;font-size:15px;font-weight:500;text-transform:uppercase">
+              <div style="margin-bottom:56px">${esc(data.signoff||'YANG BENAR,')}</div>
+              <div style="margin-top:4px;font-weight:700">${esc(data.signName||'(........................................)')}</div>
+              <div style="font-style:italic">${esc(data.signTitle||'PENGARAH URUSAN')}</div>
+            </div>
+          </div>
+        `;
+
+        return {html,total,qNo,currency};
+      }
+
+      function generateCompanyQuotation(){
+        const result=buildCompanyQuotationHtml();
+        if(result.error){toast(result.error,'error');return;}
+        _lastQuotationHtml=result.html;
+        const w=window.open('','_blank');
+        if(!w){toast('Popup blocked. Please allow popups to open preview.','error');return;}
+        w.document.write(`<!doctype html><html><head><title>Quotation ${esc(result.qNo)}</title><style>
+          body{font-family:Arial,sans-serif;padding:20px;background:#f4f6fb;color:#111}
+        </style></head><body>${result.html}</body></html>`);
+        w.document.close();
+        w.focus();
+        toast('Quotation generated: '+result.qNo);
+      }
+
+      function clearCompanyQuotationForm(){
+        applyQuotationFormData({
+          headerName:'TECHNOVAN',
+          headerSubtitle:'SOFTWARE & IT SOLUTIONS',
+          docTitle:'QUOTATIONS',
+          senderAddress:'TECHNOVAN\nKUALA LUMPUR, MALAYSIA',
+          currency:'RM',
+          quoteNo:defaultQuoteNo(),
+          issueDate:new Date().toISOString().slice(0,10),
+          clientAddress:'',
+          project:'',
+          salutation:'TUAN,',
+          terms:'HARGA TAWARAN INI HANYA SAH SEHINGGA 30 HARI DARI TARIKH SEBUT HARGA INI.\n\nDEPOSIT 50% DARI HARGA KERJA JIKA PIHAK TUAN BERSETUJU UNTUK MEMULAKAN KERJA\n\nKERJA DI JANGKA SIAP DALAM MASA 2 HARI.',
+          contactLine:'PIHAK TUAN BOLEH MENGHUBUNGI KAMI SEKIRANYA TERDAPAT SEBARANG PERTANYAAN ATAU MAKLUMAN DI NO H/P ATAU EMAIL.',
+          closing:'SEKIAN, TERIMA KASIH.',
+          signoff:'YANG BENAR,',
+          signName:'',
+          signTitle:'',
+          items:[
+            {no:'1.',desc:'KERJA-KERJA ITEM 1',qtyLabel:'1 NOS',rate:0,amount:''},
+            {no:'2.',desc:'KERJA-KERJA ITEM 2',qtyLabel:'1 NOS',rate:0,amount:''},
+            {no:'3.',desc:'KERJA-KERJA ITEM 3',qtyLabel:'LUM SUM',rate:0,amount:''},
+          ],
+        });
+        document.getElementById('qTemplateName').value='';
+        document.getElementById('qTemplateSelect').value='';
+        _lastQuotationHtml='';
+      }
+
+      function printCompanyQuotation(){
+        if(!_lastQuotationHtml){toast('Generate quotation first','error');return;}
+        const w=window.open('','_blank');
+        if(!w){toast('Popup blocked. Please allow popups to print.','error');return;}
+        w.document.write(`<!doctype html><html><head><title>Quotation</title><style>
+          body{font-family:Arial,sans-serif;padding:20px;color:#111;background:#fff}
+          table{width:100%;border-collapse:collapse;margin-top:10px}
+          th,td{border:1px solid #ddd;padding:8px;text-align:left}
+          th{background:#fff}
+        </style></head><body>${_lastQuotationHtml}</body></html>`);
+        w.document.close();
+        w.focus();
+        w.print();
+      }
+
+      async function copyCompanyQuotation(){
+        if(!_lastQuotationHtml){toast('Generate quotation first','error');return;}
+        const holder=document.createElement('div');
+        holder.innerHTML=_lastQuotationHtml;
+        const txt=holder.innerText||'';
+        try{
+          await navigator.clipboard.writeText(txt);
+          toast('Quotation copied to clipboard');
+        }catch(e){
+          toast('Clipboard copy failed','error');
+        }
+      }
+
+      initCompanyQuotation();
 
       /* ---- INIT ---- */
       setMain(mainSkeleton());
