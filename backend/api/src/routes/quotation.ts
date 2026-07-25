@@ -58,9 +58,11 @@ router.post('/templates', asyncHandler(async (req: Request, res: Response) => {
       ownerKey,
       name,
       data,
+      updatedAt: new Date(),
     },
     update: {
       data,
+      updatedAt: new Date(),
     },
   });
 
