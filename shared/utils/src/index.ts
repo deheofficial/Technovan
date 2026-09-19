@@ -69,3 +69,6 @@ export const truncate = (text: string, length: number = 100): string => {
 export const capitalize = (text: string): string => {
   return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
 };
+
+export { default as apiClient } from './api-client';
+export { default } from './api-client';

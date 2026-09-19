@@ -233,10 +233,14 @@ yarn build
 
 Options:
 1. **Heroku**: `git push heroku main`
-2. **Railway**: Railway CLI deployment
+2. **Render/Fly.io**: Git-based deployment
 3. **Digital Ocean**: App Platform
 4. **AWS**: Elastic Beanstalk or Lambda
 5. **Cloudflare Workers**: Serverless functions
+
+### API Testing Workflow
+
+Use Postman to test the API endpoints exposed by your deployed backend (which connects to Neon via `DATABASE_URL`).
 
 ## 📊 Pricing Packages
 

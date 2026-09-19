@@ -83,8 +83,6 @@ jobs:
 
       - name: Deploy to production backend
         if: success()
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
-          # Deploy backend using Railway or preferred platform
+          # Deploy backend using your chosen platform
           echo "Deploying backend..."

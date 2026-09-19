@@ -45,16 +45,16 @@ Cloudflare automatically builds and deploys.
 
 ## Backend Deployment (Node.js API)
 
-### Option 1: Railway
+### Option 1: Render (GitHub Deploy)
 
-1. Sign up at railway.app
-2. Connect GitHub
-3. Select repository
+1. Sign up at render.com
+2. Create a new Web Service from GitHub
+3. Select repository and backend root (`backend/api`)
 4. Configure environment variables:
-   - DATABASE_URL
+   - DATABASE_URL (Neon connection string)
    - JWT_SECRET
    - NODE_ENV=production
-5. Deploy
+5. Deploy and copy your API base URL
 
 ### Option 2: Heroku
 
@@ -97,13 +97,20 @@ docker-compose up -d
 
 ## Database Setup
 
-### PostgreSQL on Supabase
+### PostgreSQL on Neon
 
-1. Go to supabase.com
+1. Go to neon.tech
 2. Create new project
 3. Get connection string
 4. Set DATABASE_URL in backend
 5. Run migrations: `yarn prisma:push`
+
+### API Verification with Postman
+
+1. Import the collection at `exports/postman/Technovan API.postman_collection.json`
+2. Import the environment at `exports/postman/Technovan Local.postman_environment.json`
+3. Set `baseUrl` to your deployed API host (for local: `http://localhost:3000`)
+4. Run Login/Register, then hit protected endpoints using the saved bearer token
 
 ### PostgreSQL on AWS RDS
 

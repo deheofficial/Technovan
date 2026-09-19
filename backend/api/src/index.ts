@@ -11,7 +11,7 @@ process.env.JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-key-change-in-pro
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 if (!process.env.DATABASE_URL) {
-  console.error('DATABASE_URL is not set. Configure it in Railway Variables.');
+  console.error('DATABASE_URL is not set. Configure it in your environment variables (Neon/PostgreSQL).');
 }
 
 import authRoutes from './routes/auth';
@@ -25,10 +25,16 @@ import quotationRoutes from './routes/quotation';
 import adminRoutes from './routes/admin';
 import portfolioRoutes from './routes/portfolio';
 import blogRoutes from './routes/blog';
+import changeRequestRoutes from './routes/change-requests';
 
 const app: Express = express();
 
-// Trust Railway/Cloudflare proxy (required for express-rate-limit and real IP)
+const allowedOrigins = (process.env.CORS_ORIGIN || '')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+// Trust upstream proxy (required for express-rate-limit and real IP)
 app.set('trust proxy', 1);
 
 // Security middleware
@@ -36,7 +42,7 @@ app.use(helmet({
   contentSecurityPolicy: false, // disabled so CDN scripts work
 }));
 app.use(cors({
-  origin: '*',
+  origin: allowedOrigins.length > 0 ? allowedOrigins : ['http://localhost:3000'],
   credentials: true,
 }));
 
@@ -76,6 +82,7 @@ app.use('/api/quotation', quotationRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/portfolio', portfolioRoutes);
 app.use('/api/blog', blogRoutes);
+app.use('/api/change-requests', changeRequestRoutes);
 
 // Health check
 app.get('/health', (req: Request, res: Response) => {

@@ -32,6 +32,47 @@ enum PaymentStatus {
   REFUNDED
 }
 
+enum ChangeRequestStatus {
+  DRAFT
+  SUBMITTED
+  TECHNICAL_ASSESSMENT
+  APPROVAL
+  IMPLEMENTATION
+  UAT_TESTING
+  DEPLOYMENT
+  CLOSED
+  REJECTED
+  RETURNED
+  UAT_FAILED
+}
+
+enum ChangeRequestType {
+  CHANGE_REQUEST
+  ENHANCEMENT
+  BUG_FIX
+  NEW_REQUIREMENT
+  CONFIGURATION_CHANGE
+}
+
+enum ChangeRequestPriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum ApprovalDecision {
+  APPROVED
+  REJECTED
+  RETURNED
+}
+
+enum UATResult {
+  PENDING
+  PASS
+  FAIL
+}
+
 model User {
   id            String     @id @default(cuid())
   email         String     @unique
@@ -51,6 +92,15 @@ model User {
   inquiries     Inquiry[]
   payments      Payment[]
   messages      Message[]
+  requestedChangeRequests ChangeRequest[] @relation("ChangeRequestRequester")
+  preparedChangeRequests ChangeRequest[] @relation("ChangeRequestPreparer")
+  approvedChangeRequests ChangeRequest[] @relation("ChangeRequestApprover")
+  assignedChangeRequests  ChangeRequest[] @relation("ChangeRequestAssignee")
+  technicalAssessments TechnicalAssessment[]
+  changeRequestApprovals ChangeRequestApproval[]
+  uatTestCases UATTestCase[]
+  changeRequestStatusChanges ChangeRequestStatusHistory[]
+  changeRequestAttachments ChangeRequestAttachment[]
 
   @@index([email])
   @@index([role])
@@ -104,6 +154,7 @@ model Project {
 
   messages Message[]
   payments Payment[]
+  changeRequests ChangeRequest[]
 
   @@index([userId])
   @@index([status])
@@ -193,6 +244,151 @@ model Payment {
   @@index([userId])
   @@index([projectId])
   @@index([status])
+}
+
+model ChangeRequest {
+  id                   String               @id @default(cuid())
+  crNumber             String               @unique
+  title                String
+  description          String
+  requestType          ChangeRequestType
+  systemModule         String
+  priority             ChangeRequestPriority @default(MEDIUM)
+  status               ChangeRequestStatus   @default(DRAFT)
+  currentBehaviour     String
+  proposedChange       String
+  businessJustification String
+  requesterName        String?
+  requesterEmail       String?
+  preparedByName       String?
+  approvedByName       String?
+  requestedById        String
+  preparedById         String?
+  approvedById         String?
+  assignedToId         String?
+  projectId            String?
+  submittedAt          DateTime?
+  closedAt             DateTime?
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @updatedAt
+
+  requestedBy          User                 @relation("ChangeRequestRequester", fields: [requestedById], references: [id])
+  preparedBy           User?                @relation("ChangeRequestPreparer", fields: [preparedById], references: [id], onDelete: SetNull)
+  approvedBy           User?                @relation("ChangeRequestApprover", fields: [approvedById], references: [id], onDelete: SetNull)
+  assignedTo           User?                @relation("ChangeRequestAssignee", fields: [assignedToId], references: [id], onDelete: SetNull)
+  project              Project?             @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  technicalAssessment  TechnicalAssessment?
+  approvals            ChangeRequestApproval[]
+  implementation       ChangeRequestImplementation?
+  uatTestCases         UATTestCase[]
+  attachments          ChangeRequestAttachment[]
+  statusHistory        ChangeRequestStatusHistory[]
+
+  @@index([requestedById])
+  @@index([preparedById])
+  @@index([approvedById])
+  @@index([assignedToId])
+  @@index([projectId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model TechnicalAssessment {
+  id                   String        @id @default(cuid())
+  changeRequestId      String        @unique
+  assessedById         String
+  technicalImpact      String
+  databaseApiUiImpact  String
+  estimatedEffort      String
+  risk                 String
+  dependencies         String
+  proposedSolution     String
+  recommendation       String
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+
+  changeRequest        ChangeRequest @relation(fields: [changeRequestId], references: [id], onDelete: Cascade)
+  assessedBy           User          @relation(fields: [assessedById], references: [id])
+  @@index([assessedById])
+}
+
+model ChangeRequestApproval {
+  id                String          @id @default(cuid())
+  changeRequestId   String
+  approverId        String
+  decision          ApprovalDecision
+  comments          String?
+  approvalDate      DateTime?
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  changeRequest     ChangeRequest   @relation(fields: [changeRequestId], references: [id], onDelete: Cascade)
+  approver          User            @relation(fields: [approverId], references: [id])
+  @@unique([changeRequestId, approverId])
+  @@index([approverId])
+}
+
+model ChangeRequestImplementation {
+  id                    String        @id @default(cuid())
+  changeRequestId       String        @unique
+  assignedDeveloperTeam String
+  implementationDetails String
+  developmentStatus     String
+  version               String?
+  deploymentDetails    String?
+  rollbackPlan          String
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+
+  changeRequest         ChangeRequest @relation(fields: [changeRequestId], references: [id], onDelete: Cascade)
+}
+
+model UATTestCase {
+  id              String        @id @default(cuid())
+  changeRequestId String
+  testerId        String
+  testScenario    String
+  expectedResult  String
+  actualResult    String?
+  result          UATResult     @default(PENDING)
+  uatApproval     Boolean       @default(false)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  changeRequest   ChangeRequest @relation(fields: [changeRequestId], references: [id], onDelete: Cascade)
+  tester          User          @relation(fields: [testerId], references: [id])
+  @@index([testerId])
+}
+
+model ChangeRequestStatusHistory {
+  id              String              @id @default(cuid())
+  changeRequestId String
+  fromStatus      ChangeRequestStatus?
+  toStatus        ChangeRequestStatus
+  changedById     String
+  comments        String?
+  createdAt       DateTime            @default(now())
+
+  changeRequest   ChangeRequest       @relation(fields: [changeRequestId], references: [id], onDelete: Cascade)
+  changedBy       User                @relation(fields: [changedById], references: [id])
+  @@index([changeRequestId])
+  @@index([changedById])
+}
+
+model ChangeRequestAttachment {
+  id              String        @id @default(cuid())
+  changeRequestId String
+  uploadedById    String
+  fileName        String
+  fileUrl         String
+  fileType        String?
+  fileSize        Int?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  changeRequest   ChangeRequest @relation(fields: [changeRequestId], references: [id], onDelete: Cascade)
+  uploadedBy      User          @relation(fields: [uploadedById], references: [id])
+  @@index([uploadedById])
 }
 
 model Portfolio {

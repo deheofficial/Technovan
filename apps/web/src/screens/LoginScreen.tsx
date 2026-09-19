@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { View, ScrollView, Text, TextInput, Pressable, Alert } from 'react-native';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { login } from '../store/slices/authSlice';
@@ -6,6 +7,7 @@ import { login } from '../store/slices/authSlice';
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { loading, error } = useAppSelector((state) => state.auth);
 
@@ -17,7 +19,7 @@ export default function LoginScreen() {
 
     try {
       await dispatch(login({ email, password })).unwrap();
-      // Navigation will be handled by app router
+      navigate('/dashboard');
     } catch (err: any) {
       Alert.alert('Login Failed', err.message || 'Please check your credentials');
     }
@@ -62,7 +64,7 @@ export default function LoginScreen() {
 
         <View className="flex-row justify-center">
           <Text className="text-gray-400">Don't have an account? </Text>
-          <Pressable>
+          <Pressable onPress={() => navigate('/register')}>
             <Text className="text-teal-400 font-semibold">Sign up</Text>
           </Pressable>
         </View>

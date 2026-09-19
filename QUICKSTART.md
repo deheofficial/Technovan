@@ -29,7 +29,7 @@ yarn install
 # Backend
 cd backend/api
 cp .env.example .env
-# Edit with your database URL and secrets
+# Edit with your Neon DATABASE_URL and secrets
 
 # Web App
 cd ../../apps/web
@@ -52,6 +52,13 @@ yarn workspace @technovan/api prisma:push
 # Start development servers
 yarn dev
 ```
+
+### Step 4: Test API with Postman
+
+1. Import `exports/postman/Technovan API.postman_collection.json`
+2. Import `exports/postman/Technovan Local.postman_environment.json`
+3. Run `Auth > Register` or `Auth > Login`
+4. Call protected endpoints using the saved `token` variable
 
 ## 📱 Access Your App
 

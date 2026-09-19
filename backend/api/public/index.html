@@ -8,7 +8,8 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Syne:wght@500;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/assets/revamp.css" />
     <style>
       :root {
         --c-bg:#07090f;--c-surf:#0e1320;--c-surf2:#151d2e;--c-border:#1e2d45;--c-border2:#2a3d58;
@@ -59,10 +60,10 @@
       .card-accent{border-top:3px solid var(--c-brand)}
       /* NAVBAR */
       .navbar{position:sticky;top:0;z-index:100;backdrop-filter:blur(18px) saturate(1.6);background:rgba(7,9,15,.88);border-bottom:1px solid var(--c-border)}
-      .navbar-inner{height:66px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+      .navbar-inner{height:66px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 14px}
       .brand{font-family:var(--font-h);font-size:22px;font-weight:800;letter-spacing:.3px;cursor:pointer;display:inline-flex;align-items:center;gap:0}
       .brand-logo{width:28px;height:28px;object-fit:contain;flex-shrink:0}
-      .brand span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+      .brand span{color:#c8f04e;background:none;-webkit-text-fill-color:initial}
       .nav-links{display:flex;gap:4px}
       .nav-link{padding:8px 14px;border-radius:8px;font-size:14px;font-weight:500;color:var(--c-muted);border:none;background:none;transition:all var(--tr);cursor:pointer}
       .nav-link:hover,.nav-link.active{color:var(--c-text);background:var(--c-surf2)}
@@ -82,12 +83,12 @@
       .hero-eyebrow::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--c-brand);animation:pulse 2s infinite}
       @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
       .hero-title{font-size:clamp(34px,5.5vw,62px);margin-bottom:20px}
-      .hero-title .grad{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+      .hero-title .grad{background:var(--grad);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
       .hero-sub{font-size:17px;color:var(--c-muted);max-width:520px;margin-bottom:36px}
       .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
       .hero-cta .btn{flex:1;min-width:160px}
       .hero-stats{display:flex;gap:36px;margin-top:52px;flex-wrap:wrap}
-      .hero-stats b{font-size:30px;font-family:var(--font-h);background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block}
+      .hero-stats b{font-size:30px;font-family:var(--font-h);background:var(--grad);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block}
       .hero-stats span{font-size:13px;color:var(--c-muted);margin-top:2px;display:block}
       .contact-card{background:var(--c-surf);border:1px solid var(--c-border);border-radius:var(--radius-lg);padding:28px}
       .contact-card h3{margin-bottom:18px;font-size:18px}
@@ -157,6 +158,8 @@
       .snav{width:100%;text-align:left;background:none;border:none;color:var(--c-muted);padding:10px 12px;border-radius:10px;font-size:14px;font-weight:500;display:flex;align-items:center;gap:10px;transition:all var(--tr);cursor:pointer;margin-bottom:2px}
       .snav:hover{color:var(--c-text);background:var(--c-surf2)}
       .snav.active{color:var(--c-brand);background:rgba(0,201,177,.1);font-weight:600}
+      .snav-ico{width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+      .snav-ico svg{width:18px;height:18px;display:block;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
       .dash-main{padding:30px;overflow-y:auto}
       .dash-hd{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:28px}
       .dash-hd h2{font-size:22px}
@@ -181,16 +184,42 @@
       tr:last-child td{border-bottom:none}
       tbody tr{transition:background var(--tr)}
       tbody tr:hover{background:rgba(255,255,255,.02)}
+      .cm-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+      .cm-filters{display:flex;gap:8px;flex-wrap:wrap}
+      .cm-filter{width:auto;min-width:150px;padding:9px 12px;font-size:13px}
+      .cm-count{font-size:13px;color:var(--c-muted);margin-left:8px}
+      .cm-stat{position:relative;overflow:hidden}
+      .cm-stat::after{content:'';position:absolute;right:-18px;bottom:-28px;width:82px;height:82px;border:1px solid rgba(0,201,177,.2);border-radius:50%}
+      .cm-id{font-size:11px;letter-spacing:.7px;color:var(--c-muted);font-weight:700}
+      .cm-description{max-width:270px;color:var(--c-muted);font-size:12px;line-height:1.45;margin-top:3px}
+      .cm-table{min-width:920px}
+      .cm-table th,.cm-table td{text-align:center;vertical-align:middle}
+      .cm-table td:first-child{width:32%}
+      .cm-table td:nth-child(2){width:14%}
+      .cm-table td:nth-child(3){width:15%}
+      .cm-table td:nth-child(4){width:11%}
+      .cm-table td:nth-child(5){width:13%}
+      .cm-actions{display:flex;align-items:center;justify-content:center;gap:8px;min-width:70px;text-align:center}
+      .cm-table td:first-child .cm-description{margin-left:auto;margin-right:auto}
+      .cm-edit{width:36px;height:36px;min-height:36px;padding:0;border-radius:9px;font-size:16px;flex-shrink:0}
+      .cm-form-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:14px;padding:16px;margin:4px 0 18px;border:1px solid var(--c-border);border-radius:12px;background:rgba(255,255,255,.025)}
+      .cm-form-meta .fg{margin-bottom:12px}
+      .cm-form-meta .fg:nth-last-child(-n+1){margin-bottom:0}
+      .cm-form-meta input[readonly]{color:var(--c-muted);cursor:default}
+      .cm-print{width:36px;height:36px;min-height:36px;padding:0;border-radius:9px;font-size:15px;flex-shrink:0}
       /* MODAL */
       .modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:200;animation:fadeIn .2s ease}
       .modal-ov.open{display:flex;align-items:center;justify-content:center;padding:20px}
       @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-      .modal{background:var(--c-surf);border:1px solid var(--c-border2);border-radius:var(--radius-lg);padding:28px;width:min(520px,100%);max-height:90vh;overflow-y:auto;animation:slideUp .25s ease}
+      .modal{background:var(--c-surf);border:1px solid var(--c-border2);border-radius:var(--radius-lg);padding:32px;width:min(720px,100%);max-height:calc(100vh - 40px);overflow-y:auto;animation:slideUp .25s ease}
       @keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
       .modal-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
       .modal-x{background:none;border:none;color:var(--c-muted);font-size:22px;cursor:pointer;line-height:1}
       .modal-x:hover{color:var(--c-text)}
       .modal-ft{display:flex;gap:10px;justify-content:flex-end;margin-top:22px}
+      .btn-spinner{display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:spin .7s linear infinite;vertical-align:-2px}
+      .loading-state{display:flex;align-items:center;justify-content:center;gap:10px;min-height:100px;color:var(--c-muted)}
+      @keyframes spin{to{transform:rotate(360deg)}}
       /* TOAST */
       #toast{position:fixed;bottom:28px;right:28px;z-index:999;background:var(--c-surf2);border:1px solid var(--c-border2);border-radius:12px;padding:14px 20px;min-width:240px;box-shadow:var(--shadow);display:none;animation:slideUp .25s ease;font-size:14px}
       #toast.success{border-color:var(--c-success);color:var(--c-success)}
@@ -236,6 +265,10 @@
         .nav-links{display:none}
         .hamburger{display:flex}
         #authBtns{display:none}
+        .dash-main{padding:22px 16px}
+        .cm-toolbar{align-items:stretch}
+        .cm-filters{width:100%}
+        .cm-filter{flex:1;min-width:0}
       }
       @media(max-width:560px){
         .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
@@ -249,12 +282,97 @@
         .hero-stats{gap:20px;margin-top:36px}
         .hero-stats b{font-size:24px}
         .hero-stats span{font-size:12px}
+        .dash-hd h2{font-size:20px}
+        .dash-hd .btn{width:100%}
+        .stat-card{padding:15px}
+        .stat-card .val{font-size:25px}
+        .modal-ov{padding:10px}
+        .modal{width:100%;max-height:calc(100vh - 20px);padding:20px;border-radius:18px}
+        .cm-form-meta{grid-template-columns:1fr}
+      }
+
+      /* Force a clean light header regardless of base dark navbar styles */
+      body[data-theme='light'] .navbar{
+        background:rgba(255,255,255,.94);
+        border-bottom:1px solid #ececec;
+      }
+      body[data-theme='light'] .navbar .brand,
+      body[data-theme='light'] .navbar .brand span{
+        background:none;
+        -webkit-text-fill-color:initial;
+      }
+      body[data-theme='light'] .navbar .brand{color:#000}
+      body[data-theme='light'] .navbar .brand span{color:#c8f04e}
+      body[data-theme='light'] .navbar .nav-link{
+        color:#111;
+      }
+      body[data-theme='light'] .navbar .nav-link:hover,
+      body[data-theme='light'] .navbar .nav-link.active{
+        color:#000;
+        background:#f3f3f3;
+      }
+      body[data-theme='light'] .navbar .btn{
+        background:#fff;
+        color:#111;
+        border-color:#dcdcdc;
+      }
+      body[data-theme='light'] .navbar .btn:hover{
+        border-color:#bfbfbf;
+        color:#000;
+      }
+      body[data-theme='light'] .navbar .btn.btn-primary{
+        background:linear-gradient(100deg,#b9e84f 0%,#d6f57d 100%);
+        color:#111a14;
+        border:1px solid #a5cf43;
+      }
+      body[data-theme='light'] .mobile-nav{
+        background:#fff;
+        border-bottom:1px solid #ececec;
+      }
+      body[data-theme='light'] .mobile-nav .nav-link{
+        color:#111;
+      }
+      body[data-theme='light'] .mobile-nav .nav-link:hover{
+        background:#f3f3f3;
+        color:#000;
+      }
+      body[data-theme='light'] .skeleton{
+        background:#d7e1ec;
+      }
+      body[data-theme='light'] .skeleton::after{
+        background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.78),rgba(255,255,255,0));
+      }
+      body[data-theme='light'] .sk-card,
+      body[data-theme='light'] .sk-table{
+        background:#f7fafc;
+        border-color:#dee7f1;
+      }
+      body[data-theme='light'] .dash-side{
+        background:#fff;
+        border-right:1px solid #e7e7e7;
+      }
+      body[data-theme='light'] .dash-side-hd p,
+      body[data-theme='light'] .nav-sec{
+        color:#646a73;
+      }
+      body[data-theme='light'] .dash-side .snav{
+        color:#2f3540;
+      }
+      body[data-theme='light'] .dash-side .snav:hover{
+        color:#111;
+        background:#eef3fa;
+        box-shadow:inset 0 0 0 1px #dbe5f2;
+      }
+      body[data-theme='light'] .dash-side .snav.active{
+        color:#0f5f94;
+        background:#e6f2fb;
+        box-shadow:inset 0 0 0 1px #cfe6f8;
       }
     </style>
   </head>
   <body>
     <nav class="navbar">
-      <div class="container navbar-inner">
+      <div class="navbar-inner">
         <div class="brand" onclick="go('home')"><img src="/assets/technovan-logo.png" alt="Technovan logo" class="brand-logo" /><span>TECHNO</span>VAN</div>
         <div class="nav-links">
           <button class="nav-link" onclick="go('home')">Home</button>
@@ -262,8 +380,9 @@
           <button class="nav-link" onclick="sscroll('#pricing')">Pricing</button>
           <button class="nav-link" onclick="sscroll('#portfolio')">Work</button>
           <button class="nav-link" onclick="sscroll('#blog')">Blog</button>
-          <button class="nav-link" onclick="go('quotation')">Quotation</button>
+          <button class="nav-link" id="quoteNavDesktop" onclick="go('quotation')" style="display:none">Quotation</button>
         </div>
+        <button class="btn btn-sm" id="themeToggleAlt" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">☾</button>
         <div class="row" id="authBtns">
           <button class="btn btn-sm" onclick="go('login')">Login</button>
           <button class="btn btn-sm btn-primary" onclick="go('register')">Get Started</button>
@@ -276,7 +395,8 @@
         <button class="nav-link" onclick="sscroll('#services');closeMenu()">Services</button>
         <button class="nav-link" onclick="sscroll('#pricing');closeMenu()">Pricing</button>
         <button class="nav-link" onclick="sscroll('#portfolio');closeMenu()">Work</button>
-        <button class="nav-link" onclick="go('quotation');closeMenu()">Quotation</button>
+        <button class="nav-link" id="quoteNavMobile" onclick="go('quotation');closeMenu()" style="display:none">Quotation</button>
+        <button class="nav-link" id="themeToggleMobile" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle theme">☾</button>
         <button class="nav-link" onclick="go('login');closeMenu()">Login</button>
         <button class="nav-link btn-primary" style="background:var(--grad);color:#001a18;border:none;margin-top:4px" onclick="go('register');closeMenu()">Get Started</button>
       </div>
@@ -287,27 +407,31 @@
       <section class="hero">
         <div class="container">
           <div class="hero-grid">
-            <div>
-              <div class="hero-eyebrow">Available for new projects</div>
-              <h1 class="hero-title">We Build <span class="grad">Complete Digital</span><br/>Systems That Scale</h1>
-              <p class="hero-sub">Full-stack web apps, mobile apps, cloud platforms, and enterprise dashboards built for performance, security, and growth.</p>
+            <div class="hero-shell">
+              <div class="hero-topbar">
+                <div class="hero-eyebrow">Technovan Product Studio</div>
+                <div class="hero-pill">Available for new projects</div>
+              </div>
+              <h1 class="hero-title">HIGH-END SOFTWARE.<br/>CRAFTED SYSTEMS.</h1>
+              <div class="hero-mark">✦</div>
+              <p class="hero-sub">We design and engineer business platforms that feel premium, perform fast, and scale cleanly from launch to enterprise.</p>
               <div class="hero-cta">
-                <button class="btn btn-primary" onclick="go('register')">&#128640; Start Your Project</button>
-                <button class="btn" onclick="sscroll('#portfolio')">View Our Work</button>
+                <button class="btn btn-primary" onclick="go('register')">Start Your Project</button>
+                <button class="btn" onclick="sscroll('#portfolio')">View Our Specialties</button>
               </div>
               <div class="hero-stats">
-                <div><b>150+</b><span>Projects Delivered</span></div>
-                <div><b>50+</b><span>Happy Clients</span></div>
-                <div><b>5yr</b><span>Industry Experience</span></div>
+                <div><b>20+</b><span>Projects Delivered</span></div>
+                <div><b>5+</b><span>Active Clients</span></div>
+                <div><b>99.95%</b><span>Deployment Uptime</span></div>
               </div>
             </div>
             <div class="contact-card">
-              <h3>Quick Inquiry</h3>
+              <h3>Project Intake</h3>
               <div class="fg"><label>Name</label><input id="cName" placeholder="Your full name" /></div>
               <div class="fg"><label>Email</label><input id="cEmail" type="email" placeholder="you@company.com" /></div>
               <div class="fg"><label>Phone (optional)</label><input id="cPhone" placeholder="+60167659237" /></div>
               <div class="fg"><label>Project idea</label><textarea id="cMsg" rows="4" placeholder="Tell us what you want to build..."></textarea></div>
-              <button class="btn btn-primary fw" onclick="submitContact()">Send Message</button>
+              <button class="btn btn-primary fw" onclick="submitContact()">Send Brief</button>
               <p id="cRes" class="ok" style="display:none"></p>
             </div>
           </div>
@@ -339,7 +463,7 @@
       <section class="section" id="portfolio">
         <div class="container">
           <div class="section-header">
-            <span class="eyebrow">Case Studies</span>
+            <span class="eyebrow">Our Specialties</span>
             <h2>Projects We Are Proud Of</h2>
             <p class="muted">Real products built for real clients.</p>
           </div>
@@ -534,18 +658,20 @@ KUALA LUMPUR, MALAYSIA</textarea></div>
             <p id="sdEmail" class="muted"></p>
           </div>
           <span class="nav-sec">Main</span>
-          <button class="snav active" onclick="dtab('overview')">&#128202; Overview</button>
-          <button class="snav" onclick="dtab('my-projects')">&#128193; My Projects</button>
-          <button class="snav" onclick="dtab('payments')">&#128179; Payments</button>
+          <button class="snav active" onclick="dtab('overview')"><span class="snav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20V10"></path><path d="M10 20V4"></path><path d="M16 20v-7"></path><path d="M22 20H2"></path></svg></span>Overview</button>
+          <button class="snav" onclick="dtab('my-projects')"><span class="snav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg></span>My Projects</button>
+          <button class="snav" onclick="dtab('payments')"><span class="snav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"></rect><path d="M2 10h20"></path><path d="M6 15h4"></path></svg></span>Payments</button>
           <span class="nav-sec" id="admSec" style="display:none">Admin</span>
-          <button class="snav" id="admDash" onclick="dtab('admin-overview')" style="display:none">&#128200; Dashboard</button>
-          <button class="snav" id="admSvc"  onclick="dtab('admin-services')" style="display:none">&#9881; Services</button>
-          <button class="snav" id="admPrc"  onclick="dtab('admin-pricing')"  style="display:none">&#128176; Pricing</button>
-          <button class="snav" id="admBlog" onclick="dtab('admin-blog')" style="display:none">&#128221; Blog</button>
-          <button class="snav" id="admPrj"  onclick="dtab('admin-projects')" style="display:none">&#128203; All Projects</button>
-          <button class="snav" id="admInq"  onclick="dtab('admin-inquiries')" style="display:none">&#128233; Inquiries</button>
+          <button class="snav" id="admCm" onclick="dtab('admin-change-management')" style="display:none"><span class="snav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h16"></path><path d="M4 12h10"></path><path d="M4 17h16"></path><circle cx="17" cy="12" r="2"></circle></svg></span>Change Management</button>
+          <button class="snav" id="admDash" onclick="dtab('admin-overview')" style="display:none"><span class="snav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 13.5l4.5-4.5 4 4 6.5-6.5"></path><path d="M3 19h18"></path></svg></span>Dashboard</button>
+          <button class="snav" id="admSvc"  onclick="dtab('admin-services')" style="display:none"><span class="snav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1 1 0 0 0 .2 1.1l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1 1 0 0 0-1.1-.2 1 1 0 0 0-.6.9V20a2 2 0 1 1-4 0v-.2a1 1 0 0 0-.6-.9 1 1 0 0 0-1.1.2l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1 1 0 0 0 .2-1.1 1 1 0 0 0-.9-.6H4a2 2 0 1 1 0-4h.2a1 1 0 0 0 .9-.6 1 1 0 0 0-.2-1.1l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1 1 0 0 0 1.1.2 1 1 0 0 0 .6-.9V4a2 2 0 1 1 4 0v.2a1 1 0 0 0 .6.9 1 1 0 0 0 1.1-.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1 1 0 0 0-.2 1.1 1 1 0 0 0 .9.6h.2a2 2 0 1 1 0 4h-.2a1 1 0 0 0-.9.6z"></path></svg></span>Services</button>
+          <button class="snav" id="admPrc"  onclick="dtab('admin-pricing')"  style="display:none"><span class="snav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v18"></path><path d="M17 7.5c0-1.9-2.2-3.5-5-3.5s-5 1.6-5 3.5 2.2 3.5 5 3.5 5 1.6 5 3.5-2.2 3.5-5 3.5-5-1.6-5-3.5"></path></svg></span>Pricing</button>
+          <button class="snav" id="admBlog" onclick="dtab('admin-blog')" style="display:none"><span class="snav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6"></path><path d="M8 13h8"></path><path d="M8 17h8"></path></svg></span>Blog</button>
+          <button class="snav" id="admQuote" onclick="go('quotation')" style="display:none"><span class="snav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M7 8h10"></path><path d="M7 12h10"></path><path d="M7 16h6"></path></svg></span>Quotation</button>
+          <button class="snav" id="admPrj"  onclick="dtab('admin-projects')" style="display:none"><span class="snav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"></rect><path d="M8 8h8"></path><path d="M8 12h8"></path><path d="M8 16h5"></path></svg></span>All Projects</button>
+          <button class="snav" id="admInq"  onclick="dtab('admin-inquiries')" style="display:none"><span class="snav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"></path><path d="M22 7l-10 7L2 7"></path></svg></span>Inquiries</button>
           <span class="nav-sec">Account</span>
-          <button class="snav" onclick="doLogout()">&#128682; Logout</button>
+          <button class="snav" onclick="doLogout()"><span class="snav-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="M16 17l5-5-5-5"></path><path d="M21 12H9"></path></svg></span>Logout</button>
         </aside>
         <main class="dash-main" id="dashMain"></main>
       </div>
@@ -565,11 +691,40 @@ KUALA LUMPUR, MALAYSIA</textarea></div>
 
     <script>
       const API_BASE=((() => {
-        const isLocal=window.location.hostname==='localhost'||window.location.hostname==='127.0.0.1';
-        return isLocal?'http://localhost:3000/api':'https://technovan-production.up.railway.app/api';
+        return '/api';
       })());
       let S={token:localStorage.getItem('tv_token')||null,user:JSON.parse(localStorage.getItem('tv_user')||'null')};
-      let _tt,_mbtns=[];
+      let _tt,_mbtns=[],_modalSubmitLabel='';
+      const _quotationTemplateHost=document.getElementById('page-quotation');
+      const _quotationTemplateHtml=_quotationTemplateHost?_quotationTemplateHost.innerHTML:'';
+      if(_quotationTemplateHost) _quotationTemplateHost.innerHTML='';
+
+      function applyTheme(theme){
+        const next=theme==='dark'?'dark':'light';
+        document.body.setAttribute('data-theme',next);
+        localStorage.setItem('tv_theme',next);
+        const symbol=next==='dark'?'☀':'☾';
+        const label=next==='dark'?'Switch to light theme':'Switch to dark theme';
+        const btnAlt=document.getElementById('themeToggleAlt');
+        if(btnAlt){
+          btnAlt.textContent=symbol;
+          btnAlt.setAttribute('aria-label',label);
+          btnAlt.setAttribute('title',label);
+        }
+        const btnMobile=document.getElementById('themeToggleMobile');
+        if(btnMobile){
+          btnMobile.textContent=symbol;
+          btnMobile.setAttribute('aria-label',label);
+          btnMobile.setAttribute('title',label);
+        }
+      }
+
+      function toggleTheme(){
+        const current=document.body.getAttribute('data-theme')||'light';
+        applyTheme(current==='dark'?'light':'dark');
+      }
+
+      applyTheme(localStorage.getItem('tv_theme')||'dark');
 
       async function api(path,opts={}){
         const hdrs={'Content-Type':'application/json'};
@@ -581,6 +736,18 @@ KUALA LUMPUR, MALAYSIA</textarea></div>
         return data;
       }
 
+      function canAccessQuotation(){
+        return Boolean(S.user&&S.token&&S.user.role==='ADMIN');
+      }
+
+      function syncAdminOnlyUi(){
+        const showQuotation=canAccessQuotation();
+        ['quoteNavDesktop','quoteNavMobile'].forEach((id)=>{
+          const el=document.getElementById(id);
+          if(el) el.style.display=showQuotation?'':'none';
+        });
+      }
+
       function toast(msg,type='success'){
         const el=document.getElementById('toast');
         el.textContent=(type==='success'?'✓  ':'✕  ')+msg;
@@ -589,6 +756,35 @@ KUALA LUMPUR, MALAYSIA</textarea></div>
       }
 
       function go(page){
+        if(page==='quotation'&&!canAccessQuotation()){
+          toast('Quotation is available for admin only','error');
+          if(S.user&&S.token){
+            go('dashboard');
+            initDash();
+          }else{
+            go('login');
+          }
+          return;
+        }
+        if(page==='quotation'){
+          document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+          document.getElementById('page-dashboard').classList.add('active');
+          if(window.location.pathname!=='/quotation' || window.location.search){
+            window.history.pushState({},'', '/quotation');
+          }
+          window.scrollTo(0,0);
+          const mobileNav=document.getElementById('mobileNav');if(mobileNav) mobileNav.classList.remove('open');
+          document.getElementById('authBtns').style.display='none';
+          const navLinks=document.querySelector('.nav-links');if(navLinks) navLinks.style.display='none';
+          const hmb=document.getElementById('hmb');if(hmb) hmb.style.display='none';
+          const dashHmb=document.getElementById('dashHmb');if(dashHmb) dashHmb.style.display='';
+          initDash(true);
+          document.querySelectorAll('.snav').forEach(b=>b.classList.remove('active'));
+          const quoteBtn=document.getElementById('admQuote');
+          if(quoteBtn) quoteBtn.classList.add('active');
+          renderQuotationInDashboard();
+          return;
+        }
         document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
         document.getElementById('page-'+page).classList.add('active');
         if(page!=='dashboard') document.body.classList.remove('editor-mode');
@@ -601,10 +797,11 @@ KUALA LUMPUR, MALAYSIA</textarea></div>
         }
         window.scrollTo(0,0);
         const mobileNav=document.getElementById('mobileNav');if(mobileNav) mobileNav.classList.remove('open');
-        document.getElementById('authBtns').style.display=page==='dashboard'?'none':'';
-        const navLinks=document.querySelector('.nav-links');if(navLinks) navLinks.style.display=page==='dashboard'?'none':'';
-        const hmb=document.getElementById('hmb');if(hmb) hmb.style.display=page==='dashboard'?'none':'';
-        const dashHmb=document.getElementById('dashHmb');if(dashHmb) dashHmb.style.display=page==='dashboard'?'':'none';
+        const isPrivatePage=page==='dashboard'||page==='quotation';
+        document.getElementById('authBtns').style.display=isPrivatePage?'none':'';
+        const navLinks=document.querySelector('.nav-links');if(navLinks) navLinks.style.display=isPrivatePage?'none':'';
+        const hmb=document.getElementById('hmb');if(hmb) hmb.style.display=isPrivatePage?'none':'';
+        const dashHmb=document.getElementById('dashHmb');if(dashHmb) dashHmb.style.display=isPrivatePage?'':'none';
         if(page!=='dashboard') closeDashSide();
       }
 
@@ -650,8 +847,20 @@ KUALA LUMPUR, MALAYSIA</textarea></div>
         }catch(e){serr('rErr',e.message);}
       }
 
-      function saveAuth(d){S.token=d.token;S.user=d.user;localStorage.setItem('tv_token',d.token);localStorage.setItem('tv_user',JSON.stringify(d.user));}
-      function doLogout(){S={token:null,user:null};localStorage.removeItem('tv_token');localStorage.removeItem('tv_user');go('home');}
+      function saveAuth(d){
+        S.token=d.token;
+        S.user=d.user;
+        localStorage.setItem('tv_token',d.token);
+        localStorage.setItem('tv_user',JSON.stringify(d.user));
+        syncAdminOnlyUi();
+      }
+      function doLogout(){
+        S={token:null,user:null};
+        localStorage.removeItem('tv_token');
+        localStorage.removeItem('tv_user');
+        syncAdminOnlyUi();
+        go('home');
+      }
       function fillDemo(){document.getElementById('lEmail').value='admin@technovan.com';document.getElementById('lPass').value='password';}
 
       function initDash(skipDefaultTab=false){
@@ -659,14 +868,15 @@ KUALA LUMPUR, MALAYSIA</textarea></div>
         document.getElementById('sdName').textContent=S.user.firstName+' '+S.user.lastName;
         document.getElementById('sdEmail').textContent=S.user.email;
         const isAdmin=S.user.role==='ADMIN';
-        ['admSec','admDash','admSvc','admPrc','admBlog','admPrj','admInq'].forEach(id=>document.getElementById(id).style.display=isAdmin?'':'none');
-        if(!skipDefaultTab) dtab(isAdmin?'admin-overview':'overview');
+        ['admSec','admCm','admDash','admSvc','admPrc','admBlog','admQuote','admPrj','admInq'].forEach(id=>document.getElementById(id).style.display=isAdmin?'':'none');
+        syncAdminOnlyUi();
+        if(!skipDefaultTab) dtab(isAdmin?'admin-change-management':'overview');
       }
 
       function dtab(tab){
         document.body.classList.remove('editor-mode');
         document.querySelectorAll('.snav').forEach(b=>b.classList.remove('active'));
-        const fns={overview:renderOverview,'my-projects':renderMyProjects,payments:renderPayments,'admin-overview':renderAdminOverview,'admin-services':renderAdminServices,'admin-pricing':renderAdminPricing,'admin-blog':renderAdminBlog,'admin-projects':renderAdminProjects,'admin-inquiries':renderAdminInquiries};
+        const fns={overview:renderOverview,'my-projects':renderMyProjects,payments:renderPayments,'admin-overview':renderAdminOverview,'admin-change-management':renderChangeManagement,'admin-services':renderAdminServices,'admin-pricing':renderAdminPricing,'admin-blog':renderAdminBlog,'admin-projects':renderAdminProjects,'admin-inquiries':renderAdminInquiries};
         if(fns[tab]) fns[tab]();
         if(window.innerWidth<=960) closeDashSide();
       }
@@ -739,9 +949,19 @@ KUALA LUMPUR, MALAYSIA</textarea></div>
           'admin-blog':{cols:6,action:true,width:130},
           'admin-projects':{cols:6,action:false,width:180},
           'admin-inquiries':{cols:7,action:false,width:150},
+          'admin-change-management':{cols:6,action:true,width:230},
         };
         const cfg=map[type]||{cols:5,action:false,width:180};
         return `<div class="sk-head-row"><div class="skeleton sk-head" style="width:${cfg.width}px"></div>${cfg.action?'<div class="skeleton sk-btn"></div>':''}</div><div class="sk-table">${rowSkeleton(6,cfg.cols)}</div>`;
+      }
+
+      function renderQuotationInDashboard(){
+        if(!_quotationTemplateHtml){
+          setMain('<div class="empty"><p>Quotation template is unavailable.</p></div>');
+          return;
+        }
+        setMain(_quotationTemplateHtml);
+        initCompanyQuotation();
       }
 
       /* ---- OVERVIEW ---- */
@@ -1114,6 +1334,131 @@ KUALA LUMPUR, MALAYSIA</textarea></div>
         toast('Status updated to '+status.replace(/_/g,' '));
       }
 
+      /* ---- CHANGE MANAGEMENT ---- */
+      function cmStatusTag(status){
+        const cls={DRAFT:'tag-gray',SUBMITTED:'tag-blue',TECHNICAL_ASSESSMENT:'tag-orange',APPROVAL:'tag-orange',IMPLEMENTATION:'tag-teal',UAT_TESTING:'tag-teal',DEPLOYMENT:'tag-teal',CLOSED:'tag-green',REJECTED:'tag-red',RETURNED:'tag-orange',UAT_FAILED:'tag-red'}[status]||'tag-gray';
+        return `<span class="tag ${cls}">${status.replace(/_/g,' ')}</span>`;
+      }
+      function cmNextStatuses(status){
+        return {DRAFT:['SUBMITTED'],SUBMITTED:['TECHNICAL_ASSESSMENT','RETURNED','REJECTED'],TECHNICAL_ASSESSMENT:['APPROVAL','RETURNED','REJECTED'],APPROVAL:['IMPLEMENTATION','RETURNED','REJECTED'],IMPLEMENTATION:['UAT_TESTING','RETURNED','REJECTED'],UAT_TESTING:['DEPLOYMENT','UAT_FAILED','RETURNED'],DEPLOYMENT:['CLOSED','RETURNED'],REJECTED:['DRAFT'],RETURNED:['DRAFT'],UAT_FAILED:['IMPLEMENTATION']}[status]||[];
+      }
+      async function renderChangeManagement(){
+        setMain(mainSkeleton('admin-change-management'));
+        window._cmRequests=await api('/change-requests').catch(()=>[]);renderChangeManagementTable();
+      }
+      function renderChangeManagementTable(){
+        const requests=window._cmRequests||[];const active=requests.filter(r=>!['CLOSED','REJECTED'].includes(r.status)).length;const review=requests.filter(r=>['TECHNICAL_ASSESSMENT','APPROVAL'].includes(r.status)).length;const high=requests.filter(r=>r.priority==='HIGH'&&!['CLOSED','REJECTED'].includes(r.status)).length;
+        setMain(`<div class="dash-hd"><div><h2>Change Management</h2><p class="muted" style="margin-top:5px">Control scope, approvals and delivery impact across project changes.</p></div><button class="btn btn-primary btn-sm" onclick="openChangeRequest()">+ New Change Request</button></div><div class="stats-row"><div class="stat-card cm-stat"><div class="lbl">Total Requests</div><div class="val">${requests.length}</div><div class="chg">All change records</div></div><div class="stat-card cm-stat"><div class="lbl">Active Changes</div><div class="val">${active}</div><div class="chg">In the delivery pipeline</div></div><div class="stat-card cm-stat"><div class="lbl">Awaiting Review</div><div class="val">${review}</div><div class="chg">Needs a decision</div></div><div class="stat-card cm-stat"><div class="lbl">High Priority</div><div class="val">${high}</div><div class="chg">Requires attention</div></div></div><div class="cm-toolbar"><div><b>Change Requests</b><span class="cm-count">${requests.length} ${requests.length===1?'record':'records'}</span></div><div class="cm-filters"><input class="cm-filter" id="cmSearch" placeholder="Search by title, module or ID" oninput="filterChangeRequests()" /><select class="cm-filter" id="cmStatusFilter" onchange="filterChangeRequests()"><option value="">All statuses</option>${['DRAFT','SUBMITTED','TECHNICAL_ASSESSMENT','APPROVAL','IMPLEMENTATION','UAT_TESTING','DEPLOYMENT','CLOSED','REJECTED','RETURNED','UAT_FAILED'].map(s=>`<option value="${s}">${s.replace(/_/g,' ')}</option>`).join('')}</select></div></div><div class="tbl-wrap"><table class="cm-table"><thead><tr><th>Request</th><th>Project</th><th>Requester</th><th>Priority</th><th>Status</th><th>Action</th></tr></thead><tbody id="cmRows">${changeRequestRows(requests)}</tbody></table></div>`);
+      }
+      function changeRequestRows(requests){
+        if(!requests.length)return '<tr><td colspan="6"><div class="empty" style="padding:34px"><div class="ico">↗</div><p>No change requests match your filters.</p></div></td></tr>';
+        return requests.map(r=>`<tr><td><b>${esc(r.title)}</b><div class="cm-id">${esc(r.crNumber||r.id)} · ${fdate(r.createdAt)}</div><div class="cm-description">${esc(r.description)}</div></td><td>${esc(r.project?.title||'—')}</td><td>${esc(r.requestedBy?r.requestedBy.firstName+' '+r.requestedBy.lastName:'—')}</td><td>${r.priority==='HIGH'||r.priority==='CRITICAL'?'<span class="tag tag-red">'+r.priority+'</span>':r.priority==='MEDIUM'?'<span class="tag tag-orange">MEDIUM</span>':'<span class="tag tag-gray">LOW</span>'}</td><td>${cmStatusTag(r.status)}</td><td class="cm-actions"><button class="btn cm-edit" title="Edit ${esc(r.crNumber||r.id)}" aria-label="Edit ${esc(r.crNumber||r.id)}" onclick="openEditChangeRequest('${esc(r.id)}')">&#9998;</button><button class="btn cm-print" title="Print ${esc(r.crNumber||r.id)}" aria-label="Print ${esc(r.crNumber||r.id)}" onclick="printChangeRequest('${esc(r.id)}')">&#128424;</button></td></tr>`).join('');
+      }
+      function filterChangeRequests(){
+        const search=(document.getElementById('cmSearch')?.value||'').toLowerCase();const status=document.getElementById('cmStatusFilter')?.value||'';const rows=(window._cmRequests||[]).filter(r=>(!status||r.status===status)&&(!search||[r.crNumber,r.title,r.description,r.systemModule,r.project?.title,r.requestedBy?.firstName,r.requestedBy?.lastName].join(' ').toLowerCase().includes(search)));
+        document.getElementById('cmRows').innerHTML=changeRequestRows(rows);
+      }
+      async function updateChangeStatus(id,status){
+        await api('/change-requests/'+id+'/transition',{method:'PATCH',body:{status}}).then(()=>toast('Change updated to '+status.replace(/_/g,' '))).catch(e=>toast(e.message,'error'));renderChangeManagement();
+      }
+      function printChangeRequest(id){
+        const request=(window._cmRequests||[]).find(item=>item.id===id);if(!request)return;
+        const escPrint=value=>esc(value||'');
+        const date=fdate(new Date()).toUpperCase();
+        const project=request.project?.title||'';
+        const requester=request.requesterName||((request.requestedBy?request.requestedBy.firstName+' '+request.requestedBy.lastName:''));
+        const requesterEmail=request.requesterEmail||request.requestedBy?.email||'';
+        const preparedBy=request.preparedByName||'';
+        const approvedBy=request.approvedByName||'';
+        const html=`<div class="cm-document">
+          <div class="cm-header"><div class="cm-brand">TECHNOVAN</div><div class="cm-subtitle">SOFTWARE &amp; IT SOLUTIONS</div><div class="cm-doc-title">CHANGE REQUEST FORM</div></div>
+          <div class="cm-meta"><div><b>TECHNOVAN</b><br/>SHAH ALAM, MALAYSIA</div><div class="cm-meta-right"><b>NO: ${escPrint(request.crNumber)}</b><br/>${date}</div></div>
+          <div class="cm-fill-block"><b>REQUESTER / CUSTOMER:</b><br/><b>${escPrint(requester)||'____________________________________________'}</b><br/>${escPrint(requesterEmail)||'____________________________________________'}</div>
+          <div class="cm-salutation">PUAN / TUAN,</div>
+          <div class="cm-subject">${escPrint(request.title)}</div>
+          <table class="cm-form-table"><tbody>
+            <tr><th>PROJECT</th><td>${escPrint(project)||'________________________________________________'}</td></tr>
+            <tr><th>SYSTEM MODULE</th><td>${escPrint(request.systemModule)||'________________________________________________'}</td></tr>
+            <tr><th>PRIORITY</th><td>${escPrint(request.priority)}</td></tr>
+            <tr><th>DESCRIPTION</th><td>${escPrint(request.description)}</td></tr>
+            <tr><th>CURRENT BEHAVIOUR</th><td><div class="cm-blank-lines">${escPrint(request.currentBehaviour)||'____________________________________________________________'}<br/>____________________________________________________________</div></td></tr>
+            <tr><th>PROPOSED CHANGE</th><td><div class="cm-blank-lines">${escPrint(request.proposedChange)||'____________________________________________________________'}<br/>____________________________________________________________</div></td></tr>
+            <tr><th>BUSINESS JUSTIFICATION</th><td><div class="cm-blank-lines">${escPrint(request.businessJustification)||'____________________________________________________________'}<br/>____________________________________________________________</div></td></tr>
+          </tbody></table>
+          <div class="cm-terms"><b>TERMA DAN SYARAT:</b><br/><br/>PERUBAHAN INI TERTAKLUK KEPADA SEMAKAN, KELULUSAN DAN PERSETUJUAN PIHAK BERKAITAN.<br/><br/>SILA LENGKAPKAN MAKLUMAT YANG DIPERLUKAN DAN KEMBALIKAN BORANG INI KEPADA PIHAK TECHNOVAN.</div>
+          <div class="cm-signatures"><div>DISEDIAKAN OLEH,<br/><br/>_____________________________<br/><b>${escPrint(preparedBy)||'NAMA / TANDATANGAN'}</b><br/>NAMA / TANDATANGAN<br/><br/>TARIKH: ${date}</div><div>DILULUSKAN OLEH,<br/><br/>_____________________________<br/><b>${escPrint(approvedBy)||'NAMA / TANDATANGAN'}</b><br/>NAMA / TANDATANGAN<br/><br/>TARIKH: __________________</div></div>
+        </div>`;
+        const w=window.open('','_blank','width=1000,height=800');
+        if(!w){toast('Please allow pop-ups to print the form','error');return;}
+        w.document.write(`<!doctype html><html><head><title>Change Request ${escPrint(request.crNumber)}</title><style>
+          *{box-sizing:border-box}body{margin:0;background:#eee;color:#111;font-family:Arial,sans-serif}.print-actions{max-width:940px;margin:16px auto;display:flex;justify-content:flex-end}.print-actions button{border:0;background:#1c2d1f;color:#fff;padding:10px 16px;font:600 14px Arial;cursor:pointer}.cm-document{background:#fff;padding:40px 36px 48px;max-width:940px;margin:0 auto;min-height:1200px}.cm-header{text-align:center;margin-bottom:34px}.cm-brand{font-size:46px;font-weight:800;line-height:1}.cm-subtitle{font-size:18px;font-weight:700;margin-top:6px}.cm-doc-title{font-size:22px;font-weight:700;margin-top:14px}.cm-meta{display:flex;justify-content:space-between;gap:12px;margin-bottom:34px;font-size:16px;line-height:1.6;text-transform:uppercase}.cm-meta-right{text-align:right;white-space:nowrap}.cm-fill-block{font-size:16px;line-height:1.7;margin-bottom:24px}.cm-salutation{font-size:16px;font-weight:600;margin-bottom:14px}.cm-subject{text-align:center;text-transform:uppercase;text-decoration:underline;font-style:italic;font-size:18px;font-weight:700;margin-bottom:22px}.cm-form-table{border-collapse:collapse;width:100%;table-layout:fixed;border:1px solid #777}.cm-form-table th,.cm-form-table td{border:1px solid #777;padding:13px 14px;vertical-align:top;text-align:left;font-size:14px;line-height:1.5}.cm-form-table th{width:28%;background:#f5f5f5;font-size:12px}.cm-blank-lines{min-height:52px}.cm-terms{margin-top:38px;font-size:14px;line-height:1.7}.cm-signatures{display:flex;justify-content:space-between;gap:70px;margin-top:65px;font-size:14px;line-height:1.7}.cm-signatures>div{width:45%}@media print{body{background:#fff}.print-actions{display:none}.cm-document{padding:28px 0;min-height:0}}@media(max-width:700px){.cm-document{padding:24px 18px}.cm-brand{font-size:34px}.cm-meta{font-size:13px}.cm-signatures{gap:24px}}
+        </style></head><body><div class="print-actions"><button type="button" onclick="window.print()">Download PDF</button></div>${html}</body></html>`);
+        w.document.close();w.focus();
+      }
+      async function loadChangeProjects(){
+        return api('/admin/projects').catch(()=>api('/projects').catch(()=>[]));
+      }
+      function projectOptions(projects,selectedId){
+        return '<option value="">No related project</option>'+projects.map(project=>`<option value="${esc(project.id)}" ${project.id===selectedId?'selected':''}>${esc(project.title)}</option>`).join('');
+      }
+      async function loadChangeUsers(){return api('/change-requests/users/options').catch(()=>[]);}
+      function userOptions(users,selectedId,emptyLabel){
+        return `<option value="">${emptyLabel}</option>`+users.map(user=>{const name=user.firstName+' '+user.lastName;return `<option value="${esc(user.id)}" ${user.id===selectedId?'selected':''}>${esc(name)} · ${esc(user.email)}</option>`}).join('');
+      }
+      async function openChangeRequest(){
+        om('New Change Request','<div class="loading-state"><span class="btn-spinner"></span><span>Loading project and user options...</span></div>',[{label:'Cancel',fn:cm}]);
+        const [projects,users]=await Promise.all([loadChangeProjects(),loadChangeUsers()]);
+        om('New Change Request',`<div class="fg"><label>Change title</label><input id="cmTitle" placeholder="e.g. Add payment approval step" required /></div><div class="fg"><label>Requester / customer</label><input id="cmRequester" value="${esc(S.user?S.user.firstName+' '+S.user.lastName:'')}" placeholder="Customer name" /></div><div class="fg"><label>Email</label><input id="cmRequesterEmail" value="${esc(S.user?.email||'')}" type="email" placeholder="customer@example.com" /></div><div class="fg"><label>Prepared by</label><input id="cmPreparedBy" value="${esc(S.user?S.user.firstName+' '+S.user.lastName:'')}" placeholder="Prepared by name" /></div><div class="fg"><label>Related project</label><select id="cmProject">${projectOptions(projects,'')}</select></div><div class="fg"><label>System module</label><input id="cmModule" placeholder="e.g. Payments" required /></div><div class="fg"><label>Change description</label><textarea id="cmDescription" rows="3" placeholder="Describe the requested change..."></textarea></div><div class="fg"><label>Current behaviour</label><textarea id="cmCurrent" rows="2" placeholder="What happens today?"></textarea></div><div class="fg"><label>Proposed change</label><textarea id="cmProposed" rows="2" placeholder="What should change?"></textarea></div><div class="fg"><label>Business justification</label><textarea id="cmJustification" rows="2" placeholder="Why is this needed?"></textarea></div><div class="fg"><label>Priority</label><select id="cmPriority"><option>LOW</option><option selected>MEDIUM</option><option>HIGH</option><option>CRITICAL</option></select></div>`,[{label:'Cancel',fn:cm},{label:'Submit Request',cls:'btn-primary',fn:createChangeRequest}]);
+      }
+      async function openEditChangeRequest(id){
+        setTimeout(convertEditMetadataToText,50);
+        const r=(window._cmRequests||[]).find(item=>item.id===id);if(!r)return;
+        window._editingChangeRequest=r;
+        om('Edit '+esc(r.crNumber||'Change Request'),'<div class="loading-state"><span class="btn-spinner"></span><span>Loading project options...</span></div>',[{label:'Cancel',fn:cm}]);
+        const [projects,users]=await Promise.all([loadChangeProjects(),loadChangeUsers()]);
+        const types=['CHANGE_REQUEST','ENHANCEMENT','BUG_FIX','NEW_REQUIREMENT','CONFIGURATION_CHANGE'];
+        const next=cmNextStatuses(r.status);
+        const requesterName=r.requesterName||((r.requestedBy?r.requestedBy.firstName+' '+r.requestedBy.lastName:''));
+        const requesterEmail=r.requesterEmail||r.requestedBy?.email||'';
+        const preparedBy=r.preparedByName||'';
+        const approvedBy=r.approvedByName||'';
+        const today=fdate(new Date());
+        om('Edit '+esc(r.crNumber||'Change Request'),`<div class="fg"><label>Current status</label><div>${cmStatusTag(r.status)}</div></div><div class="fg"><label>Move to</label><select id="editCmStatus"><option value="">Keep current status</option>${next.map(status=>`<option value="${status}">${status.replace(/_/g,' ')}</option>`).join('')}</select>${next.length?'<div class="muted" style="font-size:12px;margin-top:5px">Only valid next workflow steps are available.</div>':'<div class="muted" style="font-size:12px;margin-top:5px">This request has no available next step.</div>'}</div><div class="cm-form-meta"><div class="fg"><label>REQUESTER / CUSTOMER</label><select id="editCmRequester">${userOptions(users,r.requestedBy?.id||'','Select requester')}</select></div><div class="fg"><label>Email</label><input id="editCmRequesterEmail" value="${esc(r.requestedBy?.email||'')}" readonly /></div><div class="fg"><label>DISEDIAKAN OLEH</label><select id="editCmPreparedBy">${userOptions(users,r.preparedBy?.id||'','Select preparer')}</select></div><div class="fg"><label>Date</label><input value="${esc(fdate(r.createdAt))}" readonly /></div><div class="fg"><label>DILULUSKAN OLEH</label><select id="editCmApprovedBy">${userOptions(users,r.approvedBy?.id||'','Pending approval')}</select></div></div><div class="fg"><label>Change title</label><input id="editCmTitle" value="${esc(r.title)}" required /></div><div class="fg"><label>Request type</label><select id="editCmType">${types.map(type=>`<option value="${type}" ${r.requestType===type?'selected':''}>${type.replace(/_/g,' ')}</option>`).join('')}</select></div><div class="fg"><label>System module</label><input id="editCmModule" value="${esc(r.systemModule)}" required /></div><div class="fg"><label>Priority</label><select id="editCmPriority">${['LOW','MEDIUM','HIGH','CRITICAL'].map(priority=>`<option value="${priority}" ${r.priority===priority?'selected':''}>${priority}</option>`).join('')}</select></div><div class="fg"><label>Related project</label><select id="editCmProject">${projectOptions(projects,r.project?.id||'')}</select></div><div class="fg"><label>Change description</label><textarea id="editCmDescription" rows="3">${esc(r.description)}</textarea></div><div class="fg"><label>Current behaviour</label><textarea id="editCmCurrent" rows="3">${esc(r.currentBehaviour)}</textarea></div><div class="fg"><label>Proposed change</label><textarea id="editCmProposed" rows="3">${esc(r.proposedChange)}</textarea></div><div class="fg"><label>Business justification</label><textarea id="editCmJustification" rows="3">${esc(r.businessJustification)}</textarea></div>`,[{label:'Cancel',fn:cm},{label:'Save Changes',cls:'btn-primary',fn:()=>saveEditedChangeRequest(id,r.status)}]);
+      }
+      function convertEditMetadataToText(){
+        if(!document.getElementById('editCmRequester')){setTimeout(convertEditMetadataToText,50);return;}
+        const saved=window._editingChangeRequest||{};
+        const requester=document.getElementById('editCmRequester');
+        if(requester&&requester.tagName==='SELECT'){
+          const selected=requester.options[requester.selectedIndex];
+          requester.outerHTML=`<input id="editCmRequester" value="${esc(saved.requesterName||selected?.textContent?.split(' · ')[0]||'')}" placeholder="Customer name" />`;
+        }
+        const prepared=document.getElementById('editCmPreparedBy');
+        if(prepared&&prepared.tagName==='SELECT'){
+          const selected=prepared.options[prepared.selectedIndex];
+          prepared.outerHTML=`<input id="editCmPreparedBy" value="${esc(saved.preparedByName||selected?.textContent?.split(' · ')[0]||'')}" placeholder="Prepared by name" />`;
+        }
+        const approved=document.getElementById('editCmApprovedBy');
+        if(approved&&approved.tagName==='SELECT'){
+          const selected=approved.options[approved.selectedIndex];
+          approved.outerHTML=`<input id="editCmApprovedBy" value="${esc(saved.approvedByName||selected?.textContent?.split(' · ')[0]||'')}" placeholder="Approved by name" />`;
+        }
+        const email=document.getElementById('editCmRequesterEmail');
+        if(email){email.value=saved.requesterEmail||saved.requestedBy?.email||email.value;email.removeAttribute('readonly');}
+      }
+      function saveEditedChangeRequest(id,currentStatus){
+        const fields=['editCmTitle','editCmModule','editCmDescription','editCmCurrent','editCmProposed','editCmJustification'];
+        if(fields.some(field=>!gv(field))){toast('Complete all required fields','error');return;}
+        const targetStatus=gv('editCmStatus');
+        setModalBusy('Saving changes...');
+        api('/change-requests/'+id,{method:'PATCH',body:{title:gv('editCmTitle'),requestType:gv('editCmType'),systemModule:gv('editCmModule'),priority:gv('editCmPriority'),requesterName:gv('editCmRequester'),requesterEmail:gv('editCmRequesterEmail'),preparedByName:gv('editCmPreparedBy'),approvedByName:gv('editCmApprovedBy'),projectId:gv('editCmProject')||null,description:gv('editCmDescription'),currentBehaviour:gv('editCmCurrent'),proposedChange:gv('editCmProposed'),businessJustification:gv('editCmJustification')}}).then(()=>targetStatus?api('/change-requests/'+id+'/transition',{method:'PATCH',body:{status:targetStatus}}):null).then(()=>{cm();toast(targetStatus?'Change request and status updated':'Change request updated');renderChangeManagement();}).catch(e=>{setModalReady();toast(e.message,'error');});
+      }
+      function createChangeRequest(){
+        const title=gv('cmTitle');if(!title||!gv('cmModule')||!gv('cmDescription')||!gv('cmCurrent')||!gv('cmProposed')||!gv('cmJustification')){toast('Complete all required fields','error');return;}
+        setModalBusy('Submitting request...');
+        api('/change-requests',{method:'POST',body:{title,requestType:'CHANGE_REQUEST',systemModule:gv('cmModule'),priority:gv('cmPriority')||'MEDIUM',requesterName:gv('cmRequester'),requesterEmail:gv('cmRequesterEmail'),preparedByName:gv('cmPreparedBy'),projectId:gv('cmProject')||null,description:gv('cmDescription'),currentBehaviour:gv('cmCurrent'),proposedChange:gv('cmProposed'),businessJustification:gv('cmJustification'),action:'submit'}}).then(()=>{cm();toast('Change request submitted');renderChangeManagement();}).catch(e=>{setModalReady();toast(e.message,'error');});
+      }
+
       /* ---- ADMIN INQUIRIES ---- */
       async function renderAdminInquiries(){
         setMain(mainSkeleton('admin-inquiries'));
@@ -1162,8 +1507,21 @@ KUALA LUMPUR, MALAYSIA</textarea></div>
         document.getElementById('mTitle').textContent=title;
         document.getElementById('mBody').innerHTML=bodyHtml;
         _mbtns=buttons.map(b=>b.fn);
+        _modalSubmitLabel=buttons.length?buttons[buttons.length-1].label:'';
         document.getElementById('mFoot').innerHTML=buttons.map((b,i)=>`<button class="btn ${b.cls||''}" onclick="_mbtns[${i}]()">${b.label}</button>`).join('');
         document.getElementById('modal').classList.add('open');
+      }
+      function setModalBusy(label){
+        const buttons=document.querySelectorAll('#mFoot .btn');
+        buttons.forEach(button=>{button.disabled=true;});
+        const submit=buttons[buttons.length-1];
+        if(submit)submit.innerHTML=`<span class="btn-spinner"></span> ${label}`;
+      }
+      function setModalReady(){
+        const buttons=document.querySelectorAll('#mFoot .btn');
+        buttons.forEach(button=>{button.disabled=false;});
+        const submit=buttons[buttons.length-1];
+        if(submit&&_modalSubmitLabel)submit.textContent=_modalSubmitLabel;
       }
       function cm(){document.getElementById('modal').classList.remove('open');}
       function mOutside(e){if(e.target.id==='modal') cm();}
@@ -1610,7 +1968,11 @@ KUALA LUMPUR, MALAYSIA</textarea></div>
         if(!w){toast('Popup blocked. Please allow popups to open preview.','error');return;}
         w.document.write(`<!doctype html><html><head><title>Quotation ${esc(result.qNo)}</title><style>
           body{font-family:Arial,sans-serif;padding:20px;background:#f4f6fb;color:#111}
-        </style></head><body>${result.html}</body></html>`);
+          .quotation-actions{max-width:940px;margin:0 auto 16px;display:flex;justify-content:flex-end}
+          .quotation-actions button{border:0;background:#1c2d1f;color:#fff;padding:10px 16px;font:600 14px Arial,sans-serif;cursor:pointer}
+          .quotation-actions button:hover{background:#304837}
+          @media print{body{padding:0;background:#fff}.quotation-actions{display:none}}
+        </style></head><body><div class="quotation-actions"><button type="button" onclick="window.print()">Download PDF</button></div>${result.html}</body></html>`);
         w.document.close();
         w.focus();
         toast('Quotation generated: '+result.qNo);
@@ -1673,19 +2035,29 @@ KUALA LUMPUR, MALAYSIA</textarea></div>
         }
       }
 
-      initCompanyQuotation();
+      syncAdminOnlyUi();
 
       /* ---- INIT ---- */
       setMain(mainSkeleton());
       const q=new URLSearchParams(window.location.search);
       const editorMode=q.get('editor')==='blog';
       const pathSlug=decodeURIComponent(window.location.pathname.replace(/^\/+|\/+$/g,''));
+      const isQuotationRootRoute=pathSlug==='quotation';
       const hasSlugPath=pathSlug!==''&&pathSlug!=='index.html';
       const isEditorRootRoute=!hasSlugPath&&editorMode;
       if(isEditorRootRoute&&S.user&&S.token&&S.user.role==='ADMIN'){
         go('dashboard');
         initDash(true);
         renderAdminBlogEditor(q.get('id')||'');
+      }else if(isQuotationRootRoute){
+        if(canAccessQuotation()){
+          go('quotation');
+        }else if(S.user&&S.token){
+          go('dashboard');
+          initDash();
+        }else{
+          go('login');
+        }
       }else if(hasSlugPath){
         renderArticlePage(pathSlug);
       }else{
