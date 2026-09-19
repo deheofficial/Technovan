@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import apiClient from '@technovan/utils';
 import { Project } from '@technovan/types';
 
-interface ProjectsState {
+export interface ProjectsState {
   projects: Project[];
   loading: boolean;
   error: string | null;
@@ -16,15 +16,15 @@ const initialState: ProjectsState = {
 
 export const fetchProjects = createAsyncThunk(
   'projects/fetchProjects',
-  async () => {
-    return await apiClient.get('/projects');
+  async (): Promise<Project[]> => {
+    return await apiClient.get('/projects') as unknown as Project[];
   }
 );
 
 export const createProject = createAsyncThunk(
   'projects/createProject',
-  async (data: any) => {
-    return await apiClient.post('/projects', data);
+  async (data: any): Promise<Project> => {
+    return await apiClient.post('/projects', data) as unknown as Project;
   }
 );
 

@@ -22,7 +22,7 @@
 
 ### Monitoring
 - Cloudflare Dashboard
-- Railway Dashboard (or preferred hosting)
+- Hosting provider dashboard (or self-host logs)
 - PostgreSQL psql
 - Prisma Studio
 

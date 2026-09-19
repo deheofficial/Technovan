@@ -1,64 +1,52 @@
-# Railway Deployment Guide for TECHNOVAN API
+# Postman + Neon API Workflow for TECHNOVAN
 
-## Step 1: Push to GitHub
+## Step 1: Configure Backend Environment
+
+```bash
+cd /Users/apple/Documents/GitHub/Technovan/backend/api
+cp .env.example .env
+```
+
+Set the required variables:
+
+- `DATABASE_URL` = your Neon PostgreSQL connection string
+- `JWT_SECRET` = any long random secret
+- `NODE_ENV` = `development` (or `production` in hosted env)
+- `PORT` = `3000`
+
+## Step 2: Start API Locally
 
 ```bash
 cd /Users/apple/Documents/GitHub/Technovan
-git add -A
-git commit -m "Add Dockerfile and deployment config"
-git push origin main
+yarn workspace @technovan/api dev
 ```
 
-## Step 2: Set Up Railway
+Your API endpoints will be available at:
 
-1. Go to https://railway.app
-2. **Sign up** with GitHub (recommended)
-3. Click **New Project** → **Deploy from GitHub repo**
-4. Select your **Technovan** repository
-5. Select the **backend/api** directory as the root
-6. Click **Deploy**
+- Health: `http://localhost:3000/health`
+- API base: `http://localhost:3000/api`
 
-## Step 3: Configure Environment Variables
+## Step 3: Use Postman for API Testing
 
-In Railway Dashboard:
-1. Click your deployed project
-2. Go to **Variables** tab
-3. Add these environment variables:
-   - `DATABASE_URL` = `postgresql://neondb_owner:npg_HXdB7hk8ipVP@ep-quiet-bonus-am4ungig-pooler.c-5.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require`
-   - `JWT_SECRET` = (any random string, e.g., `your-secret-key-12345`)
-   - `NODE_ENV` = `production`
-   - `PORT` = `3000`
+1. Import collection: `exports/postman/Technovan API.postman_collection.json`
+2. Import environment: `exports/postman/Technovan Local.postman_environment.json`
+3. Confirm `baseUrl` = `http://localhost:3000`
+4. Run **Auth > Register** or **Auth > Login**
+5. Run **Auth > Profile** and other protected routes using token variable
 
-4. Click **Deploy**
+## Step 4: Deploy API to Any Host (Optional)
 
-## Step 4: Get Your API URL
+You can deploy the backend to Render, Fly.io, Heroku, VPS, or Docker.
+After deployment, only update Postman environment:
 
-1. In Railway Dashboard, find your project
-2. Click **Domains** 
-3. Copy the auto-generated domain (e.g., `https://technovan-api-prod.railway.app`)
-4. Your API is at: `https://your-domain.railway.app/api`
+- `baseUrl` = `https://your-api-domain.com`
 
-## Step 5: Update Frontend
+No changes are needed in Neon or Prisma besides a valid `DATABASE_URL`.
 
-Update the frontend API URL in `backend/api/public/index.html`:
+## Done
 
-```javascript
-// Change from:
-const API='/api';
+Your workflow is now:
 
-// To:
-const API='https://your-domain.railway.app/api';
-```
-
-Then rebuild and deploy to Cloudflare Pages:
-
-```bash
-cd /Users/apple/Documents/GitHub/Technovan
-rm -rf dist && mkdir -p dist && cp -R backend/api/public/. dist/ && cp -f _headers dist/ && cp -f _redirects dist/ && npx wrangler pages deploy dist --project-name=technovan
-```
-
-## Done!
-
-Your full-stack app is now live:
-- **Frontend:** https://www.technovand.com (Cloudflare Pages)
-- **API:** https://your-railway-domain.railway.app (Railway)
+- Neon for PostgreSQL
+- Express API as DB access layer
+- Postman for API testing and verification

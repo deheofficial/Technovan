@@ -9,7 +9,7 @@ interface User {
   role: string;
 }
 
-interface AuthState {
+export interface AuthState {
   user: User | null;
   token: string | null;
   loading: boolean;
@@ -17,7 +17,7 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  user: null,
+  user: JSON.parse(localStorage.getItem('tv_user') || 'null'),
   token: localStorage.getItem('token'),
   loading: false,
   error: null,
@@ -26,8 +26,9 @@ const initialState: AuthState = {
 export const login = createAsyncThunk(
   'auth/login',
   async ({ email, password }: { email: string; password: string }) => {
-    const response = await apiClient.post('/auth/login', { email, password });
+    const response = await apiClient.post('/auth/login', { email, password }) as any;
     localStorage.setItem('token', response.token);
+    localStorage.setItem('tv_user', JSON.stringify(response.user));
     return response;
   }
 );
@@ -35,8 +36,9 @@ export const login = createAsyncThunk(
 export const register = createAsyncThunk(
   'auth/register',
   async (data: { email: string; password: string; firstName: string; lastName: string }) => {
-    const response = await apiClient.post('/auth/register', data);
+    const response = await apiClient.post('/auth/register', data) as any;
     localStorage.setItem('token', response.token);
+    localStorage.setItem('tv_user', JSON.stringify(response.user));
     return response;
   }
 );
@@ -49,6 +51,7 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       localStorage.removeItem('token');
+      localStorage.removeItem('tv_user');
     },
   },
   extraReducers: (builder) => {
@@ -58,6 +61,7 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.user = action.payload.user;
+        localStorage.setItem('tv_user', JSON.stringify(action.payload.user));
         state.token = action.payload.token;
         state.loading = false;
       })
@@ -70,6 +74,7 @@ const authSlice = createSlice({
       })
       .addCase(register.fulfilled, (state, action) => {
         state.user = action.payload.user;
+        localStorage.setItem('tv_user', JSON.stringify(action.payload.user));
         state.token = action.payload.token;
         state.loading = false;
       })

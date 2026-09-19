@@ -10,7 +10,7 @@ export default function HomeScreen() {
     <ScrollView className="flex-1 bg-gray-900">
       {/* Hero Section */}
       <View className="px-4 py-20 bg-gradient-to-br from-teal-900 via-gray-900 to-gray-900">
-        <Text className="text-4xl font-bold text-white mb-4">TECHNOVAN</Text>
+        <Text className="text-4xl font-bold mb-4"><Text className="text-[#c8f04e]">TECHNO</Text><Text className="text-white">VAN</Text></Text>
         <Text className="text-xl text-gray-300 mb-8">
           Software Development & IT Solutions Platform
         </Text>
