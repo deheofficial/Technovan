@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { TWPressable as Pressable, TWScrollView as ScrollView, TWText as Text, TWView as View } from '../components/native';
 import Brand from '../components/Brand';
 
 type ModuleKey =

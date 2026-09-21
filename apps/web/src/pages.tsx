@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import PageScaffold from './components/PageScaffold';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { TWPressable as Pressable, TWText as Text, TWTextInput as TextInput, TWView as View } from './components/native';
 import { useNavigate } from 'react-router-dom';
 import ChangeManagementScreen from './screens/ChangeManagementScreen';
 import HomeScreen from './screens/HomeScreen';

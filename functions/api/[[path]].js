@@ -52,6 +52,16 @@ function getJwtSecret(env) {
   return new TextEncoder().encode(secret);
 }
 
+function mapChangeRequest(row) {
+  return {
+    ...row,
+    project: row.project_id || row.projectId ? { id: row.project_id || row.projectId, title: row.project_title, status: row.project_status } : null,
+    requestedBy: row.requester_id ? { id: row.requester_id, firstName: row.requester_first_name, lastName: row.requester_last_name, email: row.requester_email } : null,
+    preparedBy: row.prepared_id ? { id: row.prepared_id, firstName: row.prepared_first_name, lastName: row.prepared_last_name, email: row.prepared_email } : null,
+    approvedBy: row.approved_id ? { id: row.approved_id, firstName: row.approved_first_name, lastName: row.approved_last_name, email: row.approved_email } : null,
+  };
+}
+
 async function signToken(env, user) {
   return new SignJWT({
     id: user.id,
@@ -339,6 +349,99 @@ export async function onRequest(context) {
       `;
 
       return json(rows);
+    }
+
+    if (method === 'GET' && path === 'change-requests/users/options') {
+      const auth = await requireAdmin(request, env, sql);
+      if (auth.error) return auth.error;
+      const rows = await sql`
+        SELECT id, "firstName", "lastName", email, role
+        FROM "User"
+        WHERE "isActive" = true
+        ORDER BY "firstName", "lastName"
+      `;
+      return json(rows);
+    }
+
+    if (method === 'GET' && path === 'change-requests') {
+      const auth = await requireAuth(request, env, sql);
+      if (auth.error) return auth.error;
+      const rows = auth.user.role === 'ADMIN' || auth.user.role === 'SUPPORT'
+        ? await sql`
+        SELECT cr.*, p.title AS project_title, p.status AS project_status,
+          u.id AS requester_id, u."firstName" AS requester_first_name, u."lastName" AS requester_last_name,
+          u.email AS requester_email, pb.id AS prepared_id, pb."firstName" AS prepared_first_name,
+          pb."lastName" AS prepared_last_name, pb.email AS prepared_email,
+          ab.id AS approved_id, ab."firstName" AS approved_first_name,
+          ab."lastName" AS approved_last_name, ab.email AS approved_email
+        FROM "ChangeRequest" cr
+        LEFT JOIN "Project" p ON p.id = cr."projectId"
+        LEFT JOIN "User" u ON u.id = cr."requestedById"
+        LEFT JOIN "User" pb ON pb.id = cr."preparedById"
+        LEFT JOIN "User" ab ON ab.id = cr."approvedById"
+        ORDER BY cr."createdAt" DESC
+      `
+        : await sql`
+        SELECT cr.*, p.title AS project_title, p.status AS project_status,
+          u.id AS requester_id, u."firstName" AS requester_first_name, u."lastName" AS requester_last_name,
+          u.email AS requester_email, pb.id AS prepared_id, pb."firstName" AS prepared_first_name,
+          pb."lastName" AS prepared_last_name, pb.email AS prepared_email,
+          ab.id AS approved_id, ab."firstName" AS approved_first_name,
+          ab."lastName" AS approved_last_name, ab.email AS approved_email
+        FROM "ChangeRequest" cr
+        LEFT JOIN "Project" p ON p.id = cr."projectId"
+        LEFT JOIN "User" u ON u.id = cr."requestedById"
+        LEFT JOIN "User" pb ON pb.id = cr."preparedById"
+        LEFT JOIN "User" ab ON ab.id = cr."approvedById"
+        WHERE cr."requestedById" = ${auth.user.id}
+        ORDER BY cr."createdAt" DESC
+      `;
+      return json(rows.map(mapChangeRequest));
+    }
+
+    if (method === 'POST' && path === 'change-requests') {
+      const auth = await requireAuth(request, env, sql);
+      if (auth.error) return auth.error;
+      const body = await parseBody(request);
+      const required = ['title', 'systemModule', 'description', 'currentBehaviour', 'proposedChange', 'businessJustification'];
+      if (required.some((key) => !String(body[key] || '').trim())) return json({ error: 'All Change Request fields are required' }, 400);
+      const year = new Date().getFullYear();
+      const count = await sql`SELECT COUNT(*)::int AS count FROM "ChangeRequest" WHERE "crNumber" LIKE ${`CR-${year}-%`}`;
+      const crNumber = `CR-${year}-${String((count[0]?.count || 0) + 1).padStart(4, '0')}`;
+      const id = makeId();
+      const status = body.action === 'submit' ? 'SUBMITTED' : 'DRAFT';
+      const rows = await sql`
+        INSERT INTO "ChangeRequest" (id, "crNumber", title, description, "requestType", "systemModule", priority, status, "currentBehaviour", "proposedChange", "businessJustification", "requestedById", "projectId", "requesterName", "requesterEmail", "preparedByName", "approvedByName", "submittedAt", "createdAt", "updatedAt")
+        VALUES (${id}, ${crNumber}, ${body.title}, ${body.description}, ${(body.requestType || 'CHANGE_REQUEST')}::"ChangeRequestType", ${(body.systemModule)}, ${(body.priority || 'MEDIUM')}::"ChangeRequestPriority", ${status}::"ChangeRequestStatus", ${body.currentBehaviour}, ${body.proposedChange}, ${body.businessJustification}, ${auth.user.id}, ${body.projectId || null}, ${body.requesterName || null}, ${body.requesterEmail || null}, ${body.preparedByName || null}, ${body.approvedByName || null}, ${body.action === 'submit' ? new Date().toISOString() : null}, NOW(), NOW())
+        RETURNING *
+      `;
+      await sql`INSERT INTO "ChangeRequestStatusHistory" (id, "changeRequestId", "toStatus", "changedById", comments, "createdAt") VALUES (${makeId()}, ${id}, ${status}::"ChangeRequestStatus", ${auth.user.id}, 'Request created', NOW())`;
+      return json(rows[0], 201);
+    }
+
+    if (path.startsWith('change-requests/') && method === 'PATCH' && !path.endsWith('/transition')) {
+      const auth = await requireAuth(request, env, sql);
+      if (auth.error) return auth.error;
+      const id = decodeURIComponent(path.slice('change-requests/'.length));
+      const body = await parseBody(request);
+      const rows = await sql`
+        UPDATE "ChangeRequest" SET title=${body.title}, "requestType"=${body.requestType}::"ChangeRequestType", "systemModule"=${body.systemModule}, priority=${body.priority}::"ChangeRequestPriority", description=${body.description}, "currentBehaviour"=${body.currentBehaviour}, "proposedChange"=${body.proposedChange}, "businessJustification"=${body.businessJustification}, "projectId"=${body.projectId || null}, "requesterName"=${body.requesterName || null}, "requesterEmail"=${body.requesterEmail || null}, "preparedByName"=${body.preparedByName || null}, "approvedByName"=${body.approvedByName || null}, "updatedAt"=NOW()
+        WHERE id=${id} RETURNING *
+      `;
+      if (!rows[0]) return json({ error: 'Change Request not found' }, 404);
+      return json(rows[0]);
+    }
+
+    if (path.match(/^change-requests\/[^/]+\/transition$/) && method === 'PATCH') {
+      const auth = await requireAdmin(request, env, sql);
+      if (auth.error) return auth.error;
+      const id = decodeURIComponent(path.split('/')[1]);
+      const body = await parseBody(request);
+      const current = await sql`SELECT status FROM "ChangeRequest" WHERE id=${id}`;
+      if (!current[0]) return json({ error: 'Change Request not found' }, 404);
+      const rows = await sql`UPDATE "ChangeRequest" SET status=${body.status}::"ChangeRequestStatus", "submittedAt"=CASE WHEN ${body.status}='SUBMITTED' THEN COALESCE("submittedAt", NOW()) ELSE "submittedAt" END, "closedAt"=CASE WHEN ${body.status}='CLOSED' THEN NOW() ELSE "closedAt" END, "updatedAt"=NOW() WHERE id=${id} RETURNING *`;
+      await sql`INSERT INTO "ChangeRequestStatusHistory" (id, "changeRequestId", "fromStatus", "toStatus", "changedById", comments, "createdAt") VALUES (${makeId()}, ${id}, ${current[0].status}::"ChangeRequestStatus", ${body.status}::"ChangeRequestStatus", ${auth.user.id}, ${body.comments || null}, NOW())`;
+      return json(rows[0]);
     }
 
     if (method === 'GET' && path === 'quotation/templates') {

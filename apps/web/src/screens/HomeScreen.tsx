@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView, Text, Pressable } from 'react-native';
+import { TWView as View, TWScrollView as ScrollView, TWText as Text, TWPressable as Pressable } from '../components/native';
 import { useAppDispatch, useAppSelector } from '../hooks';
 
 export default function HomeScreen() {

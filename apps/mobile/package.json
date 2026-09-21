@@ -8,7 +8,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "build": "eas build",
+    "build": "expo export",
+    "build:native": "eas build",
     "submit": "eas submit",
     "lint": "eslint src --ext .ts,.tsx",
     "type-check": "tsc --noEmit"

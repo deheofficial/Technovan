@@ -870,7 +870,7 @@ KUALA LUMPUR, MALAYSIA</textarea></div>
         const isAdmin=S.user.role==='ADMIN';
         ['admSec','admCm','admDash','admSvc','admPrc','admBlog','admQuote','admPrj','admInq'].forEach(id=>document.getElementById(id).style.display=isAdmin?'':'none');
         syncAdminOnlyUi();
-        if(!skipDefaultTab) dtab(isAdmin?'admin-change-management':'overview');
+        if(!skipDefaultTab) dtab('overview');
       }
 
       function dtab(tab){
@@ -1381,9 +1381,9 @@ KUALA LUMPUR, MALAYSIA</textarea></div>
             <tr><th>SYSTEM MODULE</th><td>${escPrint(request.systemModule)||'________________________________________________'}</td></tr>
             <tr><th>PRIORITY</th><td>${escPrint(request.priority)}</td></tr>
             <tr><th>DESCRIPTION</th><td>${escPrint(request.description)}</td></tr>
-            <tr><th>CURRENT BEHAVIOUR</th><td><div class="cm-blank-lines">${escPrint(request.currentBehaviour)||'____________________________________________________________'}<br/>____________________________________________________________</div></td></tr>
-            <tr><th>PROPOSED CHANGE</th><td><div class="cm-blank-lines">${escPrint(request.proposedChange)||'____________________________________________________________'}<br/>____________________________________________________________</div></td></tr>
-            <tr><th>BUSINESS JUSTIFICATION</th><td><div class="cm-blank-lines">${escPrint(request.businessJustification)||'____________________________________________________________'}<br/>____________________________________________________________</div></td></tr>
+            <tr><th>CURRENT BEHAVIOUR</th><td><div class="cm-blank-lines">${escPrint(request.currentBehaviour)}</div></td></tr>
+            <tr><th>PROPOSED CHANGE</th><td><div class="cm-blank-lines">${escPrint(request.proposedChange)}</div></td></tr>
+            <tr><th>BUSINESS JUSTIFICATION</th><td><div class="cm-blank-lines">${escPrint(request.businessJustification)}</div></td></tr>
           </tbody></table>
           <div class="cm-terms"><b>TERMA DAN SYARAT:</b><br/><br/>PERUBAHAN INI TERTAKLUK KEPADA SEMAKAN, KELULUSAN DAN PERSETUJUAN PIHAK BERKAITAN.<br/><br/>SILA LENGKAPKAN MAKLUMAT YANG DIPERLUKAN DAN KEMBALIKAN BORANG INI KEPADA PIHAK TECHNOVAN.</div>
           <div class="cm-signatures"><div>DISEDIAKAN OLEH,<br/><br/>_____________________________<br/><b>${escPrint(preparedBy)||'NAMA / TANDATANGAN'}</b><br/>NAMA / TANDATANGAN<br/><br/>TARIKH: ${date}</div><div>DILULUSKAN OLEH,<br/><br/>_____________________________<br/><b>${escPrint(approvedBy)||'NAMA / TANDATANGAN'}</b><br/>NAMA / TANDATANGAN<br/><br/>TARIKH: __________________</div></div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { TWPressable as Pressable, TWScrollView as ScrollView, TWText as Text, TWView as View } from '../components/native';
 import { adminNavigation, primaryNavigation } from '../config/navigation';
 import type { ModuleDefinition } from '../types/navigation';
 import Brand from '../components/Brand';

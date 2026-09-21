@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { TWScrollView as ScrollView, TWText as Text, TWView as View } from './native';
 
 type PageScaffoldProps = {
   title: string;

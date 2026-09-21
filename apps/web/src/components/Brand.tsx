@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { TWText as Text, TWView as View } from './native';
 
 export default function Brand({ compact = false }: { compact?: boolean }) {
   return (

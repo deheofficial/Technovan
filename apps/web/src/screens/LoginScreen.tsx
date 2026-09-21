@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { View, ScrollView, Text, TextInput, Pressable, Alert } from 'react-native';
+import { TWView as View, TWScrollView as ScrollView, TWText as Text, TWTextInput as TextInput, TWPressable as Pressable } from '../components/native';
+import { Alert } from 'react-native';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { login } from '../store/slices/authSlice';
 

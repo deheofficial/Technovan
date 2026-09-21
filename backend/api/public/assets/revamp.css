@@ -704,6 +704,12 @@ body[data-theme='dark'] .btn-primary {
   border-color: #a5cf43;
 }
 
+body[data-theme='dark'] .mobile-nav .btn-primary {
+  background: #bfe44f !important;
+  color: #0f180f !important;
+  border-color: #bfe44f !important;
+}
+
 body[data-theme='dark'] .btn-primary:hover {
   background: #c8f066;
   color: #0f180f;
@@ -811,6 +817,20 @@ body[data-theme='dark'] .snav:hover,
 body[data-theme='dark'] .snav.active {
   background: rgba(191, 228, 79, 0.2);
   color: #f4fde7;
+}
+
+body[data-theme='dark'] .snav.active,
+body[data-theme='dark'] .mobile-nav .nav-link.active {
+  background: #bfe44f;
+  color: #0f180f;
+  border-color: #bfe44f;
+  font-weight: 800;
+}
+
+body[data-theme='dark'] .snav.active:hover,
+body[data-theme='dark'] .mobile-nav .nav-link.active:hover {
+  background: #c8f04e;
+  color: #0f180f;
 }
 
 body[data-theme='light'] .brand,

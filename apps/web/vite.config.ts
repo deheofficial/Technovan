@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import path from 'node:path';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react({ babel: { plugins: ['nativewind/babel'] } })],
   resolve: {
     alias: {
       'react-native': 'react-native-web',
