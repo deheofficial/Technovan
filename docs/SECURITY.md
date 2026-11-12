@@ -6,7 +6,7 @@
 
 ```
 ┌─────────────────────────────────────┐
-│   React Native Web (tecnovand.com)  │
+│   React Native Web (technovand.com)  │
 │   ├─ Redux State Management         │
 │   ├─ API Client (Axios)             │
 │   └─ Tailwind CSS Styling           │
@@ -261,7 +261,7 @@ const decoded = jwt.verify(token, JWT_SECRET);
 6. Improve security
 
 ### Contact
-- Security team: security@tecnovand.com
+- Security team: security@technovand.com
 - Incident hotline: +1-XXX-XXX-XXXX
 
 ---

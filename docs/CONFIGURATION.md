@@ -213,7 +213,7 @@ git push heroku main  # If using Heroku
 
 ## Support & Contact
 
-- Email: support@tecnovand.com
+- Email: support@technovand.com
 - Slack: #technovan-support
 - GitHub Issues: [Link to repo]
 - Documentation: [This folder]

@@ -2,7 +2,7 @@
 
 ## Base URL
 - Development: `http://localhost:3000/api`
-- Production: `https://api.tecnovand.com`
+- Production: `https://api.technovand.com`
 
 ## Authentication
 
@@ -417,7 +417,7 @@ CORS is enabled for:
 - `http://localhost:3000` (web)
 - `http://localhost:8081` (web)
 - `http://localhost:19006` (mobile)
-- `https://tecnovand.com` (production)
+- `https://technovand.com` (production)
 
 ---
 

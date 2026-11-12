@@ -36,7 +36,7 @@
 
 ```
 1. CLIENT REQUEST
-   ├─ Web Browser    (tecnovand.com)
+   ├─ Web Browser    (technovand.com)
    ├─ Mobile App     (via API)
    └─ Third-party    (API)
          │

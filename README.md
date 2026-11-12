@@ -224,7 +224,7 @@ yarn build
 - Environment variables from `.env`
 
 4. **Domain Setup**
-- Add domain: tecnovand.com
+- Add domain: technovand.com
 - Configure DNS nameservers
 - Enable SSL/TLS
 - Set up WAF rules
@@ -325,7 +325,7 @@ MIT License - See LICENSE file
 
 ## 📞 Support
 
-For support, email support@tecnovand.com or contact via WhatsApp
+For support, email support@technovand.com or contact via WhatsApp
 
 ---
 

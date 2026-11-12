@@ -23,7 +23,7 @@
       ["expo-router", { "origin": false }]
     ],
     "extra": {
-      "apiUrl": "https://api.tecnovand.com"
+      "apiUrl": "https://api.technovand.com"
     }
   }
 }

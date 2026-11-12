@@ -178,7 +178,7 @@ yarn install
 
 ## 📞 Support
 
-- **Email**: support@tecnovand.com
+- **Email**: support@technovand.com
 - **GitHub Issues**: [Open Issue](https://github.com/technovan/technovan-platform/issues)
 - **Documentation**: [Docs Folder](./docs)
 

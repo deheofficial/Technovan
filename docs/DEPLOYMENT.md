@@ -4,7 +4,7 @@
 
 ### Prerequisites
 1. Cloudflare account
-2. Domain (tecnovand.com)
+2. Domain (technovand.com)
 3. GitHub repository
 4. GitHub token
 
@@ -28,7 +28,7 @@
 Add to Cloudflare Pages:
 
 ```
-EXPO_PUBLIC_API_URL=https://api.tecnovand.com
+EXPO_PUBLIC_API_URL=https://api.technovand.com
 NODE_ENV=production
 ```
 
@@ -198,7 +198,7 @@ curl -X POST "https://api.cloudflare.com/client/v4/zones/{zone_id}/purge_cache" 
 tail -f logs/error.log
 
 # Monitor API
-curl https://api.tecnovand.com/health
+curl https://api.technovand.com/health
 
 # Check database
 psql -U user -d database -c "SELECT 1"
@@ -211,8 +211,8 @@ psql -U user -d database -c "SELECT 1"
 ### DNS Records
 
 ```
-A     tecnovand.com          →  <Cloudflare IP>
-CNAME www                    →  tecnovand.com
+A     technovand.com          →  <Cloudflare IP>
+CNAME www                    →  technovand.com
 CNAME api                    →  workers.dev
 CNAME mail                   →  <email provider>
 MX                          →  <email provider>
@@ -309,4 +309,4 @@ For deployment issues:
 2. Review application logs
 3. Check database connections
 4. Verify environment variables
-5. Contact support@tecnovand.com
+5. Contact support@technovand.com
