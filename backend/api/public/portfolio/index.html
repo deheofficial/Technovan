@@ -3,734 +3,220 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Wan Nur Idham bin Wan Muhamad | Software Developer Portfolio</title>
+    <title>Wan Nur Idham bin Wan Muhamad | Software Engineer Portfolio</title>
     <meta
       name="description"
-      content="Software Developer specializing in enterprise web systems, government platforms, and intelligent system solutions."
+      content="Wan Idham, software engineer and founder in Shah Alam. Selected work in immigration systems, finance workflows, and business applications."
     />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="canonical" href="https://tecnovand.com/portfolio" />
+    <meta name="theme-color" content="#101114" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content="Wan Nur Idham — Software Engineer / Founder & Chief Technology Officer" />
+    <meta property="og:description" content="Selected work in immigration systems, finance workflows, and business applications." />
+    <meta property="og:url" content="https://tecnovand.com/portfolio" />
+    <meta property="og:image" content="https://tecnovand.com/assets/hero-desk.webp" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">
+      {"@context":"https://schema.org","@type":"Person","name":"Wan Nur Idham bin Wan Muhamad","alternateName":"Wan Idham","jobTitle":"Software Engineer, Founder & Chief Technology Officer","url":"https://tecnovand.com/portfolio","sameAs":["https://github.com/deheofficial"],"address":{"@type":"PostalAddress","addressLocality":"Shah Alam","addressRegion":"Selangor","addressCountry":"MY"}}
+    </script>
+    <script>document.documentElement.classList.add('js');</script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      :root {
-        --bg: #071226;
-        --bg-soft: #0d1b34;
-        --surface: #f4f7fc;
-        --card: #ffffff;
-        --line: #d8e3f3;
-        --text: #0f1c34;
-        --muted: #5d6b84;
-        --brand: #2f7bff;
-        --brand-deep: #1d5fd0;
-        --brand-soft: #e7f0ff;
-        --shadow: 0 12px 34px rgba(17, 28, 52, 0.12);
-        --radius: 16px;
-      }
-
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-
-      html {
-        scroll-behavior: smooth;
-      }
-
-      body {
-        font-family: Manrope, sans-serif;
-        background: var(--surface);
-        color: var(--text);
-        line-height: 1.6;
-      }
-
-      h1,
-      h2,
-      h3,
-      h4 {
-        font-family: "Plus Jakarta Sans", sans-serif;
-        letter-spacing: -0.02em;
-      }
-
-      .container {
-        width: min(1120px, calc(100% - 40px));
-        margin: 0 auto;
-      }
-
-      .nav-wrap {
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        background: rgba(7, 18, 38, 0.94);
-        border-bottom: 1px solid rgba(159, 186, 232, 0.2);
-        backdrop-filter: blur(10px);
-      }
-
-      .nav {
-        height: 72px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-      }
-
-      .logo {
-        color: #ffffff;
-        font-weight: 800;
-        font-size: 22px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .logo img {
-        width: 28px;
-        height: 28px;
-        object-fit: contain;
-      }
-
-      .logo span {
-        color: #79b6ff;
-      }
-
-      .nav-links {
-        display: flex;
-        align-items: center;
-        gap: 18px;
-      }
-
-      .nav-links a {
-        color: #d9e8ff;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 14px;
-      }
-
-      .nav-links a:hover {
-        color: #ffffff;
-      }
-
-      .nav-toggle {
-        display: none;
-        width: 42px;
-        height: 42px;
-        border: 1px solid rgba(154, 192, 248, 0.45);
-        border-radius: 10px;
-        background: rgba(11, 30, 63, 0.45);
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-      }
-
-      .nav-toggle span {
-        display: block;
-        width: 18px;
-        height: 2px;
-        background: #e9f2ff;
-        border-radius: 2px;
-        position: relative;
-      }
-
-      .nav-toggle span::before,
-      .nav-toggle span::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        width: 18px;
-        height: 2px;
-        background: #e9f2ff;
-        border-radius: 2px;
-      }
-
-      .nav-toggle span::before {
-        top: -6px;
-      }
-
-      .nav-toggle span::after {
-        top: 6px;
-      }
-
-      .mobile-nav {
-        display: none;
-        border-top: 1px solid rgba(159, 186, 232, 0.2);
-        background: rgba(7, 18, 38, 0.98);
-      }
-
-      .mobile-nav.open {
-        display: block;
-      }
-
-      .mobile-nav .container {
-        display: grid;
-        gap: 6px;
-        padding-top: 10px;
-        padding-bottom: 12px;
-      }
-
-      .mobile-nav a {
-        color: #d9e8ff;
-        text-decoration: none;
-        font-weight: 700;
-        font-size: 16px;
-        padding: 10px 8px;
-        border-radius: 8px;
-      }
-
-      .mobile-nav a:hover {
-        background: rgba(56, 121, 232, 0.16);
-        color: #ffffff;
-      }
-
-      .hero {
-        position: relative;
-        color: #ffffff;
-        background:
-          linear-gradient(110deg, rgba(7, 18, 38, 0.94) 0%, rgba(7, 18, 38, 0.86) 42%, rgba(7, 18, 38, 0.62) 100%),
-          radial-gradient(circle at 14% 16%, rgba(47, 123, 255, 0.36), transparent 46%),
-          radial-gradient(circle at 74% 14%, rgba(35, 102, 223, 0.24), transparent 40%),
-          url("https://images.unsplash.com/photo-1518773553398-650c184e0bb3?auto=format&fit=crop&w=1700&q=80") center / cover;
-      }
-
-      .hero::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(to bottom, rgba(7, 18, 38, 0) 70%, rgba(7, 18, 38, 0.55));
-      }
-
-      .hero-inner {
-        position: relative;
-        z-index: 1;
-        padding: 84px 0 94px;
-        max-width: 720px;
-      }
-
-      .eyebrow {
-        color: #8fc1ff;
-        font-size: 23px;
-        margin-bottom: 8px;
-        font-weight: 700;
-      }
-
-      .hero h1 {
-        font-size: clamp(46px, 7vw, 66px);
-        line-height: 1.06;
-        margin-bottom: 8px;
-      }
-
-      .hero h1 strong {
-        color: #4a97ff;
-      }
-
-      .tagline {
-        max-width: 620px;
-        color: #d8e8ff;
-        font-size: 20px;
-        margin: 24px 0 34px;
-      }
-
-      .hero-actions {
-        display: flex;
-        gap: 12px;
-        flex-wrap: wrap;
-      }
-
-      .btn {
-        border: none;
-        text-decoration: none;
-        border-radius: 12px;
-        padding: 12px 20px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        font-size: 15px;
-        transition: transform 0.2s ease, filter 0.2s ease;
-      }
-
-      .btn:hover {
-        transform: translateY(-1px);
-        filter: brightness(1.04);
-      }
-
-      .btn-primary {
-        background: var(--brand);
-        color: #ffffff;
-      }
-
-      .btn-outline {
-        border: 1px solid rgba(154, 192, 248, 0.6);
-        background: rgba(11, 30, 63, 0.35);
-        color: #e8f2ff;
-      }
-
-      section {
-        padding: 66px 0;
-      }
-
-      .title-row {
-        text-align: center;
-        margin-bottom: 30px;
-      }
-
-      .title-row h2 {
-        font-size: clamp(30px, 5vw, 38px);
-      }
-
-      .title-row p {
-        color: var(--muted);
-        margin-top: 8px;
-      }
-
-      .about-grid {
-        display: grid;
-        grid-template-columns: 1.1fr 0.9fr;
-        gap: 28px;
-        align-items: center;
-      }
-
-      .about-card {
-        background: var(--card);
-        border: 1px solid var(--line);
-        border-radius: var(--radius);
-        padding: 28px;
-        box-shadow: var(--shadow);
-      }
-
-      .about-card p {
-        color: var(--muted);
-        font-size: 18px;
-      }
-
-      .about-visual {
-        min-height: 260px;
-        border-radius: var(--radius);
-        border: 1px solid var(--line);
-        background:
-          linear-gradient(140deg, rgba(47, 123, 255, 0.15), rgba(47, 123, 255, 0.03)),
-          repeating-linear-gradient(
-            45deg,
-            rgba(29, 95, 208, 0.08),
-            rgba(29, 95, 208, 0.08) 18px,
-            rgba(29, 95, 208, 0.02) 18px,
-            rgba(29, 95, 208, 0.02) 36px
-          );
-        display: grid;
-        place-items: center;
-        color: #1e4d9e;
-        font-size: 80px;
-      }
-
-      .stack {
-        background: #eef3fb;
-        border-top: 1px solid #e0e8f5;
-        border-bottom: 1px solid #e0e8f5;
-      }
-
-      .stack-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 18px;
-      }
-
-      .stack-card {
-        background: #ffffff;
-        border: 1px solid var(--line);
-        border-radius: var(--radius);
-        padding: 22px;
-      }
-
-      .stack-card h3 {
-        font-size: 20px;
-        margin-bottom: 12px;
-      }
-
-      .pill-list {
-        list-style: none;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-
-      .pill-list li {
-        background: var(--brand-soft);
-        color: #1a4b9e;
-        border: 1px solid #c9dcfb;
-        border-radius: 999px;
-        padding: 6px 11px;
-        font-size: 13px;
-        font-weight: 700;
-      }
-
-      .timeline {
-        display: grid;
-        gap: 16px;
-      }
-
-      .timeline-item {
-        background: #ffffff;
-        border: 1px solid var(--line);
-        border-left: 4px solid var(--brand);
-        border-radius: var(--radius);
-        padding: 22px;
-      }
-
-      .timeline-top {
-        display: flex;
-        justify-content: space-between;
-        gap: 12px;
-        flex-wrap: wrap;
-        margin-bottom: 8px;
-      }
-
-      .timeline-top h3 {
-        font-size: 22px;
-      }
-
-      .timeline-top span {
-        color: #2f5ea6;
-        font-weight: 800;
-      }
-
-      .company {
-        font-weight: 700;
-        color: #2353a5;
-        margin-bottom: 10px;
-      }
-
-      .timeline ul {
-        padding-left: 18px;
-        color: var(--muted);
-      }
-
-      .projects-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 18px;
-      }
-
-      .project-card {
-        background: #ffffff;
-        border: 1px solid var(--line);
-        border-radius: var(--radius);
-        overflow: hidden;
-        box-shadow: var(--shadow);
-        cursor: pointer;
-        transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
-      }
-
-      .project-card:hover {
-        transform: translateY(-4px);
-        border-color: #9fc1f5;
-        box-shadow: 0 18px 38px rgba(22, 45, 89, 0.18);
-      }
-
-      .project-banner {
-        height: 220px;
-        background: linear-gradient(130deg, #133b82, #1b5ec6 42%, #3d8cff);
-        color: #ffffff;
-        padding: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .project-banner img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        object-position: center;
-        background: #0b1a34;
-        border-radius: 10px;
-      }
-
-      .project-content {
-        padding: 20px;
-      }
-
-      .project-content h3 {
-        margin-bottom: 8px;
-        font-size: 22px;
-      }
-
-      .project-content p {
-        color: var(--muted);
-        margin-bottom: 12px;
-      }
-
-      .project-hint {
-        display: inline-block;
-        margin-top: 12px;
-        color: #1c58b6;
-        font-weight: 700;
-        font-size: 13px;
-      }
-
-      .project-modal {
-        position: fixed;
-        inset: 0;
-        z-index: 300;
-        display: none;
-      }
-
-      .project-modal.open {
-        display: block;
-      }
-
-      .project-modal.hover-preview {
-        pointer-events: none;
-      }
-
-      .project-modal.hover-preview .project-modal-backdrop {
-        display: none;
-      }
-
-      .project-modal.hover-preview .project-modal-panel {
-        width: min(620px, calc(100% - 24px));
-        margin: auto;
-        position: fixed;
-        right: 14px;
-        bottom: 14px;
-        top: auto;
-      }
-
-      .project-modal-backdrop {
-        position: absolute;
-        inset: 0;
-        background: rgba(8, 18, 37, 0.62);
-        backdrop-filter: blur(7px);
-      }
-
-      .project-modal-panel {
-        position: relative;
-        z-index: 1;
-        width: min(900px, calc(100% - 24px));
-        margin: 5vh auto;
-        background: #ffffff;
-        border: 1px solid var(--line);
-        border-radius: 18px;
-        overflow: hidden;
-        box-shadow: 0 28px 60px rgba(9, 18, 38, 0.35);
-        animation: modalIn 0.22s ease;
-      }
-
-      @keyframes modalIn {
-        from {
-          opacity: 0;
-          transform: translateY(16px) scale(0.98);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0) scale(1);
-        }
-      }
-
-      .project-modal-media {
-        width: 100%;
-        max-height: 420px;
-        object-fit: contain;
-        background: #0a162b;
-      }
-
-      .project-modal-body {
-        padding: 22px;
-      }
-
-      .project-modal-top {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        margin-bottom: 10px;
-      }
-
-      .project-modal-top h3 {
-        font-size: clamp(22px, 3vw, 30px);
-      }
-
-      .project-modal-close {
-        border: none;
-        background: #e9f0ff;
-        color: #1f55aa;
-        width: 38px;
-        height: 38px;
-        border-radius: 10px;
-        font-size: 21px;
-        font-weight: 700;
-        line-height: 1;
-        cursor: pointer;
-      }
-
-      .project-modal-close:hover {
-        background: #dbe8ff;
-      }
-
-      .project-modal-desc {
-        color: var(--muted);
-      }
-
-      .contact-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 12px;
-      }
-
-      .contact-item {
-        background: #ffffff;
-        border: 1px solid var(--line);
-        border-radius: 14px;
-        padding: 16px;
-        min-height: 102px;
-      }
-
-      .contact-item h4 {
-        font-size: 14px;
-        margin-bottom: 4px;
-        color: #1f4f9f;
-      }
-
-      .contact-item a,
-      .contact-item p {
-        color: var(--muted);
-        text-decoration: none;
-        font-size: 14px;
-        word-break: break-word;
-      }
-
-      .footer {
-        background: #0a152b;
-        color: #b8cbee;
-        text-align: center;
-        padding: 20px;
-        border-top: 1px solid rgba(165, 193, 235, 0.2);
-      }
-
-      @media (max-width: 980px) {
-        .about-grid,
-        .stack-grid,
-        .projects-grid,
-        .contact-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .nav-links {
-          display: none;
-        }
-
-        .nav-toggle {
-          display: inline-flex;
-        }
-
-        .hero-inner {
-          padding: 66px 0 72px;
-        }
-
-        .tagline {
-          font-size: 18px;
-        }
-      }
-    </style>
+    <link rel="preload" as="image" href="/assets/hero-desk.webp" type="image/webp" fetchpriority="high" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/portfolio/portfolio.css" />
   </head>
   <body>
-    <header class="nav-wrap">
-      <div class="container nav">
-        <div class="logo">
-          <span>&lt;/&gt;</span> Wan Idham
-        </div>
-        <nav class="nav-links">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="nav-wrap" id="siteNav">
+      <div class="progress" id="progress" aria-hidden="true"></div>
+      <div class="nav">
+        <nav class="nav-links" aria-label="Primary">
           <a href="#home">Home</a>
           <a href="#about">About</a>
-          <a href="#stack">Skills</a>
-          <a href="#experience">Experience</a>
-          <a href="#projects">Projects</a>
-          <a href="#contact">Contact</a>
+          <a href="#resume">Resume</a>
+          <a href="#portfolio">Portfolio</a>
         </nav>
-        <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNav">
-          <span></span>
-        </button>
+        <a class="nav-phone" href="tel:+60167659237" aria-label="Call 016-7659237">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+          016-7659237
+        </a>
+        <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="mobileNav">Menu</button>
       </div>
-      <nav class="mobile-nav" id="mobileNav">
-        <div class="container">
-          <a href="#home">Home</a>
-          <a href="#about">About</a>
-          <a href="#stack">Skills</a>
-          <a href="#experience">Experience</a>
-          <a href="#projects">Projects</a>
-          <a href="#contact">Contact</a>
-        </div>
+      <nav class="mobile-nav" id="mobileNav" aria-label="Mobile">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#resume">Resume</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#contact">Contact</a>
+        <a href="tel:+60167659237">016-7659237</a>
       </nav>
     </header>
 
-    <section class="hero" id="home">
-      <div class="container hero-inner">
-        <p class="eyebrow">Hello, I'm</p>
-        <h1>Wan Nur Idham bin Wan Muhamad<br /><strong>Software Developer</strong></h1>
-        <p class="tagline">
-          Software Developer specializing in enterprise web systems, government platforms,
-          and intelligent system solutions.
-        </p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="#projects">View My Work</a>
-          <a class="btn btn-outline" href="/assets/Resume Wan Idham.pdf" download="Resume Wan Idham.pdf">Download CV</a>
+    <main id="main">
+      <!-- HOME -->
+      <section class="hero" id="home" aria-labelledby="hero-title">
+        <div class="hero-media">
+          <img src="/assets/hero-desk.webp" width="1920" height="1081" alt="A dark home office with a monitor, laptop and desk lamp at night" fetchpriority="high" decoding="async" />
         </div>
-      </div>
-    </section>
-
-    <section id="about">
-      <div class="container about-grid">
-        <article class="about-card">
-          <div class="title-row" style="text-align: left; margin-bottom: 14px">
-            <h2>About Me</h2>
+        <div class="hero-inner">
+          <h1 id="hero-title"><span class="first">Wan Nur</span><span class="last">Idham</span></h1>
+          <p class="roles">Software Engineer <span>/</span> Founder &amp; Chief Technology Officer</p>
+          <div class="hero-actions">
+            <a class="btn" href="/assets/Resume%20Wan%20Idham.pdf" download="Resume Wan Idham.pdf">Download Résumé</a>
+            <a class="btn" href="#portfolio">Explore Portfolio</a>
           </div>
-          <p>
-            I am a Software Developer with experience in enterprise system development,
-            maintenance, and technical support. I currently work on Malaysia
-            Immigration-related systems, including MyVisa Portal and E-Visa support projects.
-            I focus on secure, scalable, and user-friendly business applications while
-            continuously improving technical and problem-solving skills.
-          </p>
-        </article>
-        <aside class="about-visual" aria-hidden="true">&lt;/&gt;</aside>
-      </div>
-    </section>
-
-    <section class="stack" id="stack">
-      <div class="container">
-        <div class="title-row">
-          <h2>Tech Stack</h2>
-          <p>Business-focused technologies used in production and client projects.</p>
         </div>
-        <div class="stack-grid">
-          <article class="stack-card">
-            <h3>Languages</h3>
-            <ul class="pill-list">
-              <li>Java</li>
-              <li>PHP</li>
-              <li>Python</li>
-              <li>SQL</li>
-            </ul>
-          </article>
-          <article class="stack-card">
-            <h3>Frameworks &amp; Tools</h3>
-            <ul class="pill-list">
-              <li>CodeIgniter</li>
-              <li>React</li>
-              <li>Laravel</li>
-              <li>Angular</li>
-              <li>Vue</li>
-              <li>Flutter</li>
-              <li>MySQL</li>
-              <li>Oracle</li>
-              <li>MongoDB</li>
-              <li>Git</li>
-            </ul>
-          </article>
-          <article class="stack-card">
-            <h3>Areas of Expertise</h3>
-            <ul class="pill-list">
+        <div class="hero-social">
+          <a href="https://github.com/deheofficial" target="_blank" rel="noopener noreferrer" aria-label="GitHub (opens in new tab)">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.6 22.4c.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.7 1.3 3.3 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.100.8 2.200v3.200c0 .3.2.7.8.6A11.500 11.500 0 0 0 12 .5z"/></svg>
+          </a>
+          <a href="mailto:deheofficial@gmail.com" aria-label="Email Wan Idham">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="m3.500 7 8.500 6.500L20.500 7"/></svg>
+          </a>
+          <a href="tel:+60167659237" aria-label="Call 016-7659237">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 16.900v3a2 2 0 0 1-2.200 2 19.800 19.800 0 0 1-8.600-3.100 19.500 19.500 0 0 1-6-6A19.800 19.800 0 0 1 2.100 4.200 2 2 0 0 1 4.100 2h3a2 2 0 0 1 2 1.700c.1 1 .4 1.900.7 2.800a2 2 0 0 1-.5 2.100L8 9.900a16 16 0 0 0 6 6l1.300-1.300a2 2 0 0 1 2.100-.4c.9.3 1.800.6 2.800.7a2 2 0 0 1 1.700 2z"/></svg>
+          </a>
+        </div>
+        <p class="hero-loc">Shah Alam, Selangor</p>
+        <a class="scroll-cue" href="#about" aria-label="Scroll to About"><span>Scroll</span><i aria-hidden="true"></i></a>
+      </section>
+
+      <!-- ABOUT -->
+      <section class="about" id="about" aria-labelledby="about-title">
+        <div class="about-grid">
+          <div class="about-copy reveal">
+            <h2 class="heading" id="about-title">About</h2>
+            <a class="mail" href="mailto:deheofficial@gmail.com">deheofficial@gmail.com</a>
+            <p>I’m Wan Nur Idham bin Wan Muhamad, a software engineer based in Shah Alam. At Tridimas, I work on Malaysia’s immigration-related systems, including MyVisa Portal and E-Visa support.</p>
+            <p>My work spans new features, production fixes, testing, and the less visible work of keeping a system running. Alongside that, I build independent web applications for business teams and lead technology at Technovan.</p>
+            <dl class="about-facts">
+              <div><dt>Based in</dt><dd>Shah Alam, Selangor</dd></div>
+              <div><dt>Current role</dt><dd>Software Developer at Tridimas</dd></div>
+              <div><dt>Founder &amp; Chief Technology Officer</dt><dd>Technovan</dd></div>
+            </dl>
+          </div>
+          <figure class="about-portrait">
+            <img src="/assets/portrait.webp" width="1000" height="1333" loading="lazy" decoding="async" alt="Portrait of Wan Idham in a black blazer, arms crossed" />
+          </figure>
+        </div>
+      </section>
+
+      <!-- RESUME -->
+      <section class="resume" id="resume" aria-labelledby="resume-title">
+        <h2 id="resume-title" class="sr-only">Resume</h2>
+        <div class="resume-grid">
+          <!-- Skills -->
+          <div class="col col-skills reveal">
+            <h3 class="heading">Skills</h3>
+            <div class="skill-group">
+              <h4>Frontend Development</h4>
+              <ul>
+                <li class="skill">React<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m2 6.500 2.500 2.500L10 3"/></svg></li>
+                <li class="skill">Angular<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m2 6.500 2.500 2.500L10 3"/></svg></li>
+                <li class="skill">Vue<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m2 6.500 2.500 2.500L10 3"/></svg></li>
+                <li class="skill">Flutter<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m2 6.500 2.500 2.500L10 3"/></svg></li>
+              </ul>
+            </div>
+            <div class="skill-group">
+              <h4>Backend Development</h4>
+              <ul>
+                <li class="skill">Java<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m2 6.500 2.500 2.500L10 3"/></svg></li>
+                <li class="skill">PHP<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m2 6.500 2.500 2.500L10 3"/></svg></li>
+                <li class="skill">Python<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m2 6.500 2.500 2.500L10 3"/></svg></li>
+                <li class="skill">Laravel<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m2 6.500 2.500 2.500L10 3"/></svg></li>
+                <li class="skill">CodeIgniter<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m2 6.500 2.500 2.500L10 3"/></svg></li>
+              </ul>
+            </div>
+            <div class="skill-group">
+              <h4>Database &amp; Infrastructure</h4>
+              <ul>
+                <li class="skill">SQL<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m2 6.500 2.500 2.500L10 3"/></svg></li>
+                <li class="skill">MySQL<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m2 6.500 2.500 2.500L10 3"/></svg></li>
+                <li class="skill">Oracle<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m2 6.500 2.500 2.500L10 3"/></svg></li>
+                <li class="skill">MongoDB<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m2 6.500 2.500 2.500L10 3"/></svg></li>
+                <li class="skill">Git<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m2 6.500 2.500 2.500L10 3"/></svg></li>
+              </ul>
+            </div>
+            <div class="skill-group">
+              <h4>System Integration</h4>
+              <ul>
+                <li class="skill">API Integration<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m2 6.500 2.500 2.500L10 3"/></svg></li>
+                <li class="skill">Enterprise Integration<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m2 6.500 2.500 2.500L10 3"/></svg></li>
+                <li class="skill">AI / Computer Vision<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m2 6.500 2.500 2.500L10 3"/></svg></li>
+              </ul>
+            </div>
+            <div class="skill-group">
+              <h4>Technical Leadership</h4>
+              <ul>
+                <li class="skill">Chief Technology Officer, Ketravelan<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m2 6.500 2.500 2.500L10 3"/></svg></li>
+                <li class="skill">Founder &amp; Chief Technology Officer, Technovan<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m2 6.500 2.500 2.500L10 3"/></svg></li>
+                <li class="skill">Delivery Planning<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m2 6.500 2.500 2.500L10 3"/></svg></li>
+                <li class="skill">Testing &amp; UAT Support<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m2 6.500 2.500 2.500L10 3"/></svg></li>
+                <li class="skill">Full Project Cycle<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m2 6.500 2.500 2.500L10 3"/></svg></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Experience -->
+          <div class="col col-exp reveal">
+            <h3 class="heading">Experience</h3>
+            <div class="timeline">
+              <article class="t-item">
+                <p class="t-date">Current</p>
+                <h3>Founder &amp; Chief Technology Officer</h3>
+                <p class="t-co">Technovan</p>
+                <ul>
+                  <li>Custom software, web applications, mobile applications and digital systems for businesses</li>
+                </ul>
+              </article>
+              <article class="t-item">
+                <p class="t-date">2024 – Present</p>
+                <h3>Software Developer</h3>
+                <p class="t-co">Tridimas Sdn. Bhd.</p>
+                <ul>
+                  <li>Revamping MyVisa Portal immigration system</li>
+                  <li>Providing Level 2 support for E-Visa platform</li>
+                  <li>Maintaining production stability through bug fixing and root cause analysis</li>
+                  <li>Implementing enhancements for MyVisa EVAL and MyVisa Financial Hub workflows</li>
+                  <li>Supporting Visa Luar Negara Decision Board operational improvements</li>
+                  <li>Handling system testing, UAT support, and feature validation before release</li>
+                  <li>Collaborating with technical teams and business stakeholders for delivery planning</li>
+                </ul>
+              </article>
+              <article class="t-item">
+                <p class="t-date">2023 – Present</p>
+                <h3>Freelance Software Developer</h3>
+                <p class="t-co">Independent Projects</p>
+                <ul>
+                  <li>Delivered custom web solutions for small and medium business clients</li>
+                  <li>Built Wedding Management System with responsive UI flows</li>
+                  <li>Built Langapura Adventure, a mangrove tour booking website for a Langkawi tour operator</li>
+                  <li>Developed HR Offboarding System focused on process automation and compliance tracking</li>
+                  <li>Built UiTM Sport Equipment Management System using YOLOv8 for detection workflows</li>
+                  <li>Managed full project cycle: requirement gathering, development, testing, and handover</li>
+                </ul>
+              </article>
+              <article class="t-item">
+                <p class="t-date">2024</p>
+                <h3>Software Developer Intern</h3>
+                <p class="t-co">Kumpulan Semesta Sdn. Bhd.</p>
+                <ul>
+                  <li>Built cash management system</li>
+                  <li>Digitized manual finance workflows</li>
+                  <li>Implemented transaction security measures</li>
+                  <li>Conducted system testing and deployment support</li>
+                </ul>
+              </article>
+            </div>
+          </div>
+
+          <!-- Expertise -->
+          <div class="col col-expertise reveal">
+            <h3 class="heading">Expertise</h3>
+            <ul class="plain-list">
               <li>Web Development</li>
               <li>Enterprise Systems</li>
               <li>System Maintenance</li>
@@ -738,206 +224,155 @@
               <li>Technical Support</li>
               <li>AI / Computer Vision</li>
             </ul>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="experience">
-      <div class="container">
-        <div class="title-row">
-          <h2>Experience</h2>
-        </div>
-        <div class="timeline">
-          <article class="timeline-item">
-            <div class="timeline-top">
-              <h3>Software Developer</h3>
-              <span>2024 - Present</span>
-            </div>
-            <p class="company">Tridimas Sdn. Bhd.</p>
-            <ul>
-              <li>Revamping MyVisa Portal immigration system</li>
-              <li>Providing Level 2 support for E-Visa platform</li>
-              <li>Maintaining production stability through bug fixing and root cause analysis</li>
-              <li>Implementing enhancements for MyVisa EVAL and MyVisa Financial Hub workflows</li>
-              <li>Supporting Visa Luar Negara Decision Board operational improvements</li>
-              <li>Handling system testing, UAT support, and feature validation before release</li>
-              <li>Collaborating with technical teams and business stakeholders for delivery planning</li>
+            <h3 class="heading">Capabilities</h3>
+            <ul class="plain-list">
+              <li>Production support &amp; root cause analysis</li>
+              <li>System testing &amp; release validation</li>
+              <li>Process automation &amp; compliance tracking</li>
+              <li>Responsive web UI</li>
+              <li>Stakeholder collaboration</li>
             </ul>
-          </article>
-
-          <article class="timeline-item">
-            <div class="timeline-top">
-              <h3>Software Developer Intern</h3>
-              <span>2024</span>
-            </div>
-            <p class="company">Kumpulan Semesta Sdn. Bhd.</p>
-            <ul>
-              <li>Built cash management system</li>
-              <li>Digitized manual finance workflows</li>
-              <li>Implemented transaction security measures</li>
-              <li>Conducted system testing and deployment support</li>
-            </ul>
-          </article>
-
-          <article class="timeline-item">
-            <div class="timeline-top">
-              <h3>Freelance Software Developer</h3>
-              <span>2023 - Present</span>
-            </div>
-            <p class="company">Independent Projects</p>
-            <ul>
-              <li>Delivered custom web solutions for small and medium business clients</li>
-              <li>Built Travel Website and Wedding Management System with responsive UI flows</li>
-              <li>Developed HR Offboarding System focused on process automation and compliance tracking</li>
-              <li>Built UiTM Sport Equipment Management System using YOLOv8 for detection workflows</li>
-              <li>Managed full project cycle: requirement gathering, development, testing, and handover</li>
-            </ul>
-          </article>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section id="projects">
-      <div class="container">
-        <div class="title-row">
-          <h2>Featured Projects</h2>
+      <!-- PORTFOLIO -->
+      <section class="portfolio" id="portfolio" aria-labelledby="portfolio-title">
+        <div class="portfolio-head reveal">
+          <h2 id="portfolio-title">Selected<br />Work</h2>
+          <p>A selection of enterprise work and independent builds. Select a project to see it closer.</p>
         </div>
-        <div class="projects-grid">
-          <article class="project-card">
-            <div class="project-banner"><img src="/assets/HR Offboarding.png" alt="HR Offboarding landing page screenshot" /></div>
+        <div class="projects">
+          <article class="project reveal" data-role="Software Developer, Tridimas — portal revamp, production fixes, release support">
+            <a class="project-media" href="#portfolio" tabindex="-1" aria-hidden="true"><img loading="lazy" decoding="async" width="1400" height="775" src="/assets/work/pf-myvisa-portal.webp" alt="MyVisa Portal landing page screenshot" /></a>
             <div class="project-content">
-              <h3>HR Offboarding System</h3>
-              <p>
-                Workflow solution to manage staff offboarding, checklist completion,
-                and cross-department handover compliance.
-              </p>
-              <ul class="pill-list">
-                <li>HR Workflow</li>
-                <li>Process Automation</li>
-                <li>Enterprise System</li>
-              </ul>
-              <span class="project-hint">Click or hover to preview</span>
-            </div>
-          </article>
-
-          <article class="project-card">
-            <div class="project-banner"><img src="/assets/travel website.png" alt="Travel website landing page screenshot" /></div>
-            <div class="project-content">
-              <h3>Travel Website</h3>
-              <p>
-                DIY trip package platform focused on custom itinerary planning,
-                package exploration, and self-guided travel preparation.
-              </p>
-              <ul class="pill-list">
-                <li>Responsive Web</li>
-                <li>DIY Package Planner</li>
-                <li>Content Management</li>
-              </ul>
-              <span class="project-hint">Click or hover to preview</span>
-            </div>
-          </article>
-
-          <article class="project-card">
-            <div class="project-banner"><img src="/assets/MyVisa Portal.png" alt="MyVisa Portal landing page screenshot" /></div>
-            <div class="project-content">
+              <p class="project-num">01</p>
               <h3>MyVisa Portal</h3>
-              <p>
-                Enterprise immigration platform revamp with improved reliability,
-                maintainability, and service support operations.
-              </p>
-              <ul class="pill-list">
-                <li>Government System</li>
-                <li>Portal Revamp</li>
-                <li>L2 Support</li>
-              </ul>
-              <span class="project-hint">Click or hover to preview</span>
+              <p class="project-desc">My work at Tridimas includes revamping the immigration portal, fixing production issues, and supporting releases.</p>
+              <dl class="project-meta">
+                <div><dt>Role</dt><dd>Software Developer, Tridimas</dd></div>
+                <div><dt>Focus</dt><dd>Government System · Portal Revamp · L2 Support</dd></div>
+              </dl>
+              <ul hidden class="tag-src"><li>Government System</li><li>Portal Revamp</li><li>L2 Support</li></ul>
+              <button type="button" class="project-link project-hint" aria-haspopup="dialog">View project ↗</button>
             </div>
           </article>
 
-          <article class="project-card">
-            <div class="project-banner"><img src="/assets/VLN-Decision Board.png" alt="Visa Luar Negara Decision Board landing page screenshot" /></div>
+          <article class="project reveal" data-role="Freelance Software Developer — independent build">
+            <a class="project-media" href="#portfolio" tabindex="-1" aria-hidden="true"><img loading="lazy" decoding="async" width="1400" height="846" src="/assets/work/pf-langapura-adventure.webp" alt="Langapura Adventure mangrove tour website homepage screenshot" /></a>
             <div class="project-content">
+              <p class="project-num">02</p>
+              <h3>Langapura Adventure</h3>
+              <p class="project-desc">A booking website for a private mangrove boat tour in Langkawi, with tour packages, gallery, FAQ and online booking.</p>
+              <dl class="project-meta">
+                <div><dt>Role</dt><dd>Freelance Software Developer</dd></div>
+                <div><dt>Focus</dt><dd>Responsive Web · Online Booking · Tour Packages</dd></div>
+              </dl>
+              <ul hidden class="tag-src"><li>Responsive Web</li><li>Online Booking</li><li>Tour Packages</li></ul>
+              <div class="project-actions">
+                <button type="button" class="project-link project-hint" aria-haspopup="dialog">View project ↗</button>
+                <a class="project-link" href="https://langapuraadventure.com" target="_blank" rel="noopener noreferrer">Visit langapuraadventure.com ↗</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project reveal" data-role="Freelance Software Developer — independent build">
+            <a class="project-media" href="#portfolio" tabindex="-1" aria-hidden="true"><img loading="lazy" decoding="async" width="1400" height="775" src="/assets/work/pf-hr-offboarding.webp" alt="HR Offboarding landing page screenshot" /></a>
+            <div class="project-content">
+              <p class="project-num">03</p>
+              <h3>HR Offboarding System</h3>
+              <p class="project-desc">Staff offboarding, from departmental checklists to handover tracking, in one workflow.</p>
+              <dl class="project-meta">
+                <div><dt>Role</dt><dd>Freelance Software Developer</dd></div>
+                <div><dt>Focus</dt><dd>HR Workflow · Process Automation · Enterprise System</dd></div>
+              </dl>
+              <ul hidden class="tag-src"><li>HR Workflow</li><li>Process Automation</li><li>Enterprise System</li></ul>
+              <button type="button" class="project-link project-hint" aria-haspopup="dialog">View project ↗</button>
+            </div>
+          </article>
+
+          <article class="project reveal" data-role="Chief Technology Officer, Ketravelan">
+            <a class="project-media" href="#portfolio" tabindex="-1" aria-hidden="true"><img loading="lazy" decoding="async" width="1400" height="775" src="/assets/work/pf-travel-website.webp" alt="Travel website landing page screenshot" /></a>
+            <div class="project-content">
+              <p class="project-num">04</p>
+              <h3>Travel Website</h3>
+              <p class="project-desc">A travel website for exploring packages and putting together a self-guided itinerary.</p>
+              <dl class="project-meta">
+                <div><dt>Role</dt><dd>Chief Technology Officer, Ketravelan</dd></div>
+                <div><dt>Focus</dt><dd>Responsive Web · DIY Package Planner · Content Management</dd></div>
+              </dl>
+              <ul hidden class="tag-src"><li>Responsive Web</li><li>DIY Package Planner</li><li>Content Management</li></ul>
+              <div class="project-actions">
+                <button type="button" class="project-link project-hint" aria-haspopup="dialog">View project ↗</button>
+                <a class="project-link" href="https://ketravelan.com" target="_blank" rel="noopener noreferrer">Visit ketravelan.com ↗</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project reveal" data-role="Software Developer, Tridimas — operational improvements">
+            <a class="project-media" href="#portfolio" tabindex="-1" aria-hidden="true"><img loading="lazy" decoding="async" width="1400" height="775" src="/assets/work/pf-vln-decision-board.webp" alt="Visa Luar Negara Decision Board landing page screenshot" /></a>
+            <div class="project-content">
+              <p class="project-num">05</p>
               <h3>Visa Luar Negara Decision Board</h3>
-              <p>
-                Decision support dashboard to help teams review, track, and manage
-                international visa processing outcomes.
-              </p>
-              <ul class="pill-list">
-                <li>Dashboard</li>
-                <li>Decision Support</li>
-                <li>Data Monitoring</li>
-              </ul>
-              <span class="project-hint">Click or hover to preview</span>
+              <p class="project-desc">A dashboard for reviewing and tracking international visa processing decisions.</p>
+              <dl class="project-meta">
+                <div><dt>Role</dt><dd>Software Developer, Tridimas</dd></div>
+                <div><dt>Focus</dt><dd>Dashboard · Decision Support · Data Monitoring</dd></div>
+              </dl>
+              <ul hidden class="tag-src"><li>Dashboard</li><li>Decision Support</li><li>Data Monitoring</li></ul>
+              <button type="button" class="project-link project-hint" aria-haspopup="dialog">View project ↗</button>
             </div>
           </article>
 
-          <article class="project-card">
-            <div class="project-banner"><img src="/assets/Financial Hub.png" alt="MyVisa Financial Hub landing page screenshot" /></div>
+          <article class="project reveal" data-role="Software Developer, Tridimas — enhancements &amp; testing">
+            <a class="project-media" href="#portfolio" tabindex="-1" aria-hidden="true"><img loading="lazy" decoding="async" width="1400" height="775" src="/assets/work/pf-financial-hub.webp" alt="MyVisa Financial Hub landing page screenshot" /></a>
             <div class="project-content">
+              <p class="project-num">06</p>
               <h3>MyVisa EVAL and MyVisa Financial Hub</h3>
-              <p>
-                Integrated modules for evaluation workflows and financial operations
-                supporting visa-related enterprise processing.
-              </p>
-              <ul class="pill-list">
-                <li>Evaluation Module</li>
-                <li>Finance Hub</li>
-                <li>Enterprise Integration</li>
-              </ul>
-              <span class="project-hint">Click or hover to preview</span>
+              <p class="project-desc">Evaluation and financial workflows within the MyVisa ecosystem. My work includes enhancements and testing.</p>
+              <dl class="project-meta">
+                <div><dt>Role</dt><dd>Software Developer, Tridimas</dd></div>
+                <div><dt>Focus</dt><dd>Evaluation Module · Finance Hub · Enterprise Integration</dd></div>
+              </dl>
+              <ul hidden class="tag-src"><li>Evaluation Module</li><li>Finance Hub</li><li>Enterprise Integration</li></ul>
+              <button type="button" class="project-link project-hint" aria-haspopup="dialog">View project ↗</button>
             </div>
           </article>
 
-          <article class="project-card">
-            <div class="project-banner"><img src="/assets/MyVisa Mobile.png" alt="MyVisa Mobile Application landing page screenshot" /></div>
+          <article class="project reveal" data-role="">
+            <a class="project-media" href="#portfolio" tabindex="-1" aria-hidden="true"><img loading="lazy" decoding="async" width="1400" height="775" src="/assets/work/pf-myvisa-mobile.webp" alt="MyVisa Mobile Application landing page screenshot" /></a>
             <div class="project-content">
+              <p class="project-num">07</p>
               <h3>MyVisa Mobile Application</h3>
-              <p>
-                Mobile application initiative to improve accessibility for visa services
-                and support operational efficiency on the go.
-              </p>
-              <ul class="pill-list">
-                <li>Mobile App</li>
-                <li>Government Services</li>
-                <li>User Accessibility</li>
-              </ul>
-              <span class="project-hint">Click or hover to preview</span>
+              <p class="project-desc">A mobile interface for accessing MyVisa services.</p>
+              <dl class="project-meta">
+                <div><dt>Focus</dt><dd>Mobile App · Government Services · User Accessibility</dd></div>
+              </dl>
+              <ul hidden class="tag-src"><li>Mobile App</li><li>Government Services</li><li>User Accessibility</li></ul>
+              <button type="button" class="project-link project-hint" aria-haspopup="dialog">View project ↗</button>
             </div>
           </article>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section id="contact">
-      <div class="container">
-        <div class="title-row">
-          <h2>Contact</h2>
-          <p>Open to business and enterprise software opportunities.</p>
+      <!-- CONTACT -->
+      <section class="contact" id="contact" aria-labelledby="contact-title">
+        <div class="contact-inner reveal">
+          <h2 id="contact-title">Have a project<br />in mind?</h2>
+          <p class="lede">For project enquiries and software development opportunities, drop me a line.</p>
+          <dl class="contact-grid">
+            <div><dt>Email</dt><dd><a href="mailto:deheofficial@gmail.com">deheofficial@gmail.com</a></dd></div>
+            <div><dt>Location</dt><dd>Shah Alam, Selangor</dd></div>
+            <div><dt>GitHub</dt><dd><a href="https://github.com/deheofficial" target="_blank" rel="noopener noreferrer">github.com/deheofficial</a></dd></div>
+            <div><dt>Phone</dt><dd><a href="tel:+60167659237">016-7659237</a></dd></div>
+          </dl>
         </div>
-        <div class="contact-grid">
-          <article class="contact-item">
-            <h4>Email</h4>
-            <a href="mailto:deheofficial@gmail.com">deheofficial@gmail.com</a>
-          </article>
-          <article class="contact-item">
-            <h4>Location</h4>
-            <p>Shah Alam, Selangor</p>
-          </article>
-          <article class="contact-item">
-            <h4>GitHub</h4>
-            <a href="https://github.com/deheofficial" target="_blank" rel="noopener noreferrer">github.com/deheofficial</a>
-          </article>
-          <article class="contact-item">
-            <h4>Phone</h4>
-            <a href="tel:+60167659237">016-7659237</a>
-          </article>
-        </div>
-      </div>
-    </section>
+      </section>
+    </main>
 
     <footer class="footer">
-      <p>&copy; 2026 Wan Nur Idham bin Wan Muhamad. All rights reserved.</p>
+      <p>&copy; 2026 Wan Nur Idham bin Wan Muhamad</p>
+      <a href="#home">Back to top ↑</a>
     </footer>
 
     <div class="project-modal" id="projectModal" aria-hidden="true">
@@ -947,128 +382,125 @@
         <div class="project-modal-body">
           <div class="project-modal-top">
             <h3 id="projectModalTitle"></h3>
-            <button id="projectModalClose" class="project-modal-close" aria-label="Close modal">×</button>
+            <button id="projectModalClose" class="project-modal-close" type="button" aria-label="Close modal">×</button>
           </div>
+          <p id="projectModalRole" class="project-modal-role"></p>
           <p id="projectModalDesc" class="project-modal-desc"></p>
-          <ul id="projectModalTags" class="pill-list" style="margin-top: 14px"></ul>
+          <ul id="projectModalTags" class="tags"></ul>
         </div>
       </div>
     </div>
 
     <script>
       (function () {
+        const header = document.getElementById('siteNav');
         const navToggle = document.getElementById('navToggle');
         const mobileNav = document.getElementById('mobileNav');
-        const cards = Array.from(document.querySelectorAll('.project-card'));
+
+        /* Nav: solid after hero, mobile drawer */
+        function syncNav() {
+          header.classList.toggle('solid', window.scrollY > 24 || mobileNav.classList.contains('open'));
+        }
+        function setMenu(open) {
+          mobileNav.classList.toggle('open', open);
+          navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+          navToggle.textContent = open ? 'Close' : 'Menu';
+          syncNav();
+        }
+        navToggle.addEventListener('click', () => setMenu(!mobileNav.classList.contains('open')));
+        mobileNav.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+        window.addEventListener('resize', () => { if (window.innerWidth > 999) setMenu(false); });
+        const bar = document.getElementById('progress');
+        function syncProgress() {
+          const max = document.documentElement.scrollHeight - window.innerHeight;
+          bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, window.scrollY / max) : 0) + ')';
+        }
+        window.addEventListener('scroll', () => { syncNav(); syncProgress(); }, { passive: true });
+        syncNav();
+
+        /* Scroll-spy: active nav item */
+        const links = Array.from(document.querySelectorAll('.nav-links a, .mobile-nav a[href^="#"]'));
+        const ids = ['home', 'about', 'resume', 'portfolio', 'contact'];
+        function setActive(id) {
+          links.forEach((a) => {
+            if (a.getAttribute('href') === '#' + id) a.setAttribute('aria-current', 'true');
+            else a.removeAttribute('aria-current');
+          });
+        }
+        if ('IntersectionObserver' in window) {
+          const spy = new IntersectionObserver((entries) => {
+            entries.forEach((e) => { if (e.isIntersecting) setActive(e.target.id); });
+          }, { rootMargin: '-45% 0px -50% 0px' });
+          ids.forEach((id) => { const el = document.getElementById(id); if (el) spy.observe(el); });
+
+          /* Gentle reveal */
+          const reveal = new IntersectionObserver((entries) => {
+            entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); reveal.unobserve(e.target); } });
+          }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+          document.querySelectorAll('.reveal').forEach((el) => reveal.observe(el));
+        } else {
+          document.querySelectorAll('.reveal').forEach((el) => el.classList.add('in'));
+        }
+        setActive('home');
+
+        /* Project modal */
+        const cards = Array.from(document.querySelectorAll('.project'));
         const modal = document.getElementById('projectModal');
         const modalBackdrop = document.getElementById('projectModalBackdrop');
         const modalClose = document.getElementById('projectModalClose');
         const modalImage = document.getElementById('projectModalImage');
         const modalTitle = document.getElementById('projectModalTitle');
+        const modalRole = document.getElementById('projectModalRole');
         const modalDesc = document.getElementById('projectModalDesc');
         const modalTags = document.getElementById('projectModalTags');
-
-        let hoverTimer = null;
-        let closeTimer = null;
-        let isPinned = false;
-
-        function closeMobileNav() {
-          if (!mobileNav || !navToggle) return;
-          mobileNav.classList.remove('open');
-          navToggle.setAttribute('aria-expanded', 'false');
-        }
-
-        if (navToggle && mobileNav) {
-          navToggle.addEventListener('click', () => {
-            const isOpen = mobileNav.classList.toggle('open');
-            navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-          });
-
-          mobileNav.querySelectorAll('a').forEach((link) => {
-            link.addEventListener('click', closeMobileNav);
-          });
-
-          window.addEventListener('resize', () => {
-            if (window.innerWidth > 980) closeMobileNav();
-          });
-        }
+        const inertTargets = ['main', 'header', 'footer'].map((s) => document.querySelector(s));
+        let activeTrigger = null;
 
         function extractCardData(card) {
-          const imageEl = card.querySelector('.project-banner img');
-          const titleEl = card.querySelector('.project-content h3');
-          const descEl = card.querySelector('.project-content p');
-          const tagEls = Array.from(card.querySelectorAll('.project-content .pill-list li'));
-
+          const img = card.querySelector('.project-media img');
           return {
-            image: imageEl ? imageEl.getAttribute('src') : '',
-            imageAlt: imageEl ? imageEl.getAttribute('alt') : 'Project preview',
-            title: titleEl ? titleEl.textContent.trim() : 'Project',
-            desc: descEl ? descEl.textContent.trim() : '',
-            tags: tagEls.map((el) => el.textContent.trim()).filter(Boolean),
+            image: img.getAttribute('src'),
+            imageAlt: img.getAttribute('alt'),
+            title: card.querySelector('h3').textContent.trim(),
+            role: card.dataset.role || '',
+            desc: card.querySelector('.project-desc').textContent.trim(),
+            tags: Array.from(card.querySelectorAll('.tag-src li')).map((el) => el.textContent.trim()),
           };
         }
-
-        function renderTags(tags) {
+        function openModal(d) {
+          modalImage.src = d.image;
+          modalImage.alt = d.imageAlt || d.title;
+          modalTitle.textContent = d.title;
+          modalRole.textContent = d.role;
+          modalRole.hidden = !d.role;
+          modalDesc.textContent = d.desc;
           modalTags.innerHTML = '';
-          tags.forEach((tag) => {
-            const li = document.createElement('li');
-            li.textContent = tag;
-            modalTags.appendChild(li);
-          });
-        }
-
-        function openModal(data, pinned) {
-          isPinned = pinned;
-          modal.classList.toggle('hover-preview', !pinned);
-          modalImage.src = data.image;
-          modalImage.alt = data.imageAlt || data.title;
-          modalTitle.textContent = data.title;
-          modalDesc.textContent = data.desc;
-          renderTags(data.tags);
+          d.tags.forEach((t) => { const li = document.createElement('li'); li.textContent = t; modalTags.appendChild(li); });
           modal.classList.add('open');
           modal.setAttribute('aria-hidden', 'false');
           document.body.style.overflow = 'hidden';
+          inertTargets.forEach((el) => { el.inert = true; });
+          modalClose.focus();
         }
-
-        function closeModal(force) {
-          if (!force && isPinned) return;
+        function closeModal() {
+          if (!modal.classList.contains('open')) return;
           modal.classList.remove('open');
-          modal.classList.remove('hover-preview');
           modal.setAttribute('aria-hidden', 'true');
           document.body.style.overflow = '';
-          isPinned = false;
+          inertTargets.forEach((el) => { el.inert = false; });
+          if (activeTrigger) activeTrigger.focus();
         }
-
         cards.forEach((card) => {
-          card.addEventListener('mouseenter', () => {
-            if (window.innerWidth <= 980) return;
-            clearTimeout(hoverTimer);
-            clearTimeout(closeTimer);
-            hoverTimer = setTimeout(() => {
-              openModal(extractCardData(card), false);
-            }, 220);
-          });
-
-          card.addEventListener('mouseleave', () => {
-            clearTimeout(hoverTimer);
-            if (!isPinned) {
-              closeTimer = setTimeout(() => closeModal(true), 120);
-            }
-          });
-
-          card.addEventListener('click', () => {
-            clearTimeout(hoverTimer);
-            clearTimeout(closeTimer);
-            openModal(extractCardData(card), true);
-          });
+          const trigger = card.querySelector('.project-hint');
+          trigger.setAttribute('aria-label', 'Preview ' + card.querySelector('h3').textContent);
+          const open = () => { activeTrigger = trigger; openModal(extractCardData(card)); };
+          trigger.addEventListener('click', open);
+          card.querySelector('.project-media').addEventListener('click', (e) => { e.preventDefault(); open(); });
         });
-
-        modalBackdrop.addEventListener('click', () => closeModal(true));
-        modalClose.addEventListener('click', () => closeModal(true));
-
-        document.addEventListener('keydown', (event) => {
-          if (event.key === 'Escape') closeModal(true);
-        });
+        modal.addEventListener('keydown', (e) => { if (e.key === 'Tab') { e.preventDefault(); modalClose.focus(); } });
+        modalBackdrop.addEventListener('click', closeModal);
+        modalClose.addEventListener('click', closeModal);
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
       })();
     </script>
   </body>
